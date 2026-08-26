@@ -1,0 +1,17 @@
+# Godot/editor state and generated output
+game/.godot/
+game/builds/
+game/logs/
+
+# Local IDE and OS files
+.idea/
+.vscode/
+Thumbs.db
+Desktop.ini
+*.tmp
+*.bak
+
+# Downloaded toolchain archives stay outside source control
+*.tpz
+Godot_v*.zip
+

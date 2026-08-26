@@ -1,0 +1,132 @@
+# Audio Direction
+
+## Audio thesis
+
+The world sounds handcrafted, close, and resonant: wood, paper, small bells, breath, strings, footfall, and machinery whose pitch reveals spatial tension. Music should feel melodically generous without imitating the themes, orchestration, or harmonic signatures of any reference game.
+
+## Pillars
+
+- **Place before wallpaper:** ambience communicates materials, distance, work, weather, and the active facet.
+- **Melody with room to breathe:** town and field cues are memorable but leave space for dialogue and interaction.
+- **Rules you can hear:** World Turns, enemy intent, timeline readiness, focus, and dangerous startups have consistent audio grammar.
+- **Comfort is controllable:** separate buses, subtitle-equivalent visual cues, dynamic-range options, and reduced repetition are first-class.
+
+## Musical language
+
+Core palette:
+
+- plucked strings and dulcimer-like transients
+- chamber strings and soft reeds
+- hand percussion, brushed frame drums, and found-workshop rhythm
+- tuned bells, glass, and resonant metal used sparingly as fold identity
+- restrained synth beds for unstable spaces, blended beneath acoustic sources
+
+Avoid generic “medieval tavern,” constant heroic brass, and wall-to-wall music. Silence and local work sounds can carry a scene.
+
+## Adaptive structure
+
+Major exploration cues may have synchronized layers:
+
+- **Ground:** harmony and low pulse, stable across facets.
+- **People:** melodic/acoustic layer that grows near settlement activity.
+- **Fold:** sparse resonant layer whose voicing changes with committed facet.
+- **Tension:** added only for unstable routes or story state.
+
+World Turns do not restart music. A short transition gesture bridges to the target facet mix on a musical boundary when latency permits, with an immediate fallback for rapid or reduced-motion transitions.
+
+Battle music supports the Tempo Line through pulse and arrangement, but action timing is not rhythm-game input and must not depend on the player hearing a beat.
+
+## Vertical-slice cue list
+
+| Cue | Target | Adaptive requirement |
+| --- | --- | --- |
+| Title / “The Fold Between” | 60–90 s loop | quiet menu-safe opening |
+| Brindlewick day | 2–3 min loop | people + fold layers |
+| Thimblewood verge | 2–3 min loop | tension layer near encounters |
+| Bellroot Grotto | 2–3 min loop | facet voicing and low instability |
+| Ordinary battle | 90–120 s loop | intro can be skipped cleanly |
+| Bellroot guardian | 3–4 min loop | escalation layer at boss phase |
+| Brindlewick dusk | variant/arrangement | reflects restored harmony |
+| Results sting | <= 4 s | short and non-fatiguing |
+
+Prototype with legally safe temporary tones before commissioning or producing full cues.
+
+## SFX grammar
+
+### World Turn
+
+Six beats mirror visual presentation: invitation tick, anticipation intake, lateral resonant sweep, occluded mechanical/fabric motion, commit interval, and settled room tone. Left and right turns use spatial movement but also distinct pitch contours so direction is not conveyed by stereo alone.
+
+### Combat
+
+- Readiness: concise personal tick; repeated allies use controlled variation.
+- Friendly action: soft upward or open transient family.
+- Hostile startup: shaped attack plus danger icon pulse; high danger uses a distinct two-part warning.
+- Poise damage: dry structural crack; break adds a clearly different release.
+- Guard: low contained impact, not simply quieter health damage.
+- Healing: warm textured rise without shrill sparkle.
+- UI: short material-based sounds with pitch and timbre changes for move, confirm, cancel, invalid, and tab.
+
+Audio reinforces information already visible. It is never the only warning.
+
+## Ambience
+
+Each zone has a near loop, distant loop, and event emitters. Emitters use real 3D positioning for mills, water, bells, insects, workshop tools, and resonant guides. Avoid dozens of always-playing sources; use region activation and authored density.
+
+Facet commits may change occlusion, reverb, emitter availability, and distant beds. Peek Orbit changes spatial perspective naturally but not logical mix state.
+
+## Voice scope
+
+The vertical slice uses text dialogue with optional nonverbal efforts, breaths, laughs, and short identity barks. No simulated language gibberish on every text reveal. Full voice acting is out of scope and UI timing must not assume recorded line duration.
+
+## Mixing
+
+Buses:
+
+```text
+Master
+|- Music
+|- SFX
+|  |- Combat
+|  |- World
+|  `- UI
+|- Ambience
+`- Voice
+```
+
+Provide independent player controls for Master, Music, SFX, Ambience, and Voice. UI cues remain audible enough to operate menus when general SFX is reduced, but respect a fully muted SFX setting.
+
+Offer at least:
+
+- **Full** dynamic range.
+- **Night** with reduced peaks and raised quiet detail.
+- **Focused** with dialogue/UI priority and restrained ambience.
+
+Prevent clipping under worst-case battle layering. Review loudness consistently across cues and test mono compatibility.
+
+## Accessibility and comfort
+
+- Every essential audio signal has a visual and/or haptic equivalent.
+- Directional threats can enable edge indicators.
+- Captions identify important offscreen environmental sounds without captioning meaningless ambience.
+- Repetitive menu/readiness sounds have variation and density limits.
+- Tinnitus-like tones, extreme low-frequency effects, and sudden high-level transients require specific review and an option to reduce.
+- Haptics have separate strength and can be disabled.
+
+## Technical delivery
+
+- Music and long ambience stream from disk; short SFX are preloaded where appropriate.
+- Synchronized stems share sample rate, exact length, and loop points.
+- Loop metadata is verified in an engine scene, not only in the DAW.
+- File names use stable semantic IDs and do not replace content IDs in saves.
+- Source, license, loudness review, bus, loop, and variation group are recorded in audio metadata.
+
+## Approval checklist
+
+- Does the sound communicate its gameplay category without relying only on pitch or stereo?
+- Does it remain clear in the densest expected mix?
+- Is common repetition comfortable over a 30-minute session?
+- Does it respond correctly to pause, time scale, transitions, and facet commit?
+- Is a visual equivalent present for essential information?
+- Are source, license, loop, import, and bus metadata complete?
+- Is the result original and clear of recognizable reference melodies or samples?
