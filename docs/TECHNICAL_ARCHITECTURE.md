@@ -86,7 +86,7 @@ Each zone provides a `ZoneManifest` definition and a composed scene with these r
 ZoneRoot
 |- Geometry                 static visible meshes and composed surface modules
 |  |- GrassSurface          ground render/collision plus its shared material family
-|  `- DirtRoadSurface       route render modules; canonical ground retains collision
+|  `- DirtRoadSurface       one rounded route network; canonical ground retains collision
 |- DynamicGeometry          animated/hideable facet pieces
 |- Collision                simplified canonical collision
 |- Navigation               regions and named links
@@ -100,7 +100,9 @@ ZoneRoot
 
 The manifest declares stable zone ID, scene, allowed facets, default facet, spawn IDs, neighboring zones, audio profile, and validation bounds. Save data refers to zone and spawn IDs, never nodes.
 
-Surface modules are presentation composition, not world state. Their shaders may derive stable variation from canonical world position, but they must not alter traversal, navigation, facet state, or saved coordinates. Zone-specific layout belongs in the surface scene; shared look parameters belong in external material resources so later zones can reuse or override a family without editing Brindlewick's main geometry scene.
+Surface modules are presentation composition, not world state. Their shaders may derive stable variation from canonical world position, but they must not alter traversal, navigation, facet state, or saved coordinates. Shared look parameters belong in external material resources so later zones can reuse or override a family without editing Brindlewick's main geometry scene.
+
+Roads use a data/render/style split. A zone-owned `DirtRoadLayout` resource declares bounded rounded patches and join softness on the meter grid. `DirtRoadNetwork3D` is a reusable presentation component that validates the resource, generates one surface containing tightly bounded patch quads, and copies layout uniforms into an instance-local material. The shared shader produces a smooth distance-field union and surface treatment. Keeping the mesh near the road avoids evaluating the detailed shader over the whole zone; batching retains one draw call. This removes visible overlap seams while keeping authoring data out of shader code and shared materials free of zone-specific mutable state.
 
 ## Coordinate conventions
 

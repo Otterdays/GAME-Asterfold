@@ -110,12 +110,23 @@ game/assets/materials/environment/
   grass_surface_material.tres
   dirt_road_surface.gdshader
   dirt_road_surface_material.tres
+game/content/zones/brindlewick_square/
+  brindlewick_dirt_road_layout.tres
 game/scenes/world/surfaces/
   brindlewick_grass_surface.tscn
   brindlewick_dirt_road_surface.tscn
+game/src/presentation/
+  dirt_road_layout.gd
+  dirt_road_network_3d.gd
 ```
 
-The material and shader own palette, scale, roughness, and painted variation. The surface scene owns reusable render geometry and any collision intrinsic to that surface. The zone geometry layer owns composition, transforms, and landmarks by instancing the surface scenes. Do not place grass and road shader subresources inline in the zone scene, and do not move player collision into a decorative road module when the canonical ground already owns it.
+The material and shader own palette, scale, roughness, and painted variation. The grass surface scene owns its render geometry and canonical ground collision. Dirt roads have three narrower owners:
+
+- `DirtRoadLayout` stores zone-authored rounded patches, corner radii, surface bounds, and join softness in meters.
+- `DirtRoadNetwork3D` validates that layout, creates one draw-call batched mesh from tightly bounded patch quads, duplicates the shared material per instance, and transfers layout uniforms without mutating shared state. The quads overlap only inside the same opaque surface and share world-positioned shading, while the shader resolves the final continuous silhouette.
+- `dirt_road_surface.gdshader` evaluates the patch union, discards non-road pixels, and renders edge wear and surface detail across the continuous result.
+
+The zone geometry layer owns composition and landmarks by instancing these surface scenes. Do not return to one mesh per road strip: stacked strips reintroduce depth seams, duplicate shading at intersections, and scatter layout across node transforms. Do not move player collision into the decorative road network when the canonical grass ground already owns it.
 
 Code-native procedural surface shaders are project source, not generated binary art, and therefore do not require an asset-provenance entry. Bitmap or model-backed replacements must follow the normal `art_source/`, runtime export, provenance, and validation workflow.
 

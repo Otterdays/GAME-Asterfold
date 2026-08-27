@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DirtRoadLayout" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/presentation/dirt_road_layout.gd" id="1_layout"]
+
+[resource]
+script = ExtResource("1_layout")
+patches = Array[Vector4]([Vector4(0, 20, 27, 1.6), Vector4(-25.4, 0, 1.6, 20), Vector4(0, -20, 27, 1.6), Vector4(25.4, 0, 1.6, 20), Vector4(0, 11, 1.6, 9), Vector4(0, 0, 7.5, 7.5)])
+corner_radii_m = PackedFloat32Array(1.35, 1.35, 1.35, 1.35, 1.25, 2.4)
+network_size_m = Vector2(68, 58)
+join_softness_m = 0.55

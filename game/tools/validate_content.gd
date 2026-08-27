@@ -15,6 +15,7 @@ const CONTENT_REGISTRY_PATH: String = "res://content/content_registry.tres"
 const MARA_SOURCE_METADATA_PATH: String = "res://art_source/characters/mara/mara_prototype.source.json"
 const GRASS_SURFACE_SCENE_PATH: String = "res://scenes/world/surfaces/brindlewick_grass_surface.tscn"
 const DIRT_ROAD_SURFACE_SCENE_PATH: String = "res://scenes/world/surfaces/brindlewick_dirt_road_surface.tscn"
+const DIRT_ROAD_LAYOUT_PATH: String = "res://content/zones/brindlewick_square/brindlewick_dirt_road_layout.tres"
 const GRASS_MATERIAL_PATH: String = "res://assets/materials/environment/grass_surface_material.tres"
 const DIRT_ROAD_MATERIAL_PATH: String = "res://assets/materials/environment/dirt_road_surface_material.tres"
 const ROUTE_SPEED_MPS: float = 4.0
@@ -165,15 +166,24 @@ func _validate_zone_package(manifest: ZoneManifest) -> void:
 
 
 func _validate_brindlewick_surfaces(zone: Node) -> void:
-	for scene_path: String in [GRASS_SURFACE_SCENE_PATH, DIRT_ROAD_SURFACE_SCENE_PATH]:
-		if not ResourceLoader.exists(scene_path):
-			_failures.append("Brindlewick surface scene is missing: %s" % scene_path)
+	for resource_path: String in [GRASS_SURFACE_SCENE_PATH, DIRT_ROAD_SURFACE_SCENE_PATH, DIRT_ROAD_LAYOUT_PATH]:
+		if not ResourceLoader.exists(resource_path):
+			_failures.append("Brindlewick surface resource is missing: %s" % resource_path)
 	var grass_surface: Node = zone.get_node_or_null("Geometry/GrassSurface")
 	if grass_surface == null or grass_surface.get_node_or_null("Ground/Collision") == null:
 		_failures.append("Brindlewick grass surface must own the canonical ground and collision.")
 	var dirt_road_surface: Node = zone.get_node_or_null("Geometry/DirtRoadSurface")
-	if dirt_road_surface == null or dirt_road_surface.get_child_count() < 6:
-		_failures.append("Brindlewick dirt-road surface must contain all six authored route pieces.")
+	if not dirt_road_surface is DirtRoadNetwork3D:
+		_failures.append("Brindlewick dirt-road surface must use the reusable road-network renderer.")
+	else:
+		var road_network: DirtRoadNetwork3D = dirt_road_surface as DirtRoadNetwork3D
+		if road_network.get_patch_count() != 6:
+			_failures.append("Brindlewick dirt-road network must contain all six authored route patches.")
+		var road_layout: Resource = road_network.get("layout") as Resource
+		if road_layout == null or road_layout.resource_path != DIRT_ROAD_LAYOUT_PATH:
+			_failures.append("Brindlewick dirt-road network must reference its zone-owned layout resource.")
+		for configuration_error: String in road_network.validate_configuration():
+			_failures.append("Brindlewick dirt-road network: %s" % configuration_error)
 	var grass_material: ShaderMaterial = load(GRASS_MATERIAL_PATH) as ShaderMaterial
 	var dirt_road_material: ShaderMaterial = load(DIRT_ROAD_MATERIAL_PATH) as ShaderMaterial
 	if grass_material == null or grass_material.shader == null:

@@ -15,7 +15,9 @@ The project is currently pre-release, so completed work accumulates under `Unrel
 ### Changed
 
 - Upgraded Brindlewick grass from a flat color to broad world-scale painted variation with restrained tuft detail.
-- Upgraded Brindlewick dirt roads from a flat color to a worn earth palette with broad variation, edge wear, and sparse stone accents while preserving the authored route geometry.
+- Rebuilt Brindlewick's dirt road as a single rounded distance-field network driven by a validated layout resource, eliminating box-overlap seams and separating route data, rendering behavior, and material styling.
+- Deepened the dirt-road treatment with organically varied edges, continuous softened junctions, compacted center wear, broken twin cart ruts, sharply defined directional scuffs, and two anti-aliased scales of embedded gravel.
+- Replaced the zone-sized road plane with one tightly bounded batched patch mesh, preserving seamless distance-field joins while reducing road-shader coverage and restoring GPU headroom.
 - Made documentation and changelog maintenance the first repository contribution rule.
 
 ### Fixed

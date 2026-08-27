@@ -1,44 +1,11 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
-[ext_resource type="Material" path="res://assets/materials/environment/dirt_road_surface_material.tres" id="1_material"]
+[ext_resource type="Script" path="res://src/presentation/dirt_road_network_3d.gd" id="1_network"]
+[ext_resource type="Material" path="res://assets/materials/environment/dirt_road_surface_material.tres" id="2_material"]
+[ext_resource type="Resource" path="res://content/zones/brindlewick_square/brindlewick_dirt_road_layout.tres" id="3_layout"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_road"]
-size = Vector3(1, 1, 1)
-
-[node name="DirtRoadSurface" type="Node3D"]
-
-[node name="SouthLoop" type="MeshInstance3D" parent="."]
-position = Vector3(0, 0.025, 20)
-scale = Vector3(54, 0.05, 3.2)
-material_override = ExtResource("1_material")
-mesh = SubResource("BoxMesh_road")
-
-[node name="NorthLoop" type="MeshInstance3D" parent="."]
-position = Vector3(0, 0.025, -20)
-scale = Vector3(54, 0.05, 3.2)
-material_override = ExtResource("1_material")
-mesh = SubResource("BoxMesh_road")
-
-[node name="WestLoop" type="MeshInstance3D" parent="."]
-position = Vector3(-25.4, 0.026, 0)
-scale = Vector3(3.2, 0.052, 40)
-material_override = ExtResource("1_material")
-mesh = SubResource("BoxMesh_road")
-
-[node name="EastLoop" type="MeshInstance3D" parent="."]
-position = Vector3(25.4, 0.026, 0)
-scale = Vector3(3.2, 0.052, 40)
-material_override = ExtResource("1_material")
-mesh = SubResource("BoxMesh_road")
-
-[node name="SouthSpoke" type="MeshInstance3D" parent="."]
-position = Vector3(0, 0.028, 11)
-scale = Vector3(3.2, 0.056, 18)
-material_override = ExtResource("1_material")
-mesh = SubResource("BoxMesh_road")
-
-[node name="BellSquare" type="MeshInstance3D" parent="."]
-position = Vector3(0, 0.03, 0)
-scale = Vector3(15, 0.06, 15)
-material_override = ExtResource("1_material")
-mesh = SubResource("BoxMesh_road")
+[node name="DirtRoadSurface" type="MeshInstance3D"]
+position = Vector3(0, 0.04, 0)
+script = ExtResource("1_network")
+layout = ExtResource("3_layout")
+surface_material = ExtResource("2_material")

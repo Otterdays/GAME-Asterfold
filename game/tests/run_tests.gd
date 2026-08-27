@@ -45,6 +45,7 @@ func _run() -> void:
 	_test_accessibility_settings()
 	_test_input_router()
 	_test_zone_manifest()
+	_test_dirt_road_network()
 	_test_scene_resources()
 	_test_settings_persistence()
 	await _test_app_flow_and_movement()
@@ -184,6 +185,41 @@ func _test_zone_manifest() -> void:
 	invalid.default_facet = &"south"
 	invalid.allowed_facets = [&"north"]
 	_check(invalid.validate_definition().size() >= 4, "Manifest validation reports ID, scene, facet, and spawn failures.")
+
+
+func _test_dirt_road_network() -> void:
+	var road_scene: PackedScene = load("res://scenes/world/surfaces/brindlewick_dirt_road_surface.tscn") as PackedScene
+	_check(road_scene != null, "Brindlewick dirt-road network scene loads.")
+	if road_scene == null:
+		return
+	var road: DirtRoadNetwork3D = road_scene.instantiate() as DirtRoadNetwork3D
+	_check(road != null, "Dirt-road surface uses the reusable network component.")
+	if road == null:
+		return
+	_check(road.get_patch_count() == 6, "Brindlewick road network declares six authored patches.")
+	_check(road.validate_configuration().is_empty(), "Brindlewick road network configuration validates.")
+	_check(
+		DirtRoadNetwork3D.rounded_box_distance(Vector2.ZERO, Vector4(0.0, 0.0, 1.6, 1.6), 1.35) < 0.0,
+		"Rounded road patches contain their center."
+	)
+	_check(
+		DirtRoadNetwork3D.rounded_box_distance(Vector2(1.55, 1.55), Vector4(0.0, 0.0, 1.6, 1.6), 1.35) > 0.0,
+		"Rounded road patches trim their square corner."
+	)
+	_check(
+		DirtRoadNetwork3D.smooth_union_distance(-0.1, -0.1, 0.55) < -0.1,
+		"Road-patch unions soften connected joins."
+	)
+	road.rebuild_surface()
+	var runtime_material: ShaderMaterial = road.material_override as ShaderMaterial
+	var road_layout: Resource = road.get("layout") as Resource
+	_check(road_layout != null and road.mesh is ArrayMesh and road.mesh.get_surface_count() == 1, "Road layout builds one batched patch surface.")
+	_check(road.mesh.get_faces().size() == road.get_patch_count() * 6, "Each road patch contributes two triangles to the bounded surface.")
+	_check(
+		runtime_material != null and int(runtime_material.get_shader_parameter(&"patch_count")) == 6,
+		"Road layout is transferred to an instance-local shader material."
+	)
+	road.free()
 
 
 func _test_scene_resources() -> void:
