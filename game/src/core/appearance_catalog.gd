@@ -82,17 +82,17 @@ static func channel_options(channel_id: StringName) -> Array[StringName]:
 	var options: Array[StringName] = []
 	match channel_id:
 		CHANNEL_HAIR_STYLE:
-			options.assign(HAIR_STYLE_ORDER)
+			options.append_array(HAIR_STYLE_ORDER)
 		CHANNEL_HAIR_COLOR:
-			options.assign([HAIR_BROWN, HAIR_DARK, HAIR_AUBURN, HAIR_BLACK] as Array[StringName])
+			options.append_array([HAIR_BROWN, HAIR_DARK, HAIR_AUBURN, HAIR_BLACK] as Array[StringName])
 		CHANNEL_SKIN:
-			options.assign([SKIN_WARM, SKIN_FAIR, SKIN_TAN, SKIN_DEEP] as Array[StringName])
+			options.append_array([SKIN_WARM, SKIN_FAIR, SKIN_TAN, SKIN_DEEP] as Array[StringName])
 		CHANNEL_SHIRT:
-			options.assign([SHIRT_BROWN, SHIRT_RUST, SHIRT_OLIVE, SHIRT_SLATE] as Array[StringName])
+			options.append_array([SHIRT_BROWN, SHIRT_RUST, SHIRT_OLIVE, SHIRT_SLATE] as Array[StringName])
 		CHANNEL_JEANS:
-			options.assign([JEANS_BLUE, JEANS_DARK, JEANS_FADED] as Array[StringName])
+			options.append_array([JEANS_BLUE, JEANS_DARK, JEANS_FADED] as Array[StringName])
 		CHANNEL_BOOTS:
-			options.assign([BOOT_TAN, BOOT_BROWN, BOOT_DARK] as Array[StringName])
+			options.append_array([BOOT_TAN, BOOT_BROWN, BOOT_DARK] as Array[StringName])
 	return options
 
 

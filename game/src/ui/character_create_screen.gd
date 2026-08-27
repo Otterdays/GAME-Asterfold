@@ -46,7 +46,10 @@ func set_reduced_motion(reduced: bool) -> void:
 
 func set_busy(busy: bool, reason: String = "") -> void:
 	_busy = busy
-	_apply_interactive_state(reason)
+	if _busy:
+		_apply_interactive_state(reason)
+	else:
+		_validate()
 
 
 func show_screen() -> void:

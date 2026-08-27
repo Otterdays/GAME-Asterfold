@@ -194,6 +194,7 @@ func _play_character(slot_index: int) -> void:
 	if record == null:
 		return
 	_active_character = record
+	_update_prompt_text()
 	_start_diorama()
 
 

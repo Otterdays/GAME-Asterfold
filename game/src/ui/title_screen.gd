@@ -133,7 +133,7 @@ func _apply_button_state() -> void:
 	_settings_button.disabled = not interactive
 	_quit_button.disabled = not interactive
 	var tooltip: String = _busy_reason if _busy else _start_unavailable_reason
-	_start_button.tooltip_text = tooltip
+	_start_button.tooltip_text = tooltip if not tooltip.is_empty() else "Open the adventurer roster."
 	_metrics_button.tooltip_text = _busy_reason if _busy else ""
 	_map_maker_button.tooltip_text = _busy_reason if _busy else ""
 	_settings_button.tooltip_text = _busy_reason if _busy else ""

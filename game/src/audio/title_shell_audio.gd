@@ -65,16 +65,32 @@ func is_menu_music_active() -> bool:
 
 
 func _load_wav(path: String, loop: bool) -> AudioStreamWAV:
-	if not FileAccess.file_exists(path):
+	var wav: AudioStreamWAV = null
+	if FileAccess.file_exists(path):
+		var loaded: Resource = load(path)
+		if loaded is AudioStreamWAV:
+			wav = (loaded as AudioStreamWAV).duplicate() as AudioStreamWAV
+	if wav == null:
+		wav = _synthesize_fallback(path)
+	if wav == null:
 		push_warning("[AUDIO] Missing cue '%s'." % path)
 		return null
-	var loaded: Resource = load(path)
-	if not loaded is AudioStreamWAV:
-		push_warning("[AUDIO] Cue '%s' is not a WAV stream." % path)
-		return null
-	var wav: AudioStreamWAV = (loaded as AudioStreamWAV).duplicate() as AudioStreamWAV
 	if loop:
 		wav.loop_mode = AudioStreamWAV.LOOP_FORWARD
 		wav.loop_begin = 0
 		wav.loop_end = wav.data.size() / 2
 	return wav
+
+
+func _synthesize_fallback(path: String) -> AudioStreamWAV:
+	var samples: PackedFloat32Array
+	match path:
+		MUSIC_PATH:
+			samples = ProceduralFoley.title_loop_samples()
+		HOVER_PATH:
+			samples = ProceduralFoley.hover_bling_samples()
+		CLICK_PATH:
+			samples = ProceduralFoley.click_samples()
+		_:
+			return null
+	return ProceduralFoley.make_wav_stream(samples)

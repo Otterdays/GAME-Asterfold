@@ -41,7 +41,7 @@ Tests use fixed time and RNG sources. Floating-point comparisons declare toleran
 
 ### Local Godot runner
 
-M0/M1 unit and integration checks run together through `res://tests/run_tests.gd`. That script discovers every `*_tests.gd` file under `res://tests/suites/`, instantiates each as a `TestCase`, and prints `[TEST] suite start|done` lines with check count, fail count, elapsed milliseconds, and `Performance.OBJECT_COUNT` delta. After a suite returns, leftover `SceneTree` root children (except installed `InputRouter`, `ContentDB`, and `GameFlow`) and grown service signal-connection counts fail the run. A passing session prints `[TEST] PASS: 426 checks across 8 suites.` as of 2026-08-27. Content/provenance remains a separate gate: `res://tools/validate_content.gd`.
+M0/M1 unit and integration checks run together through `res://tests/run_tests.gd`. That script discovers every `*_tests.gd` file under `res://tests/suites/`, instantiates each as a `TestCase`, and prints `[TEST] suite start|done` lines with check count, fail count, elapsed milliseconds, and `Performance.OBJECT_COUNT` delta. After a suite returns, leftover `SceneTree` root children (except installed `InputRouter`, `ContentDB`, and `GameFlow`) and grown service signal-connection counts fail the run. A passing session prints `[TEST] PASS: 458 checks across 9 suites.` as of 2026-08-27. Content/provenance remains a separate gate: `res://tools/validate_content.gd`.
 
 ```powershell
 godot --headless --path game --script res://tests/run_tests.gd
@@ -60,6 +60,7 @@ godot --headless --path game --script res://tests/run_tests.gd -- --suite=projec
 | `nature_ambience` | `nature_ambience_tests.gd` | Bird species validation, shared baseline mesh and part tags, flock circuits and MultiMesh, leaf emission points, footfall surface classification, map-maker nature pieces, motion-mode gating |
 | `app_flow_and_persistence` | `app_flow_and_persistence_tests.gd` | Required scenes, settings file including `video`, title busy lock, title audio and button hover, title/field/Video-Accessibility-Controls tabs, missing-zone error |
 | `equipment` | `equipment_tests.gd` | Slot/layer contract, loadout rules including two-handed blocking, inventory transactions, item catalog validation, layer composition and caching, the `equipment` binding |
+| `map_maker` | `map_maker_tests.gd` | Map-maker undo/redo snapshot stack including depth cap and redo-branch discard, authoring grid mesh build and toggle, HUD theme styles |
 
 Add a suite by dropping `*_tests.gd` that extends `TestCase`, overrides `suite_name()` and `run()`, and uses `_check` / `_check_vector2` / `_check_vector3`. `run()` may `await tree.process_frame` or `tree.physics_frame`. Do not put suites under `tests/fixtures/`.
 

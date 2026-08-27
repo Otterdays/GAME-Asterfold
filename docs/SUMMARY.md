@@ -30,7 +30,7 @@ Out of scope until later milestones: World Turns, navigation topology changes, p
 3. Title: **Start Walking Diorama**
 4. Move: WASD or left stick. Peek: mouse (captured on start), Space+WASD, or right stick. Look around: **Look around** / V / Controller Y, then click the map. Idle 10s restores authored Peek. Equipment: I / Controller Select. Field help: F1 / Start. Return: Escape / B
 
-Validate: `validate.bat`. Tests: `godot --headless --path game --script res://tests/run_tests.gd` (426 checks, 8 suites).
+Validate: `validate.bat`. Tests: `godot --headless --path game --script res://tests/run_tests.gd` (458 checks, 9 suites).
 
 Internal map maker: `map_maker.bat`, or **Open Map Maker** on the title screen.
 

@@ -156,7 +156,7 @@ func _test_layer_composition() -> void:
 		return
 	_check(
 		bare.get_size() == Vector2(kit.field_sheet_size()),
-		"The composed sheet keeps the authored 6x5 frame layout."
+		"The composed sheet keeps the authored 12x5 frame layout."
 	)
 	var catalog: ItemCatalog = _catalog()
 	if catalog == null:

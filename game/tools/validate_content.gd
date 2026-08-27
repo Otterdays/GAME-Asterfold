@@ -415,10 +415,18 @@ func _validate_actor_layer_kit() -> void:
 				"field"
 			)
 			_compare_layer_order(
-				(export_settings as Dictionary).get("doll_layer_order", []),
-				ActorLayerIds.DOLL_LAYER_ORDER,
-				"doll"
+				(export_settings as Dictionary).get("hair_style_ids", []),
+				AppearanceCatalog.HAIR_STYLE_ORDER,
+				"hair style"
 			)
+			var frame: Variant = (export_settings as Dictionary).get("frame", {})
+			if frame is Dictionary:
+				if int((frame as Dictionary).get("columns", 0)) != SpriteSheetPlayback.IDLE_FRAME_COUNT + SpriteSheetPlayback.WALK_FRAME_COUNT:
+					_failures.append("Mara layer metadata must pack 4 idle columns and 8 walk columns.")
+				if int((export_settings as Dictionary).get("idle_frames", 0)) != SpriteSheetPlayback.IDLE_FRAME_COUNT:
+					_failures.append("Mara layer metadata idle_frames must be 4.")
+				if int((export_settings as Dictionary).get("walk_frames", 0)) != SpriteSheetPlayback.WALK_FRAME_COUNT:
+					_failures.append("Mara layer metadata walk_frames must be 8.")
 	if not ResourceLoader.exists(MARA_LAYER_KIT_PATH):
 		_failures.append("Actor layer kit is missing: %s" % MARA_LAYER_KIT_PATH)
 		return
