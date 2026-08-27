@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ContentRegistry" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/world/content_registry.gd" id="1_registry"]
+[ext_resource type="Resource" path="res://content/zones/brindlewick_square/brindlewick_square_manifest.tres" id="2_zone"]
+
+[resource]
+script = ExtResource("1_registry")
+zones = Array[ZoneManifest]([ExtResource("2_zone")])

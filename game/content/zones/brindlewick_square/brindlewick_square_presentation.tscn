@@ -1,0 +1,111 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://src/presentation/foreground_occluder.gd" id="1_occluder"]
+[ext_resource type="Shader" path="res://assets/materials/foreground_occluder.gdshader" id="2_shader"]
+
+[sub_resource type="Environment" id="Environment_brindlewick"]
+background_mode = 1
+background_color = Color(0.055, 0.08, 0.13, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.58, 0.64, 0.76, 1)
+ambient_light_energy = 0.68
+reflected_light_source = 2
+tonemap_mode = 2
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_laundry"]
+shader = ExtResource("2_shader")
+shader_parameter/base_color = Color(0.53, 0.25, 0.34, 1)
+shader_parameter/opacity = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_laundry"]
+size = Vector2(8, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_laundry"]
+size = Vector3(8, 3, 0.2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_awning"]
+shader = ExtResource("2_shader")
+shader_parameter/base_color = Color(0.28, 0.39, 0.49, 1)
+shader_parameter/opacity = 1.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_awning"]
+size = Vector2(6, 2.4)
+
+[sub_resource type="BoxShape3D" id="BoxShape_awning"]
+size = Vector3(6, 2.4, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="Material_banner"]
+albedo_color = Color(0.83, 0.62, 0.25, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="BoxMesh_banner"]
+material = SubResource("Material_banner")
+size = Vector3(0.12, 3.5, 1.2)
+
+[node name="Presentation" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_brindlewick")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-52, -30, 0)
+light_color = Color(1, 0.88, 0.70, 1)
+light_energy = 1.25
+shadow_enabled = true
+directional_shadow_max_distance = 80.0
+
+[node name="BellWindowLight" type="OmniLight3D" parent="."]
+position = Vector3(0, 8.5, 3)
+light_color = Color(1, 0.62, 0.28, 1)
+light_energy = 5.0
+omni_range = 9.0
+shadow_enabled = true
+
+[node name="GateLantern" type="OmniLight3D" parent="."]
+position = Vector3(0, 2.8, 23)
+light_color = Color(1, 0.72, 0.38, 1)
+light_energy = 2.2
+omni_range = 7.0
+
+[node name="Foreground" type="Node3D" parent="."]
+
+[node name="SouthGateLaundry" type="StaticBody3D" parent="Foreground" node_paths=PackedStringArray("mesh_instance")]
+position = Vector3(-7.5, 4.8, 25)
+rotation_degrees = Vector3(0, 12, 0)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_occluder")
+mesh_instance = NodePath("Mesh")
+faded_opacity = 0.25
+
+[node name="Mesh" type="MeshInstance3D" parent="Foreground/SouthGateLaundry"]
+material_override = SubResource("ShaderMaterial_laundry")
+mesh = SubResource("QuadMesh_laundry")
+
+[node name="Collision" type="CollisionShape3D" parent="Foreground/SouthGateLaundry"]
+shape = SubResource("BoxShape_laundry")
+
+[node name="EastMarketAwning" type="StaticBody3D" parent="Foreground" node_paths=PackedStringArray("mesh_instance")]
+position = Vector3(25.4, 3.2, 9)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_occluder")
+mesh_instance = NodePath("Mesh")
+faded_opacity = 0.3
+
+[node name="Mesh" type="MeshInstance3D" parent="Foreground/EastMarketAwning"]
+material_override = SubResource("ShaderMaterial_awning")
+mesh = SubResource("QuadMesh_awning")
+
+[node name="Collision" type="CollisionShape3D" parent="Foreground/EastMarketAwning"]
+shape = SubResource("BoxShape_awning")
+
+[node name="DepthBanners" type="Node3D" parent="."]
+
+[node name="WestBanner" type="MeshInstance3D" parent="DepthBanners"]
+position = Vector3(-22, 4, -18)
+mesh = SubResource("BoxMesh_banner")
+
+[node name="EastBanner" type="MeshInstance3D" parent="DepthBanners"]
+position = Vector3(22, 4, 18)
+mesh = SubResource("BoxMesh_banner")

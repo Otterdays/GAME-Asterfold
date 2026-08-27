@@ -21,6 +21,7 @@
 *.blend filter=lfs diff=lfs merge=lfs -text
 *.psd filter=lfs diff=lfs merge=lfs -text
 *.kra filter=lfs diff=lfs merge=lfs -text
+game/art_source/**/*.png filter=lfs diff=lfs merge=lfs -text
 game/assets/audio/**/*.wav filter=lfs diff=lfs merge=lfs -text
 game/assets/audio/**/*.ogg filter=lfs diff=lfs merge=lfs -text
 game/assets/audio/**/*.flac filter=lfs diff=lfs merge=lfs -text

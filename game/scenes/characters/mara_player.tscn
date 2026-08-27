@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/world/player_actor.gd" id="1_player"]
+[ext_resource type="Script" path="res://src/presentation/sprite_actor.gd" id="2_sprite_actor"]
+[ext_resource type="Texture2D" path="res://assets/generated/characters/mara/mara_prototype.png" id="3_mara"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
+radius = 0.36
+height = 1.72
+
+[sub_resource type="StandardMaterial3D" id="Material_shadow"]
+transparency = 1
+shading_mode = 2
+albedo_color = Color(0.055, 0.07, 0.09, 0.28)
+
+[sub_resource type="QuadMesh" id="QuadMesh_shadow"]
+material = SubResource("Material_shadow")
+size = Vector2(0.95, 0.58)
+
+[sub_resource type="StandardMaterial3D" id="Material_focus_ring"]
+transparency = 1
+shading_mode = 2
+albedo_color = Color(0.96, 0.72, 0.28, 0.0)
+
+[node name="MaraPlayer" type="CharacterBody3D" node_paths=PackedStringArray("sprite_actor")]
+collision_layer = 1
+collision_mask = 1
+script = ExtResource("1_player")
+sprite_actor = NodePath("SpriteActor")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.86, 0)
+shape = SubResource("CapsuleShape_player")
+
+[node name="SpriteActor" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
+script = ExtResource("2_sprite_actor")
+sprite = NodePath("MaraSprite")
+
+[node name="MaraSprite" type="Sprite3D" parent="SpriteActor"]
+texture_filter = 1
+billboard = 2
+alpha_cut = 1
+shaded = true
+texture = ExtResource("3_mara")
+pixel_size = 0.03125
+offset = Vector2(0, 30)
+hframes = 6
+vframes = 5
+frame = 24
+
+[node name="ContactShadow" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.018, 0)
+rotation_degrees = Vector3(-90, 0, 0)
+mesh = SubResource("QuadMesh_shadow")

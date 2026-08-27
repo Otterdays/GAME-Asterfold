@@ -1,0 +1,284 @@
+[gd_scene load_steps=13 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_ground"]
+albedo_color = Color(0.25, 0.34, 0.27, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Material_path"]
+albedo_color = Color(0.62, 0.52, 0.34, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Material_honey"]
+albedo_color = Color(0.66, 0.47, 0.28, 1)
+roughness = 0.92
+
+[sub_resource type="StandardMaterial3D" id="Material_slate"]
+albedo_color = Color(0.27, 0.34, 0.47, 1)
+roughness = 0.88
+
+[sub_resource type="StandardMaterial3D" id="Material_berry"]
+albedo_color = Color(0.47, 0.22, 0.31, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Material_wood"]
+albedo_color = Color(0.30, 0.20, 0.14, 1)
+roughness = 1.0
+
+[sub_resource type="StandardMaterial3D" id="Material_leaf"]
+albedo_color = Color(0.20, 0.38, 0.28, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="BoxMesh_unit"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_unit"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_roof"]
+top_radius = 0.4
+bottom_radius = 4.2
+height = 2.8
+radial_segments = 8
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_trunk"]
+top_radius = 0.28
+bottom_radius = 0.36
+height = 3.2
+radial_segments = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_crown"]
+radius = 1.9
+height = 3.2
+radial_segments = 12
+rings = 6
+
+[node name="Geometry" type="Node3D"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+position = Vector3(0, -0.1, 0)
+scale = Vector3(68, 0.2, 58)
+
+[node name="Mesh" type="MeshInstance3D" parent="Ground"]
+material_override = SubResource("Material_ground")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="Collision" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape_unit")
+
+[node name="Paths" type="Node3D" parent="."]
+
+[node name="SouthLoop" type="MeshInstance3D" parent="Paths"]
+position = Vector3(0, 0.025, 20)
+scale = Vector3(54, 0.05, 3.2)
+material_override = SubResource("Material_path")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="NorthLoop" type="MeshInstance3D" parent="Paths"]
+position = Vector3(0, 0.025, -20)
+scale = Vector3(54, 0.05, 3.2)
+material_override = SubResource("Material_path")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="WestLoop" type="MeshInstance3D" parent="Paths"]
+position = Vector3(-25.4, 0.026, 0)
+scale = Vector3(3.2, 0.052, 40)
+material_override = SubResource("Material_path")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="EastLoop" type="MeshInstance3D" parent="Paths"]
+position = Vector3(25.4, 0.026, 0)
+scale = Vector3(3.2, 0.052, 40)
+material_override = SubResource("Material_path")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="SouthSpoke" type="MeshInstance3D" parent="Paths"]
+position = Vector3(0, 0.028, 11)
+scale = Vector3(3.2, 0.056, 18)
+material_override = SubResource("Material_path")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="BellSquare" type="MeshInstance3D" parent="Paths"]
+position = Vector3(0, 0.03, 0)
+scale = Vector3(15, 0.06, 15)
+material_override = SubResource("Material_path")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="BellTower" type="StaticBody3D" parent="."]
+position = Vector3(0, 7, 0)
+scale = Vector3(5, 14, 5)
+
+[node name="Mesh" type="MeshInstance3D" parent="BellTower"]
+material_override = SubResource("Material_honey")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="Collision" type="CollisionShape3D" parent="BellTower"]
+shape = SubResource("BoxShape_unit")
+
+[node name="BellRoof" type="MeshInstance3D" parent="."]
+position = Vector3(0, 15.4, 0)
+material_override = SubResource("Material_slate")
+mesh = SubResource("CylinderMesh_roof")
+
+[node name="BellBand" type="MeshInstance3D" parent="."]
+position = Vector3(0, 10.8, 2.56)
+scale = Vector3(3.2, 0.7, 0.12)
+material_override = SubResource("Material_berry")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="BellDoor" type="MeshInstance3D" parent="."]
+position = Vector3(0, 1.6, 2.56)
+scale = Vector3(1.4, 3.2, 0.12)
+material_override = SubResource("Material_slate")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="BellWindow" type="MeshInstance3D" parent="."]
+position = Vector3(0, 8.1, 2.57)
+scale = Vector3(1.5, 1.5, 0.13)
+material_override = SubResource("Material_berry")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="NorthWestHouse" type="StaticBody3D" parent="."]
+position = Vector3(-13, 3.1, -9)
+scale = Vector3(9, 6.2, 7)
+
+[node name="Mesh" type="MeshInstance3D" parent="NorthWestHouse"]
+material_override = SubResource("Material_honey")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="Collision" type="CollisionShape3D" parent="NorthWestHouse"]
+shape = SubResource("BoxShape_unit")
+
+[node name="NorthWestRoof" type="MeshInstance3D" parent="."]
+position = Vector3(-13, 6.45, -9)
+scale = Vector3(9.8, 0.7, 7.8)
+material_override = SubResource("Material_berry")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="NorthWestDoor" type="MeshInstance3D" parent="."]
+position = Vector3(-13, 1.7, -5.44)
+scale = Vector3(1.4, 3.4, 0.12)
+material_override = SubResource("Material_wood")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="NorthEastHouse" type="StaticBody3D" parent="."]
+position = Vector3(13, 4.1, -10)
+scale = Vector3(10, 8.2, 7)
+
+[node name="Mesh" type="MeshInstance3D" parent="NorthEastHouse"]
+material_override = SubResource("Material_slate")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="Collision" type="CollisionShape3D" parent="NorthEastHouse"]
+shape = SubResource("BoxShape_unit")
+
+[node name="NorthEastRoof" type="MeshInstance3D" parent="."]
+position = Vector3(13, 8.45, -10)
+scale = Vector3(10.8, 0.7, 7.8)
+material_override = SubResource("Material_berry")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="NorthEastDoor" type="MeshInstance3D" parent="."]
+position = Vector3(13, 1.7, -6.44)
+scale = Vector3(1.4, 3.4, 0.12)
+material_override = SubResource("Material_wood")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="SouthWestWorkshop" type="StaticBody3D" parent="."]
+position = Vector3(-13, 3.6, 9)
+scale = Vector3(8, 7.2, 7)
+
+[node name="Mesh" type="MeshInstance3D" parent="SouthWestWorkshop"]
+material_override = SubResource("Material_berry")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="Collision" type="CollisionShape3D" parent="SouthWestWorkshop"]
+shape = SubResource("BoxShape_unit")
+
+[node name="WorkshopRoof" type="MeshInstance3D" parent="."]
+position = Vector3(-13, 7.45, 9)
+scale = Vector3(8.8, 0.7, 7.8)
+material_override = SubResource("Material_slate")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="WorkshopDoor" type="MeshInstance3D" parent="."]
+position = Vector3(-13, 1.8, 12.56)
+scale = Vector3(1.5, 3.6, 0.12)
+material_override = SubResource("Material_wood")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="SouthEastInn" type="StaticBody3D" parent="."]
+position = Vector3(13, 3.1, 9)
+scale = Vector3(9, 6.2, 7)
+
+[node name="Mesh" type="MeshInstance3D" parent="SouthEastInn"]
+material_override = SubResource("Material_honey")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="Collision" type="CollisionShape3D" parent="SouthEastInn"]
+shape = SubResource("BoxShape_unit")
+
+[node name="InnRoof" type="MeshInstance3D" parent="."]
+position = Vector3(13, 6.45, 9)
+scale = Vector3(9.8, 0.7, 7.8)
+material_override = SubResource("Material_berry")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="InnDoor" type="MeshInstance3D" parent="."]
+position = Vector3(13, 1.7, 12.56)
+scale = Vector3(1.5, 3.4, 0.12)
+material_override = SubResource("Material_wood")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="WestGateHouse" type="StaticBody3D" parent="."]
+position = Vector3(-31, 4, -3)
+scale = Vector3(7, 8, 13)
+
+[node name="Mesh" type="MeshInstance3D" parent="WestGateHouse"]
+material_override = SubResource("Material_slate")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="Collision" type="CollisionShape3D" parent="WestGateHouse"]
+shape = SubResource("BoxShape_unit")
+
+[node name="EastGateHouse" type="StaticBody3D" parent="."]
+position = Vector3(31, 3.5, 4)
+scale = Vector3(7, 7, 13)
+
+[node name="Mesh" type="MeshInstance3D" parent="EastGateHouse"]
+material_override = SubResource("Material_honey")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="Collision" type="CollisionShape3D" parent="EastGateHouse"]
+shape = SubResource("BoxShape_unit")
+
+[node name="Trees" type="Node3D" parent="."]
+
+[node name="TreeWestTrunk" type="MeshInstance3D" parent="Trees"]
+position = Vector3(-21, 1.6, 12)
+material_override = SubResource("Material_wood")
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="TreeWestCrown" type="MeshInstance3D" parent="Trees"]
+position = Vector3(-21, 4.2, 12)
+material_override = SubResource("Material_leaf")
+mesh = SubResource("SphereMesh_crown")
+
+[node name="TreeEastTrunk" type="MeshInstance3D" parent="Trees"]
+position = Vector3(21, 1.6, -12)
+material_override = SubResource("Material_wood")
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="TreeEastCrown" type="MeshInstance3D" parent="Trees"]
+position = Vector3(21, 4.2, -12)
+material_override = SubResource("Material_leaf")
+mesh = SubResource("SphereMesh_crown")
+
+[node name="TreeNorthTrunk" type="MeshInstance3D" parent="Trees"]
+position = Vector3(-4, 1.6, -24)
+material_override = SubResource("Material_wood")
+mesh = SubResource("CylinderMesh_trunk")
+
+[node name="TreeNorthCrown" type="MeshInstance3D" parent="Trees"]
+position = Vector3(-4, 4.2, -24)
+material_override = SubResource("Material_leaf")
+mesh = SubResource("SphereMesh_crown")

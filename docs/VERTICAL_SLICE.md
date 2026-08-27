@@ -49,6 +49,7 @@ If the slice exceeds a budget, remove or combine content before silently expandi
 ## Milestones
 
 Milestones are dependency gates, not calendar promises.
+Demonstrated implementation and acceptance status is recorded separately in [MILESTONE_STATUS.md](MILESTONE_STATUS.md); the checklist below remains the scope authority.
 
 ### M0 — Project foundation
 

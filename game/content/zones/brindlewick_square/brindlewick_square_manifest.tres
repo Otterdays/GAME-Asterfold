@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ZoneManifest" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/world/zone_manifest.gd" id="1_manifest"]
+[ext_resource type="PackedScene" path="res://content/zones/brindlewick_square/brindlewick_square.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_manifest")
+id = &"zone.brindlewick_square"
+scene = ExtResource("2_scene")
+default_facet = &"north"
+allowed_facets = Array[StringName]([&"north"])
+spawn_ids = Array[StringName]([&"spawn.brindlewick_square.south_gate"])
+validation_bounds = AABB(-34, -2, -29, 68, 24, 58)
+logical_grid_m = 0.5
+primary_route_length_m = 188.0
+depth_layer_count = 3
+landmark_ids = Array[StringName]([&"landmark.brindlewick.bell_tower"])
+foreground_occluder_ids = Array[StringName]([&"occluder.brindlewick.south_gate_laundry", &"occluder.brindlewick.east_market_awning"])

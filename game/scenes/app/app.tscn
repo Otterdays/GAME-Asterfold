@@ -1,6 +1,11 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://src/presentation/app_shell.gd" id="1_app"]
+[ext_resource type="PackedScene" path="res://scenes/ui/title_screen.tscn" id="2_title"]
+[ext_resource type="PackedScene" path="res://scenes/ui/settings_screen.tscn" id="3_settings"]
+
+[sub_resource type="Theme" id="Theme_app"]
+default_font_size = 18
 
 [node name="App" type="Node"]
 script = ExtResource("1_app")
@@ -25,6 +30,7 @@ unique_name_in_owner = true
 [node name="UILayer" type="CanvasLayer" parent="."]
 
 [node name="UIRoot" type="Control" parent="UILayer"]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,48 +38,67 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = SubResource("Theme_app")
 
-[node name="BuildPanel" type="PanelContainer" parent="UILayer/UIRoot"]
+[node name="GameplayHUD" type="Control" parent="UILayer/UIRoot"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BuildPanel" type="PanelContainer" parent="UILayer/UIRoot/GameplayHUD"]
 layout_mode = 0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 286.0
-offset_bottom = 94.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 280.0
+offset_bottom = 66.0
 
-[node name="Margin" type="MarginContainer" parent="UILayer/UIRoot/BuildPanel"]
+[node name="Margin" type="MarginContainer" parent="UILayer/UIRoot/GameplayHUD/BuildPanel"]
 layout_mode = 2
-theme_override_constants/margin_left = 14
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 14
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 9
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 9
+theme_override_constants/margin_bottom = 7
 
-[node name="BuildLabel" type="Label" parent="UILayer/UIRoot/BuildPanel/Margin"]
+[node name="BuildLabel" type="Label" parent="UILayer/UIRoot/GameplayHUD/BuildPanel/Margin"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.92, 0.78, 1)
-theme_override_font_sizes/font_size = 20
-text = "ASTERFOLD\nM0 METRICS ROOM"
+theme_override_font_sizes/font_size = 13
+text = "ASTERFOLD\nBRINDLEWICK WALKING DIORAMA"
 
-[node name="HelpPanel" type="PanelContainer" parent="UILayer/UIRoot"]
+[node name="HelpPanel" type="PanelContainer" parent="UILayer/UIRoot/GameplayHUD"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 20.0
 offset_top = 108.0
-offset_right = 340.0
-offset_bottom = 220.0
+offset_right = 420.0
+offset_bottom = 242.0
 
-[node name="Margin" type="MarginContainer" parent="UILayer/UIRoot/HelpPanel"]
+[node name="Margin" type="MarginContainer" parent="UILayer/UIRoot/GameplayHUD/HelpPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 14
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 14
 theme_override_constants/margin_bottom = 10
 
-[node name="Instructions" type="Label" parent="UILayer/UIRoot/HelpPanel/Margin"]
+[node name="Instructions" type="Label" parent="UILayer/UIRoot/GameplayHUD/HelpPanel/Margin"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.93, 0.95, 1, 1)
-theme_override_font_sizes/font_size = 18
-text = "MOVE  —  WASD / LEFT STICK\nHELP  —  F1 / START\nQUIT  —  ESC / CONTROLLER B"
+theme_override_font_sizes/font_size = 17
+text = "MOVE  —  WASD / LEFT STICK\nPEEK  —  SPACE + WASD / RIGHT STICK\nHELP  —  F1 / START\nRETURN TO TITLE  —  ESC / CONTROLLER B"
+
+[node name="TitleScreen" parent="UILayer/UIRoot" instance=ExtResource("2_title")]
+unique_name_in_owner = true
+
+[node name="SettingsScreen" parent="UILayer/UIRoot" instance=ExtResource("3_settings")]
+unique_name_in_owner = true
 
 [node name="ErrorPanel" type="PanelContainer" parent="UILayer/UIRoot"]
 unique_name_in_owner = true
@@ -84,10 +109,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -115.0
-offset_right = 260.0
-offset_bottom = 115.0
+offset_left = -300.0
+offset_top = -130.0
+offset_right = 300.0
+offset_bottom = 130.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -103,8 +128,7 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.82, 0.78, 1)
 theme_override_font_sizes/font_size = 20
-text = "ASTERFOLD COULD NOT START"
+text = "ASTERFOLD COULD NOT CONTINUE"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
-

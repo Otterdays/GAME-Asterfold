@@ -23,8 +23,8 @@ if not defined GODOT_EXE (
 set "GODOT_VERSION="
 for /f "delims=" %%V in ('"%GODOT_EXE%" --version 2^>nul') do if not defined GODOT_VERSION set "GODOT_VERSION=%%V"
 
-if /i not "%GODOT_VERSION:~0,5%"=="4.7.2" (
-	echo Asterfold requires Godot 4.7.2 Standard.
+if /i not "%GODOT_VERSION:~0,22%"=="4.7.2.stable.official." (
+ echo Asterfold requires the official Godot 4.7.2 Standard build.
 	echo Found: %GODOT_VERSION%
 	echo At:    %GODOT_EXE%
 	pause
@@ -32,4 +32,3 @@ if /i not "%GODOT_VERSION:~0,5%"=="4.7.2" (
 )
 
 start "Asterfold" "%GODOT_EXE%" --path "%PROJECT_DIR%" %*
-

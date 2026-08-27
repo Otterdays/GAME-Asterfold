@@ -1,5 +1,17 @@
 {
   "schema_version": 1,
-  "assets": []
+  "assets": [
+    {
+      "id": "sprite.actor.mara.prototype",
+      "source": "res://art_source/characters/mara/mara_prototype.png",
+      "runtime": "res://assets/generated/characters/mara/mara_prototype.png",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_tool": "res://tools/generate_mara_prototype.ps1",
+      "generation_model": null,
+      "prompt_record": null,
+      "review_status": "Approved for M1 prototype only"
+    }
+  ]
 }
-

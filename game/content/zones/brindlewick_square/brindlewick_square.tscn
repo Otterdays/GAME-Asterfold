@@ -1,0 +1,27 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/world/zone_controller.gd" id="1_zone"]
+[ext_resource type="PackedScene" path="res://content/zones/brindlewick_square/brindlewick_square_geometry.tscn" id="2_geometry"]
+[ext_resource type="PackedScene" path="res://content/zones/brindlewick_square/brindlewick_square_gameplay.tscn" id="3_gameplay"]
+[ext_resource type="PackedScene" path="res://content/zones/brindlewick_square/brindlewick_square_presentation.tscn" id="4_presentation"]
+[ext_resource type="PackedScene" path="res://scenes/characters/mara_player.tscn" id="5_player"]
+[ext_resource type="PackedScene" path="res://scenes/world/world_camera_rig.tscn" id="6_camera"]
+
+[node name="BrindlewickSquare" type="Node3D" node_paths=PackedStringArray("player", "camera_rig", "gameplay_layer")]
+script = ExtResource("1_zone")
+player = NodePath("Player")
+camera_rig = NodePath("WorldCameraRig")
+gameplay_layer = NodePath("Gameplay")
+
+[node name="Geometry" parent="." instance=ExtResource("2_geometry")]
+
+[node name="Gameplay" parent="." instance=ExtResource("3_gameplay")]
+
+[node name="Presentation" parent="." instance=ExtResource("4_presentation")]
+
+[node name="Player" parent="." node_paths=PackedStringArray("camera_rig") instance=ExtResource("5_player")]
+camera_rig = NodePath("../WorldCameraRig")
+
+[node name="WorldCameraRig" parent="." node_paths=PackedStringArray("target") instance=ExtResource("6_camera")]
+target = NodePath("../Player")
+

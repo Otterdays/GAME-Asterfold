@@ -1,0 +1,151 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/settings_screen.gd" id="1_settings"]
+
+[node name="SettingsScreen" type="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_settings")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.035, 0.05, 0.08, 0.98)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 8.0
+offset_right = -12.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Margin"]
+layout_mode = 2
+
+[node name="InnerMargin" type="MarginContainer" parent="Margin/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 8
+
+[node name="Layout" type="VBoxContainer" parent="Margin/Panel/InnerMargin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Heading" type="Label" parent="Margin/Panel/InnerMargin/Layout"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.96, 0.91, 0.70, 1)
+theme_override_font_sizes/font_size = 26
+text = "Settings"
+
+[node name="CameraRow" type="HBoxContainer" parent="Margin/Panel/InnerMargin/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/Panel/InnerMargin/Layout/CameraRow"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+text = "Camera motion"
+
+[node name="CameraMotionOption" type="OptionButton" parent="Margin/Panel/InnerMargin/Layout/CameraRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 38)
+layout_mode = 2
+
+[node name="TextRow" type="HBoxContainer" parent="Margin/Panel/InnerMargin/Layout"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Margin/Panel/InnerMargin/Layout/TextRow"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+text = "Text scale"
+
+[node name="TextScaleOption" type="OptionButton" parent="Margin/Panel/InnerMargin/Layout/TextRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(210, 38)
+layout_mode = 2
+
+[node name="SwapConfirmCancel" type="CheckButton" parent="Margin/Panel/InnerMargin/Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+text = "Swap confirm and cancel"
+
+[node name="ControlsHeading" type="Label" parent="Margin/Panel/InnerMargin/Layout"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.89, 0.96, 1)
+theme_override_font_sizes/font_size = 20
+text = "Controls"
+
+[node name="BindingsScroll" type="ScrollContainer" parent="Margin/Panel/InnerMargin/Layout"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BindingsList" type="VBoxContainer" parent="Margin/Panel/InnerMargin/Layout/BindingsScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Buttons" type="HBoxContainer" parent="Margin/Panel/InnerMargin/Layout"]
+layout_mode = 2
+alignment = 2
+theme_override_constants/separation = 10
+
+[node name="ResetBindingsButton" type="Button" parent="Margin/Panel/InnerMargin/Layout/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 38)
+layout_mode = 2
+text = "Reset bindings"
+
+[node name="BackButton" type="Button" parent="Margin/Panel/InnerMargin/Layout/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(130, 38)
+layout_mode = 2
+text = "Back"
+
+[node name="CapturePanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -100.0
+offset_right = 260.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CaptureLabel" type="Label" parent="CapturePanel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Press a new input"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ConflictDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Binding conflict"
+ok_button_text = "Replace"
+dialog_text = "That input is already in use. Replace it?"

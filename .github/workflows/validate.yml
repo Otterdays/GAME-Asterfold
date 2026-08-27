@@ -1,0 +1,88 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: Windows gate
+    runs-on: windows-latest
+    steps:
+      - name: Check out source and LFS objects
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Install pinned Godot and templates
+        shell: pwsh
+        run: |
+          $engineArchive = Join-Path $env:RUNNER_TEMP 'godot.zip'
+          $engineRoot = Join-Path $env:RUNNER_TEMP 'godot'
+          Invoke-WebRequest -Uri 'https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_win64.exe.zip' -OutFile $engineArchive
+          Expand-Archive -LiteralPath $engineArchive -DestinationPath $engineRoot
+          $env:ASTERFOLD_GODOT = (Resolve-Path (Join-Path $engineRoot 'Godot_v4.7.2-stable_win64.exe')).Path
+          $env:ASTERFOLD_GODOT | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          & ./game/tools/install_export_templates.ps1
+
+      - name: Run the complete Windows gate
+        shell: cmd
+        run: validate.bat
+
+      - name: Upload validation logs and exports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: asterfold-windows-validation
+          path: |
+            game/logs/validation
+            game/builds/windows
+            game/builds/linux
+
+  linux:
+    name: Linux gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source and LFS objects
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Install pinned Godot and templates
+        shell: bash
+        run: |
+          set -euo pipefail
+          engine_archive="$RUNNER_TEMP/godot.zip"
+          engine_root="$RUNNER_TEMP/godot"
+          template_archive="$RUNNER_TEMP/Godot_v4.7.2-stable_export_templates.tpz"
+          curl --location --fail --retry 3 --output "$engine_archive" 'https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip'
+          mkdir -p "$engine_root"
+          unzip -q "$engine_archive" -d "$engine_root"
+          godot_bin="$engine_root/Godot_v4.7.2-stable_linux.x86_64"
+          chmod +x "$godot_bin"
+          echo "ASTERFOLD_GODOT=$godot_bin" >> "$GITHUB_ENV"
+          curl --location --fail --retry 3 --output "$template_archive" 'https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_export_templates.tpz'
+          echo 'f298490b8d44d934be425a5a65a51bf15f422428b229a06a6e11d9ffea248011  '"$template_archive" | sha256sum --check
+          template_root="$HOME/.local/share/godot/export_templates/4.7.2.stable"
+          mkdir -p "$template_root"
+          unzip -q "$template_archive" 'templates/*' -d "$RUNNER_TEMP/templates"
+          cp -a "$RUNNER_TEMP/templates/templates/." "$template_root/"
+
+      - name: Run the complete Linux gate
+        shell: bash
+        run: ./game/tools/validate_project.sh
+
+      - name: Upload validation logs and exports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: asterfold-linux-validation
+          path: |
+            game/logs/validation
+            game/builds/windows
+            game/builds/linux
