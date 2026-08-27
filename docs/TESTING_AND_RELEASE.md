@@ -35,13 +35,14 @@ Pure or platform-light tests cover:
 - tree species metrics, deterministic crown variants, and grove placement rules (grid snap, yaw snap, scale range, road shoulder, ground bounds, trunk spacing, row alignment)
 - ambient bird species metrics, the shared baseline body build and its part tags, seeded flock circuits, grove-derived leaf emission points, footfall surface classification against the dirt-road layout, and the placeable nature pieces
 - save serialization, validation, and each migration step
+- title roster identity (`user://character_roster.json`), appearance catalog options, and unique display names
 - input glyph hysteresis and binding conflicts
 
 Tests use fixed time and RNG sources. Floating-point comparisons declare tolerances.
 
 ### Local Godot runner
 
-M0/M1 unit and integration checks run together through `res://tests/run_tests.gd`. That script discovers every `*_tests.gd` file under `res://tests/suites/`, instantiates each as a `TestCase`, and prints `[TEST] suite start|done` lines with check count, fail count, elapsed milliseconds, and `Performance.OBJECT_COUNT` delta. After a suite returns, leftover `SceneTree` root children (except installed `InputRouter`, `ContentDB`, and `GameFlow`) and grown service signal-connection counts fail the run. A session on 2026-08-27 ran 510 checks across 10 suites, of which the `map_maker` suite contributes 18. Content/provenance remains a separate gate: `res://tools/validate_content.gd`.
+M0/M1 unit and integration checks run together through `res://tests/run_tests.gd`. That script discovers every `*_tests.gd` file under `res://tests/suites/`, instantiates each as a `TestCase`, and prints `[TEST] suite start|done` lines with check count, fail count, elapsed milliseconds, and `Performance.OBJECT_COUNT` delta. After a suite returns, leftover `SceneTree` root children (except installed `InputRouter`, `ContentDB`, and `GameFlow`) and grown service signal-connection counts fail the run. A session on 2026-08-27 ran 520 checks across 10 suites, of which `character_roster` contributes 53 and `map_maker` contributes 18. [AMENDED 2026-08-27]: earlier 510-check measurement included a failing roster check that now passes. Content/provenance remains a separate gate: `res://tools/validate_content.gd`.
 
 ```powershell
 godot --headless --path game --script res://tests/run_tests.gd
@@ -58,7 +59,8 @@ godot --headless --path game --script res://tests/run_tests.gd -- --suite=projec
 | `world_content` | `world_content_tests.gd` | Zone manifest, dirt road, placements, trees, grove layout, map-maker catalogs |
 | `tree_grove_runtime` | `tree_grove_runtime_tests.gd` | Grove instantiate, MultiMesh batching, sway vs motion mode |
 | `nature_ambience` | `nature_ambience_tests.gd` | Bird species validation, shared baseline mesh and part tags, flock circuits and MultiMesh, leaf emission points, footfall surface classification, map-maker nature pieces, motion-mode gating |
-| `app_flow_and_persistence` | `app_flow_and_persistence_tests.gd` | Required scenes, settings file including `video`, title busy lock, title audio and button hover, title/field/Video-Accessibility-Controls tabs, missing-zone error |
+| `app_flow_and_persistence` | `app_flow_and_persistence_tests.gd` | Required scenes, settings file including `video`, title busy lock, title audio and button hover, title/field/Video-Accessibility-Controls tabs, Play opening character select, locked-slot tooltip, missing-zone error |
+| `character_roster` | `character_roster_tests.gd` | Display-name rules, appearance catalog channels, three-slot roster with one writable slot, `CharacterRosterStore` backup recovery, 12-column idle/walk playback, appearance composition |
 | `equipment` | `equipment_tests.gd` | Slot/layer contract, loadout rules including two-handed blocking, inventory transactions, item catalog validation, layer composition and caching, the `equipment` binding |
 | `map_maker` | `map_maker_tests.gd` | Map-maker undo/redo snapshot stack including depth cap and redo-branch discard, authoring grid mesh build and toggle, HUD theme styles |
 

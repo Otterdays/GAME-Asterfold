@@ -228,11 +228,17 @@ Runtime models contain primitives, stable IDs, and small value objects. Nodes an
 - `EquipmentSlotCatalog` and `ActorLayerIds` own the closed slot list and the canonical body-layer identities.
 - `EquipmentLoadout` owns occupancy rules: one occupant per slot, set items occupying a single slot, and a two-handed main hand that blocks rather than silently fills the off hand.
 - `PartyInventory` owns instances, bag membership, and equip/unequip transactions, and emits `loadout_changed`.
-- `SpriteLayerCompositor` reacts to the loadout by flattening per-layer art into one texture. It decides nothing about what is equipped.
+- `SpriteLayerCompositor` reacts to the loadout and appearance by flattening per-layer art into one texture. It decides nothing about what is equipped.
 
 There is no equipment autoload. `AppShell` owns one session-scoped `PartyInventory`, the equipment screen sends intent to it, and the zone controller forwards the resulting definitions to the actor's `SpriteActor`. The loadout is discarded on return to title; campaign persistence waits for `SaveService` and the save envelope below.
 
-The compositor recomposes a whole direction sheet on equipment change and caches recent loadouts, so the world actor stays one billboarded quad regardless of layer count.
+The compositor recomposes a whole direction sheet on equipment or appearance change and caches recent keys (limit 24), so the world actor stays one billboarded quad regardless of layer count. Appearance tints (skin, shirt, jeans, boots) and the selected hair style are presentation; they do not change occupancy. Head REPLACE equipment skips the hair pass.
+
+## Title roster identity
+
+Title adventurers are not campaign saves. `CharacterRosterStore` writes `user://character_roster.json` with schema 1, using the same temp-file-first and `.bak` recovery pattern as `SettingsStore`. It is not an autoload and not `SaveService`. The payload is display name, stable `character.<slug>` ID, and appearance option IDs. Zone, inventory, quest, and facet state stay out until `SaveService` exists.
+
+`AppearanceCatalog` is the closed v1 look contract. `CharacterRoster` owns three slots with one writable. `AppShell` loads and saves the roster around title Play.
 
 ## Quest and flag state
 
@@ -262,7 +268,7 @@ The envelope contains:
 - encounter seed state only where explicitly resumable
 - payload checksum
 
-Settings and input bindings are stored separately from campaign saves so accessibility choices apply before loading.
+Settings and input bindings are stored separately from campaign saves so accessibility choices apply before loading. Title roster identity is also stored separately (`user://character_roster.json`) and must not be mistaken for the campaign envelope.
 
 ### Safety
 

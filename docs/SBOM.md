@@ -15,7 +15,7 @@ Software bill of materials for Asterfold. Update on every package install or rem
 
 | Component | Version | Notes |
 | --- | --- | --- |
-| Git | local `main` | No remote as of 2026-08-27 |
+| Git | local `main` tracking `origin` | [AMENDED 2026-08-27]: remote is `https://github.com/Otterdays/GAME-Asterfold.git`. Earlier row said no remote. |
 | Git LFS | enabled | Editable binary source art and runtime audio |
 | Windows validation wrapper | `validate.bat` | Locates exact Godot 4.7.2 Standard |
 | Export templates | official 4.7.2 | SHA-256 `f298490b8d44d934be425a5a65a51bf15f422428b229a06a6e11d9ffea248011` |
@@ -32,6 +32,7 @@ None. `game/addons/` is unused. Adding an addon requires an ADR and a row here.
 
 ## Changes
 
+- 2026-08-27: Added original generated Mara hair atlases and a 12-column layered field/doll kit (`sprite.actor.mara.hair_field`, `sprite.actor.mara.hair_doll`). Project-owned PowerShell generator; no packages or third-party sprites. Title roster JSON lives under `user://` at runtime and is not a vendored dependency.
 - 2026-08-27: Added original prototype title music and UI transients (Karplus-Strong / foley synthesis, no packages or sampled libraries). Git LFS holds the generated WAVs under `game/assets/audio/`.
 - 2026-08-27: Added the Brindlewick nature ambience (bird species definitions, one shared procedural bird body, leaf-fall and footfall particle components, three painted shaders, and three map-maker nature pieces). Project-owned original work built on stock Godot `GPUParticles3D` / `MultiMesh`; no packages, addons, or third-party assets added.
 - 2026-08-27: Added the Brindlewick tree system (species definitions, grove layout, painted trunk/crown shaders, grove components). Project-owned original work; no packages, addons, or third-party assets added.

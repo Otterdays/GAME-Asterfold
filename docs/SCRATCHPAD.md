@@ -6,9 +6,12 @@ Active tasks, blockers, last actions. Compact older blocks into Prior when this 
 
 ## Active (2026-08-27)
 
+- Title adventurer roster shipped: **Play** opens three slots (1 writable, 2 locked with the reason in tooltip and status text; locked buttons stay focusable). Create honours only kit-backed looks. `CharacterRosterStore` writes `user://character_roster.json`; not campaign `SaveService`. Denser Mara kit: 12×5 field sheets (4 idle at 3 fps, 8 walk at 10 fps), starter brown tee / blue jeans / tan boots / short brown hair, separate hair atlases. Runner **520 checks / 10 suites PASS**. Content validator **15 assets / 1 zone PASS**. Field atlas 576×6720 is the correct 12-column size.
+- [AMENDED 2026-08-27] Earlier note that `character_roster` had 1 failing check and that field atlas `(576, 6720)` mismatched expected `(288, 6720)` is resolved: names accept digits (`Wanderer 2`), and the validator expects 12 columns.
+
 - Map maker comfort/beauty pass shipped: `MapMakerHistory` (64-deep whole-world snapshot undo/redo on Ctrl+Z / Ctrl+Shift+Z / Ctrl+Y, covering place, lift, erase, turn, road move), unsaved-work Esc guard, `MapMakerGrid` (`G`, 0.5 m cells, 2 m majors, amber axes, hidden by default), `MapMakerToast` (fading bottom-center confirmations), `MapMakerTheme` (one code-built HUD theme, green selected / red Delete / visible focus ring), red world hover overlay in Delete mode, `Q`/`E` family cycling, `F1` help toggle, status line with piece count + undo depth + saved state, and the removed hard-coded road-count hint.
 - New `map_maker` suite: 18 checks, PASS. Runner measured 510 checks across 10 suites afterwards. Captures: `game/builds/captures/map_maker/ui_overview.png`, `ui_grid_and_toast.png` (windowed Vulkan run, no engine errors).
-- Failure NOT from this pass: `character_roster` reports 1 failing check, and `validate_content.gd` reported `Actor layer kit 'actor.mara' field atlas is (576.0, 6720.0); expected (288, 6720) for 21 layers` during this session. Both belong to the in-flight layered-Mara/roster work. Regenerate the Mara atlas before claiming a green gate.
+- [AMENDED 2026-08-27] Failure note from the map-maker pass is closed: `character_roster` and the 576-wide field atlas now pass with the rest of the gate.
 - Out-of-Scope Observations: map maker still cannot edit spawn markers, grass, camera volumes, walk bounds, or lights; undo history is cleared on launch only, never persisted; toast and grid have no Settings-panel entries.
 
 - Title audio: original 24 s Karplus-Strong lute/foley loop on title; UI hover bling + click; gold hover lift on shell buttons. Scene-owned `TitleShellAudio`, not an AudioDirector autoload.
@@ -56,11 +59,12 @@ Active tasks, blockers, last actions. Compact older blocks into Prior when this 
 ## Blockers
 
 - Real connected-controller hardware acceptance still pending (`MILESTONE_STATUS.md`).
-- No git remote; hosted CI cannot run.
+- [AMENDED 2026-08-27] Git remote `origin` is `https://github.com/Otterdays/GAME-Asterfold.git`. Hosted CI still needs a successful Actions run after push; it was previously blocked by having no remote.
 - Linux exported-runtime execution not proven on a Linux machine.
 
 ## Last 5 actions
 
+0. Documented title roster + 12-column kit; names accept digits; 520 checks / 10 suites PASS; content validator PASS.
 0. Title lute/foley loop, gold hover lift, hover bling, and click transients; scene-owned `TitleShellAudio`.
 0. Title keeps the clearing up through zone instantiate and sinks title/field input until the first idle frame so a second click cannot miss.
 0. Detailed the baseline bird body, added the slate swift variant, and made nature placeable through a map maker **Nature** family; `validate.bat -SkipExports` passes at 413 checks.

@@ -30,8 +30,12 @@ func _test_name_rules() -> void:
 		"Leading spaces are rejected."
 	)
 	_check(
+		AppearanceCatalog.validate_display_name("Wanderer 2").is_empty(),
+		"A numbered default name is accepted."
+	)
+	_check(
 		not AppearanceCatalog.validate_display_name("Name_1").is_empty(),
-		"Digits and underscores are rejected in display names."
+		"Underscores are rejected in display names."
 	)
 	_check(
 		AppearanceCatalog.validate_display_name("Ann-Marie O'Hara").is_empty(),

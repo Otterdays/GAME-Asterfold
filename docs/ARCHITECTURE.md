@@ -38,13 +38,14 @@ The world never rotates. Camera yaw changes. `FacetController` commits authored 
 
 ## Current playable composition
 
-- App shell: title, tabbed settings (Video / Accessibility / Controls), walking-diorama entry, metrics debug entry
+- App shell: title, tabbed settings (Video / Accessibility / Controls), **Play** into character select/create then the walking diorama, metrics debug entry
 - Zone: `zone.brindlewick_square` with geometry, gameplay, and presentation layers
 - Dress: crate, lamp, planter, trees, nature pieces, and graybox buildings instanced by `PlacementLayer` from a zone placement list; map maker also writes dirt-road patch centers, with ghost/hover overlays in the tool
 - Surfaces: independent grass and dirt-road scenes plus materials/shaders
 - Trees: `TreeDefinition` species and a zone-owned `TreeGroveLayout`, built by `TreeGrove3D` as hero `TreeBody3D` bodies plus per-species MultiMesh belts
 - Nature: `NatureAmbience` under the presentation layer owns `AmbientBirdFlock`, `LeafFallEmitter`, and `FootfallMotes`. One baseline bird body serves every `BirdSpeciesDefinition`; standalone flocks and leaf drifts anchor on their own node so the map maker's **Nature** family can place them. `ZoneController` injects the player and fans camera-motion settings to the `ambient_motion` group
-- Actor: original Mara prototype, eight displayed directions from five authored facings, painted as 21 named body layers flattened by `SpriteLayerCompositor` into one billboarded quad
+- Actor: original Mara prototype, eight displayed directions from five authored facings, painted as 21 named body layers plus a hair atlas, flattened by `SpriteLayerCompositor` into one billboarded quad. Field sheets are 12 columns (4 idle + 8 walk). Default look: brown tee, blue jeans, tan boots, short brown hair
+- Title roster: three slots, one writable; `CharacterRosterStore` at `user://character_roster.json`. Not `SaveService`
 - Equipment: closed 16-slot `EquipmentSlotCatalog`, immutable `ItemDefinition` content, session-scoped `PartyInventory` owned by the app shell, and a paper-doll screen on the `equipment` action
 - Camera: long-lens rig, Peek clamp, recenter, motion modes, foreground fade
 - Scout: first-person look from a map pick, presentation-only

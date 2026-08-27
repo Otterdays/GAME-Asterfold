@@ -236,9 +236,9 @@ static func validate_display_name(display_name: String, taken_names: PackedStrin
 	if trimmed.length() > NAME_MAX:
 		errors.append("Name must be at most %d characters." % NAME_MAX)
 	var pattern := RegEx.new()
-	pattern.compile("^[A-Za-z][A-Za-z '\\-]*[A-Za-z]$")
+	pattern.compile("^[A-Za-z][A-Za-z0-9 '\\-]*[A-Za-z0-9]$")
 	if trimmed.length() >= NAME_MIN and pattern.search(trimmed) == null:
-		errors.append("Name may use letters, spaces, hyphens, and apostrophes.")
+		errors.append("Name may use letters, numbers, spaces, hyphens, and apostrophes.")
 	if trimmed.contains("  "):
 		errors.append("Name cannot contain consecutive spaces.")
 	var lowered: String = trimmed.to_lower()

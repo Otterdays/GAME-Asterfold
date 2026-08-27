@@ -86,7 +86,7 @@ The displayed direction is chosen by comparing actor world facing to committed c
 | Hurt / down | 3–6 | as needed | n/a |
 | Calling action | authored by action family | n/a | n/a |
 
-Do not begin full sprite production at this maximum. Validate silhouette, direction switching, scale, and shader behavior with one hero before multiplying the budget.
+Do not begin full sprite production at this maximum. Validate silhouette, direction switching, scale, and shader behavior with one hero before multiplying the budget. The current Mara graybox kit uses the party-member idle and walk counts (4 idle + 8 walk, eight displayed directions from five authored facings).
 
 ### Sprite rendering rules
 
@@ -107,6 +107,8 @@ Actor art is authored as named humanoid layers and flattened before it reaches t
 - Layer draw order is the atlas order. Changing the order is a content regeneration.
 - Graybox equipment recolours the layers it covers and draws accents inside the covered layer's opaque bounds, so direction changes and legal mirroring keep working without per-item art.
 - Equipment must remain readable in grayscale: slot state is always carried by text in the equipment screen, never by colour alone.
+- The graybox hero kit paints a starter outfit (brown t-shirt, blue jeans, tan boots) on those body layers. Hair is a separate atlas with three short styles (`hair.crop`, `hair.fringe`, `hair.tousle`) composited over the head unless a head item uses REPLACE. Hair colour, skin, shirt, jeans, and boots are catalog tints, not extra quads.
+- Each field layer is a 12-column sheet: columns 0–3 idle at 3 fps, columns 4–11 walk at 10 fps, five authored rows with legal mirroring. Sheet size per layer is 576×320. The world actor remains one billboarded quad.
 
 ## Environments
 

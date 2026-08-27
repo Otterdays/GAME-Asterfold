@@ -35,7 +35,7 @@ If the slice exceeds a budget, remove or combine content before silently expandi
 
 ## Experience path
 
-1. Title and accessibility setup.
+1. Title and accessibility setup. [AMENDED 2026-08-27]: title **Play** opens a three-slot adventurer roster (one writable). This is title identity, not campaign save/load.
 2. Arrival at Brindlewick south gate; movement and interaction taught through staging.
 3. Market loop introduces landmark, residents, bell problem, and Peek Orbit.
 4. Bell-work alley anchor teaches a Reveal World Turn.
@@ -46,7 +46,7 @@ If the slice exceeds a budget, remove or combine content before silently expandi
 9. Return to Brindlewick at dusk shows changed staging, dialogue, music, route, and choice consequence.
 10. Save-complete beat and a clear hook, not a trailer pretending the rest of the game exists.
 
-Step 5 remains incomplete. A graybox equipment preview exists ahead of schedule: a layered Mara kit, the closed sixteen-slot catalog, a paper-doll screen on the `equipment` action, and one graybox item per slot. Callings, item stats, shops, battle Item, and equipment persistence are still unbuilt, so the step is not satisfied.
+Step 5 remains incomplete. A graybox equipment preview exists ahead of schedule: a layered Mara kit, the closed sixteen-slot catalog, a paper-doll screen on the `equipment` action, and one graybox item per slot. Callings, item stats, shops, battle Item, and equipment persistence are still unbuilt, so the step is not satisfied. Title roster identity (name and look) is also ahead of campaign saves and does not satisfy slice save/load.
 
 ## Milestones
 
@@ -77,7 +77,7 @@ Exit criteria:
 
 Deliver:
 
-- One Mara prototype sprite with idle/walk in eight directions.
+- One Mara prototype sprite with idle/walk in eight directions. [AMENDED 2026-08-27]: graybox kit now uses 4 idle and 8 walk columns (12×5 sheet) plus a hair atlas and starter clothes; the world actor is still one quad.
 - Long-lens camera rig, Peek Orbit, recenter, camera volumes, and foreground fade.
 - Graybox Brindlewick primary loop with landmark and stable composition.
 - Grounding shader/material test, alpha strategy, contact shadow, and direction hysteresis.

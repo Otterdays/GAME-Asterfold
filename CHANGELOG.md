@@ -8,6 +8,10 @@ The project is currently pre-release, so completed work accumulates under `Unrel
 
 ### Added
 
+- Title adventurer roster: **Play** opens a three-slot select screen (one writable slot, two locked until party companions). Create takes a name plus the looks the layered kit can honour (hair style/colour, skin, shirt, jeans, boots), with a live preview that turns on `fold_left` / `fold_right` and can walk except under reduced camera motion. `CharacterRosterStore` writes `user://character_roster.json` (schema 1, temp-file-first, `.bak` recovery). This is title identity, not campaign `SaveService`.
+- Denser Mara kit: `generate_mara_layers.ps1` now packs 12 columns by 5 rows per field sheet (4 idle + 8 walk), paints a brown tee / blue jeans / tan boots starter, and emits separate hair atlases (`mara_hair_field.png`, `mara_hair_doll.png`) for `hair.crop`, `hair.fringe`, and `hair.tousle`. The world actor stays one billboarded quad. `AppearanceCatalog` owns the closed v1 look IDs; names are 2–16 characters and may use letters, numbers, spaces, hyphens, and apostrophes (default `Wanderer`, then `Wanderer 2`).
+- New `character_roster` test suite covers name rules, catalog channels, slot locks, roster backup recovery, sheet playback, and appearance composition.
+
 - Title shell audio, scene-owned (not an `AudioDirector` autoload): a 24 s looping D-dorian Karplus-Strong lute-and-foley bed (`audio.music.title_fold_between`) plays on title and Settings, fades out when the diorama or metrics room starts, and returns with title. Hovering a shell `BaseButton` lifts and gold-tints it and plays a bell-pluck bling; pressing plays a wood click. Cues are original synthesis from `res://tools/generate_title_audio.gd`. Buses: Master / Music / SFX / UI / Ambience / Voice.
 
 - Added a nature ambience system for Brindlewick, wired through `ZoneController` and gated on camera-motion accessibility:
@@ -67,6 +71,9 @@ The project is currently pre-release, so completed work accumulates under `Unrel
 
 ### Changed
 
+- Title **Play** (node still `StartButton`) opens character select instead of launching Brindlewick immediately. Cancel walks create → select → title menu → quit. The menu plate hides while select/create are up so the clearing stays visible. Metrics still uses the starter look and skips the roster.
+- Mara field sheets are 576×320 per layer (48×64 × 12×5) stacked to 576×6720 for 21 body layers. Hair styles are a second stacked atlas validated against `AppearanceCatalog`. `SpriteSheetPlayback` owns idle 3 fps columns 0–3 and walk 10 fps columns 4–11. The headless runner is 520 checks across 10 suites.
+
 - Title world loads keep the clearing on screen until `GameFlow.load_zone` (or the metrics debug scene) finishes instantiating. A full-screen input sink disables every title action, swallows Cancel/Quit/F10, holds movement and mouse capture, and stays up until the first idle field frame so a second click cannot hit Quit or fall through into the town. **Open Map Maker** uses the same lock around `change_scene_to_file`. This is a cover, not a loading-screen feature; async zone loads remain the M4 plan.
 
 - Moved the road signed-distance query onto `DirtRoadLayout.signed_distance_m` so trees and footfall motes classify ground against the same authored data. `TreeGroveLayout.distance_to_road_m` now delegates to it.
@@ -100,6 +107,8 @@ The project is currently pre-release, so completed work accumulates under `Unrel
 - Made documentation and changelog maintenance the first repository contribution rule. [AMENDED 2026-08-27]: that requirement remains; it is now Rule 2 after `/caveman ultra`.
 
 ### Fixed
+
+- Adventurer display names accept digits so unique defaults such as `Wanderer 2` are valid. Underscores remain rejected.
 
 - Grove invalid-layout fixture now places a known species off the authored ground so the off-surface validation check actually fires.
 

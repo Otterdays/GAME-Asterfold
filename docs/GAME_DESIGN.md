@@ -15,6 +15,16 @@ Any safe state -> Save/Load boundary
 
 The game never saves halfway through a facet commit, scene transition, battle action resolution, or cutscene animation. It records the last stable logical state and resumes presentation from there.
 
+## Title adventurer roster
+
+Preproduction title identity is not a campaign save.
+
+- **Play** opens a three-slot roster. Slot 1 is writable. Slots 2 and 3 stay locked until party companions exist; focusing a locked slot states `Locked. Party companions unlock in a later milestone.`
+- Create asks for a display name (2–16 characters: letters, numbers, spaces, hyphens, apostrophes; unique on the roster, case-insensitive) and cycles looks the layered kit can honour: hair style, hair colour, skin, shirt, jeans, boots. Default look is a brown t-shirt, blue jeans, tan boots, and short brown hair. Default name is `Wanderer`, then `Wanderer 2`.
+- A live preview shows the composed card. `fold_left` / `fold_right` (and on-screen turn buttons) rotate the preview. Walk preview is still while reduced camera motion is on.
+- Callings, extra faces, gender options, and equipment persistence are not title-creation features.
+- Roster identity lives in `user://character_roster.json`. Campaign zone, inventory, and quest state still wait for `SaveService`.
+
 ## Field exploration
 
 ### Movement

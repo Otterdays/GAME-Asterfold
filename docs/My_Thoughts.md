@@ -4,6 +4,20 @@
 
 Decision rationale that is not (or not yet) an ADR. Newest notes at the top.
 
+## 2026-08-27 — Title roster is not SaveService
+
+Campaign saves are still out of scope. The user wanted MapleStory-style creation using only looks the layered kit can honour, three slots, one writable. That is title identity: name, appearance IDs, a stable `character.<slug>`. It is not zone, inventory, quest, or facet state.
+
+`CharacterRosterStore` copies the `SettingsStore` write pattern (validate, temp file, backup, replace) because ADR-0003's safety steps are good I/O, not a reason to invent `SaveService` early. Promoting this file into the campaign envelope would mix two lifetimes and imply progress that does not exist.
+
+Slots 2 and 3 exist so the shell can show party size. They stay locked, focusable, and honest about why. Disabling them would trap keyboard focus.
+
+## 2026-08-27 — Hair atlas, not a 22nd body layer
+
+Hair styles need different silhouettes. Putting them on `layer.head` would fight REPLACE helmets and force a body-atlas regen for every hair. A stacked hair atlas keyed to `AppearanceCatalog` keeps body layers stable, skips hair when the head slot replaces, and still flattens to one world quad. Tints cover shirt/jeans/boots/skin without extra costumes.
+
+Twelve columns (4 idle + 8 walk) match the art-direction party budget for this one hero. Widening the sheet to 576 px is the correct size, not a mismatch against the old 6-column 288 px kit.
+
 ## 2026-08-27 — Title audio stays off the AudioDirector autoload
 
 User asked for a medieval foley menu bed plus hover/click. AudioDirection already lists Title / “The Fold Between” as a prototype cue. Scene ownership is enough: `TitleShellAudio` on `app.tscn`. Promoting `AudioDirector` would need an ADR and a mixer UI we do not have. Hover highlight is visual first so mute still works.

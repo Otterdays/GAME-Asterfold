@@ -25,7 +25,7 @@ The game is in **preproduction**. The Milestone 0 foundation and Milestone 1 wal
 
 1. Download and extract **Godot 4.7.2 Standard** from the [official archive](https://godotengine.org/download/archive/4.7.2-stable/).
 2. Put `Godot_v4.7.2-stable_win64.exe` on your Desktop, add it to `PATH`, or set `ASTERFOLD_GODOT` to its full path.
-3. Double-click `../launch.bat` to open the title screen, then choose **Start Walking Diorama**. A quiet original lute-and-foley loop plays on the menu. Buttons highlight on hover. The clearing stays visible while Brindlewick instantiates; title buttons do not accept a second click during that hitch.
+3. Double-click `../launch.bat` to open the title screen, then choose **Play**. Create or select an adventurer (three slots; two locked). A quiet original lute-and-foley loop plays on the menu. Buttons highlight on hover. The clearing stays visible while Brindlewick instantiates; title buttons do not accept a second click during that hitch.
 
 Use WASD or the left controller stick to move. Hold Space and use WASD, or use the right controller stick, to Peek without changing Mara's movement basis. Look around (V, controller Y, or the field button) opens a top-down map of the zone; click or Confirm to view from that point in first person with a center crosshair and no body. Escape or B leaves first-person view first, then returns to the title screen from the diorama. I or controller Select opens the equipment screen, where the paper doll and slot list cover the head, necklace, shoulders, back, torso, stomach, waist, legs, boots, gloves, four rings, and both hands. F1 or controller Start toggles field help. Menus support keyboard and controller focus throughout.
 
@@ -39,7 +39,7 @@ The complete local gate is one command from the repository root:
 validate.bat
 ```
 
-It locates exactly Godot 4.7.2 Standard and runs import/script parsing, the discovered unit/integration suite (458 checks across 9 suites as of 2026-08-27), content/provenance validation, a runtime smoke, Windows and Linux debug exports, and a Windows exported-build boot smoke. Suite names and `-- --suite=<name>` filtering are in [Testing and Release](../docs/TESTING_AND_RELEASE.md). Build output and logs stay under ignored `game/builds/` and `game/logs/` directories.
+It locates exactly Godot 4.7.2 Standard and runs import/script parsing, the discovered unit/integration suite (520 checks across 10 suites as of 2026-08-27), content/provenance validation, a runtime smoke, Windows and Linux debug exports, and a Windows exported-build boot smoke. Suite names and `-- --suite=<name>` filtering are in [Testing and Release](../docs/TESTING_AND_RELEASE.md). Build output and logs stay under ignored `game/builds/` and `game/logs/` directories.
 
 Install the official pinned export templates once before the first full gate:
 
@@ -47,7 +47,7 @@ Install the official pinned export templates once before the first full gate:
 powershell -ExecutionPolicy Bypass -File game/tools/install_export_templates.ps1
 ```
 
-The installer verifies SHA-256 `f298490b8d44d934be425a5a65a51bf15f422428b229a06a6e11d9ffea248011`. Use `validate.bat -SkipExports` when working on a machine without templates. The checked-in GitHub Actions workflow mirrors the gate on Windows and Linux but remains inactive until this local repository receives a remote.
+The installer verifies SHA-256 `f298490b8d44d934be425a5a65a51bf15f422428b229a06a6e11d9ffea248011`. Use `validate.bat -SkipExports` when working on a machine without templates. The checked-in GitHub Actions workflow mirrors the gate on Windows and Linux. [AMENDED 2026-08-27]: `origin` is `https://github.com/Otterdays/GAME-Asterfold.git`; a successful hosted run after push is still pending.
 
 Visual and performance review entry points are:
 
@@ -62,7 +62,7 @@ powershell -ExecutionPolicy Bypass -File game/tools/run_performance_soak.ps1
 - Typed GDScript 2.0
 - Blender for source environment art
 - Aseprite-compatible source files for sprite animation
-- Local Git on `main`, with Git LFS enabled for editable binary source art and runtime audio
+- Local Git on `main` tracking `origin`, with Git LFS enabled for editable binary source art and runtime audio
 - Internal map maker: title **Open Map Maker**, or `map_maker.bat` from the repository root; see [Content Pipeline](../docs/CONTENT_PIPELINE.md)
 
 The exact engine patch is intentionally pinned. See [ADR-0001](../docs/decisions/0001-engine-and-language.md).

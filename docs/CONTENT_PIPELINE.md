@@ -10,6 +10,7 @@ Every persistent or cross-referenced definition has a stable lowercase namespace
 
 ```text
 actor.mara
+character.wanderer
 calling.wayfinder
 ability.wayfinder.thread_needle
 item.consumable.sunmint_draught
@@ -273,12 +274,13 @@ The validator checks that reachable targets have safe markers, no marker overlap
 
 Until Aseprite sources exist, `game/tools/generate_mara_layers.ps1` is the deterministic source of the Mara kit. One run produces:
 
-- `mara_layers_field.png`: the 21 field layers stacked vertically, each a full 288 x 320 direction sheet.
+- `mara_layers_field.png`: the 21 field layers stacked vertically, each a full 576 x 320 direction sheet (48 x 64 frames in 12 columns by 5 rows: 4 idle, 8 walk).
 - `mara_layers_doll.png`: the 31 paper-doll layers stacked horizontally, each a 96 x 128 south idle frame.
+- `mara_hair_field.png` / `mara_hair_doll.png`: one stacked sheet per hair style (`hair.crop`, `hair.fringe`, `hair.tousle`), matching `AppearanceCatalog` IDs. Hair is a second atlas, not a 22nd body layer and not a second world quad.
 - `mara_prototype.png`: the flattened unequipped field sheet used as the fallback texture.
-- `mara_layers.source.json`: provenance plus the exact field and doll layer orders.
+- `mara_layers.source.json`: provenance plus the exact field and doll layer orders, frame counts, and hair style IDs.
 
-Both atlases are copied into `assets/generated/characters/mara/` and recorded in `assets/asset_manifest.json`. `ActorLayerKit` (`content/actors/mara_layer_kit.tres`) points the runtime at them, and the content validator fails if the generated layer order disagrees with `ActorLayerIds`.
+Both body atlases and both hair atlases are copied into `assets/generated/characters/mara/` and recorded in `assets/asset_manifest.json`. `ActorLayerKit` (`content/actors/mara_layer_kit.tres`) points the runtime at them. The content validator fails if generated layer order disagrees with `ActorLayerIds`, if hair style IDs disagree with `AppearanceCatalog`, or if a field sheet is not 12 columns.
 
 ### Equipment definitions
 
