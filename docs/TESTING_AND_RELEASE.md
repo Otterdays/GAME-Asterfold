@@ -41,7 +41,7 @@ Tests use fixed time and RNG sources. Floating-point comparisons declare toleran
 
 ### Local Godot runner
 
-M0/M1 unit and integration checks run together through `res://tests/run_tests.gd`. That script discovers every `*_tests.gd` file under `res://tests/suites/`, instantiates each as a `TestCase`, and prints `[TEST] suite start|done` lines with check count, fail count, elapsed milliseconds, and `Performance.OBJECT_COUNT` delta. After a suite returns, leftover `SceneTree` root children (except installed `InputRouter`, `ContentDB`, and `GameFlow`) and grown service signal-connection counts fail the run. A passing session prints `[TEST] PASS: 458 checks across 9 suites.` as of 2026-08-27. Content/provenance remains a separate gate: `res://tools/validate_content.gd`.
+M0/M1 unit and integration checks run together through `res://tests/run_tests.gd`. That script discovers every `*_tests.gd` file under `res://tests/suites/`, instantiates each as a `TestCase`, and prints `[TEST] suite start|done` lines with check count, fail count, elapsed milliseconds, and `Performance.OBJECT_COUNT` delta. After a suite returns, leftover `SceneTree` root children (except installed `InputRouter`, `ContentDB`, and `GameFlow`) and grown service signal-connection counts fail the run. A session on 2026-08-27 ran 510 checks across 10 suites, of which the `map_maker` suite contributes 18. Content/provenance remains a separate gate: `res://tools/validate_content.gd`.
 
 ```powershell
 godot --headless --path game --script res://tests/run_tests.gd

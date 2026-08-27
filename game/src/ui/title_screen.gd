@@ -18,8 +18,8 @@ signal roster_changed
 @onready var _input_catcher: Control = %InputCatcher
 @onready var _menu: Control = %Menu
 @onready var _menu_plate: Control = %Plate
-@onready var _character_select: Control = %CharacterSelectScreen
-@onready var _character_create: Control = %CharacterCreateScreen
+@onready var _character_select = %CharacterSelectScreen
+@onready var _character_create = %CharacterCreateScreen
 
 var _busy: bool = false
 var _start_available: bool = true

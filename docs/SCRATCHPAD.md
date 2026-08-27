@@ -6,6 +6,11 @@ Active tasks, blockers, last actions. Compact older blocks into Prior when this 
 
 ## Active (2026-08-27)
 
+- Map maker comfort/beauty pass shipped: `MapMakerHistory` (64-deep whole-world snapshot undo/redo on Ctrl+Z / Ctrl+Shift+Z / Ctrl+Y, covering place, lift, erase, turn, road move), unsaved-work Esc guard, `MapMakerGrid` (`G`, 0.5 m cells, 2 m majors, amber axes, hidden by default), `MapMakerToast` (fading bottom-center confirmations), `MapMakerTheme` (one code-built HUD theme, green selected / red Delete / visible focus ring), red world hover overlay in Delete mode, `Q`/`E` family cycling, `F1` help toggle, status line with piece count + undo depth + saved state, and the removed hard-coded road-count hint.
+- New `map_maker` suite: 18 checks, PASS. Runner measured 510 checks across 10 suites afterwards. Captures: `game/builds/captures/map_maker/ui_overview.png`, `ui_grid_and_toast.png` (windowed Vulkan run, no engine errors).
+- Failure NOT from this pass: `character_roster` reports 1 failing check, and `validate_content.gd` reported `Actor layer kit 'actor.mara' field atlas is (576.0, 6720.0); expected (288, 6720) for 21 layers` during this session. Both belong to the in-flight layered-Mara/roster work. Regenerate the Mara atlas before claiming a green gate.
+- Out-of-Scope Observations: map maker still cannot edit spawn markers, grass, camera volumes, walk bounds, or lights; undo history is cleared on launch only, never persisted; toast and grid have no Settings-panel entries.
+
 - Title audio: original 24 s Karplus-Strong lute/foley loop on title; UI hover bling + click; gold hover lift on shell buttons. Scene-owned `TitleShellAudio`, not an AudioDirector autoload.
 
 - Title world-load lock: keep the clearing visible until `load_zone` / metrics instantiate returns; `WorldLoadBlocker` plus disabled title actions swallow clicks, Cancel, and F10 until the first idle field frame. Map maker uses the same lock around `change_scene_to_file`. No dedicated loading-screen UI.

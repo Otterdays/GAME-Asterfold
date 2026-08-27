@@ -18,6 +18,15 @@ The project is currently pre-release, so completed work accumulates under `Unrel
   - One baseline bird body for every species: `AmbientBirdFlock.build_bird_mesh(definition)` builds head, beak, tapered body, two-segment swept wings, and a forkable tail from the definition's ratios and tags each part in UV.x, so the shared shader recolours body, belly, head, beak, wing, wingtip, and tail per variant. `slate_swift.tres` is the first variant and adds no geometry code.
   - Map maker **Nature** family: `piece.bird_roost`, `piece.swift_roost`, and `piece.leaf_drift` place ambient life anywhere on the square. Standalone flocks circle their own node and standalone leaf drifts shed from a local ring, so no grove is required. Placed pieces join the `ambient_motion` group and `ZoneController` fans accessibility settings to them.
 
+- Map maker authoring comfort and HUD polish:
+  - Undo and redo for every world edit (place, lift, erase, turn, road move) through `MapMakerHistory`, a 64-deep whole-world snapshot stack. Ctrl+Z undoes, Ctrl+Shift+Z or Ctrl+Y redoes, and a new edit discards the stale redo branch. Undo marks the world unsaved because the file on disk no longer matches the scene.
+  - Unsaved-work guard: Esc closes Settings first, then warns once before it quits.
+  - `MapMakerGrid`: an authoring-only additive line overlay across the zone validation bounds, 0.5 m cells with brighter lines every 2 m and amber world axes, hidden until `G`.
+  - `MapMakerToast`: bottom-center fading confirmation for saves, save failures, undo, redo, grid toggles, and the unsaved-quit warning.
+  - `MapMakerTheme`: one code-built theme for the palette, Settings panel, tooltip, and toast, giving translucent dark panels, rounded buttons, a green fill on the selected piece, a red fill on Delete, and a visible keyboard focus ring. The hover overlay in the world turns red while Delete mode is on.
+  - `Q`/`E` cycle families, `F1` hides the help line, and the status line now reports placed piece count, undo depth, and saved/unsaved state. Family switching no longer assumes a hard-coded road-patch count.
+  - New `map_maker` test suite covers the history stack, its depth cap, redo-branch discard, grid mesh build and toggle, and the theme styles. Captures: `game/builds/captures/map_maker/`.
+
 - Map maker placement QoL: click the held piece on its own footprint to unplace it, live ghost follows the cursor, amber overlay highlights any editable dress piece under the mouse, and a short right-click deletes. Palette labels size to their text so names are not clipped. Right-drag still pans after a 6 px threshold.
 
 - Rebuilt Mara as a layered humanoid kit. `ActorLayerIds` declares 21 field body layers (head; torso, stomach, waist, pelvis; and per side shoulder, upper arm, forearm, hand, thigh, knee, calf, foot) and 31 paper-doll layers that add five fingers per hand. `game/tools/generate_mara_layers.ps1` emits a packed field atlas, a packed 96x128 doll atlas, the flattened fallback sheet, and provenance; the content validator fails if the generated layer order disagrees with the runtime contract.

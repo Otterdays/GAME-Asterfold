@@ -38,6 +38,30 @@
       "review_status": "Approved for the graybox layered kit only"
     },
     {
+      "id": "sprite.actor.mara.hair_field",
+      "source": "res://art_source/characters/mara/mara_hair_field.png",
+      "runtime": "res://assets/generated/characters/mara/mara_hair_field.png",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_tool": "res://tools/generate_mara_layers.ps1",
+      "generation_model": null,
+      "prompt_record": null,
+      "review_status": "Approved for the graybox layered kit only"
+    },
+    {
+      "id": "sprite.actor.mara.hair_doll",
+      "source": "res://art_source/characters/mara/mara_hair_doll.png",
+      "runtime": "res://assets/generated/characters/mara/mara_hair_doll.png",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_tool": "res://tools/generate_mara_layers.ps1",
+      "generation_model": null,
+      "prompt_record": null,
+      "review_status": "Approved for the graybox layered kit only"
+    },
+    {
       "id": "material.environment.tree_trunk",
       "source": "res://assets/materials/environment/tree_trunk.gdshader",
       "runtime": "res://assets/materials/environment/tree_trunk_material.tres",

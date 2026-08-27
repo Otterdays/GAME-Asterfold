@@ -39,7 +39,7 @@ The complete local gate is one command from the repository root:
 validate.bat
 ```
 
-It locates exactly Godot 4.7.2 Standard and runs import/script parsing, the discovered unit/integration suite (426 checks across 8 suites as of 2026-08-27), content/provenance validation, a runtime smoke, Windows and Linux debug exports, and a Windows exported-build boot smoke. Suite names and `-- --suite=<name>` filtering are in [Testing and Release](../docs/TESTING_AND_RELEASE.md). Build output and logs stay under ignored `game/builds/` and `game/logs/` directories.
+It locates exactly Godot 4.7.2 Standard and runs import/script parsing, the discovered unit/integration suite (458 checks across 9 suites as of 2026-08-27), content/provenance validation, a runtime smoke, Windows and Linux debug exports, and a Windows exported-build boot smoke. Suite names and `-- --suite=<name>` filtering are in [Testing and Release](../docs/TESTING_AND_RELEASE.md). Build output and logs stay under ignored `game/builds/` and `game/logs/` directories.
 
 Install the official pinned export templates once before the first full gate:
 

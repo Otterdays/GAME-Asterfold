@@ -6,6 +6,8 @@ const REQUIRED_SCENES: Array[String] = [
 	"res://scenes/characters/mara_player.tscn",
 	"res://scenes/world/world_camera_rig.tscn",
 	"res://content/zones/brindlewick_square/brindlewick_square.tscn",
+	"res://scenes/ui/character_select_screen.tscn",
+	"res://scenes/ui/character_create_screen.tscn",
 ]
 const TEST_SETTINGS_PATH: String = "user://asterfold_test_settings.cfg"
 
@@ -141,6 +143,23 @@ func _test_app_flow_and_movement() -> void:
 	var start_button: Button = app.find_child("StartButton", true, false) as Button
 	_check(title_screen != null and title_screen.visible, "Title screen is visible after boot.")
 	_check(start_button != null and start_button.has_focus(), "Title screen assigns deterministic initial focus.")
+	_check(start_button != null and start_button.text == "Play", "Title Play opens the adventurer roster.")
+	var select_screen: Control = app.find_child("CharacterSelectScreen", true, false) as Control
+	title_screen.call(&"_on_start_pressed")
+	await tree.process_frame
+	_check(select_screen != null and select_screen.visible, "Play shows the three-slot character select.")
+	var locked_button: Button = null
+	for child: Node in select_screen.find_children("*", "Button", true, false):
+		var button: Button = child as Button
+		if button != null and button.text == "Locked":
+			locked_button = button
+			break
+	_check(
+		locked_button != null and not locked_button.disabled and locked_button.tooltip_text.contains("later milestone"),
+		"Two later character slots stay locked with a text reason."
+	)
+	title_screen.call(&"_show_menu")
+	await tree.process_frame
 	var title_audio: Node = app.find_child("TitleShellAudio", true, false)
 	_check(
 		title_audio != null and bool(title_audio.call(&"is_menu_music_active")),

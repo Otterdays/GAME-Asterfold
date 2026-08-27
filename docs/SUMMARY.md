@@ -12,8 +12,8 @@ Agent start-here. Product law remains `AGENTS.md` plus the documents in [README.
 - Phase: preproduction. M0 foundation and M1 walking diorama are implemented locally. Next target: M2 World Turns
 - Repository: local `main`, Git LFS, no remote
 - Agent contract: `/caveman ultra` is Rule 1 in `AGENTS.md`
-- Tests: `run_tests.gd` discovers eight `TestCase` suites; details in [TESTING_AND_RELEASE.md](TESTING_AND_RELEASE.md)
-- Internal map maker: `map_maker.bat` or title **Open Map Maker** loads the live Brindlewick zone and edits placements plus roads. `GameFlow` still does not own it. Cursor follow and idle restore are map-maker Settings options.
+- Tests: `run_tests.gd` discovers ten `TestCase` suites; details in [TESTING_AND_RELEASE.md](TESTING_AND_RELEASE.md)
+- Internal map maker: `map_maker.bat` or title **Open Map Maker** loads the live Brindlewick zone and edits placements plus roads. `GameFlow` still does not own it. Cursor follow and idle restore are map-maker Settings options. Undo/redo (Ctrl+Z / Ctrl+Y), an unsaved-work Esc guard, a toggleable 0.5 m authoring grid (`G`), and toast confirmations are built in.
 
 ## What runs today
 
@@ -30,7 +30,7 @@ Out of scope until later milestones: World Turns, navigation topology changes, p
 3. Title: **Start Walking Diorama**
 4. Move: WASD or left stick. Peek: mouse (captured on start), Space+WASD, or right stick. Look around: **Look around** / V / Controller Y, then click the map. Idle 10s restores authored Peek. Equipment: I / Controller Select. Field help: F1 / Start. Return: Escape / B
 
-Validate: `validate.bat`. Tests: `godot --headless --path game --script res://tests/run_tests.gd` (458 checks, 9 suites).
+Validate: `validate.bat`. Tests: `godot --headless --path game --script res://tests/run_tests.gd` (510 checks, 10 suites as measured 2026-08-27; one unrelated in-flight `character_roster` check currently fails, see [SCRATCHPAD.md](SCRATCHPAD.md)).
 
 Internal map maker: `map_maker.bat`, or **Open Map Maker** on the title screen.
 

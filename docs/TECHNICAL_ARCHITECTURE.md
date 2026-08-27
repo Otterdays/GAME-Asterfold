@@ -326,7 +326,7 @@ Vertical-slice reference budgets are in `AGENTS.md`; measurement procedure is in
 
 ## Validation entry points
 
-From the workspace root, Windows contributors run `validate.bat`. That wrapper locates Godot 4.7.2 Standard and runs import/script parsing, the discovered `TestCase` suite (`res://tests/run_tests.gd`, 426 checks across 8 suites as of 2026-08-27), content/provenance validation, a runtime smoke, debug exports, and the Windows exported-build boot smoke. Suite names, leak checks, and `--suite=` filtering are documented in `docs/TESTING_AND_RELEASE.md`.
+From the workspace root, Windows contributors run `validate.bat`. That wrapper locates Godot 4.7.2 Standard and runs import/script parsing, the discovered `TestCase` suite (`res://tests/run_tests.gd`, 458 checks across 9 suites as of 2026-08-27), content/provenance validation, a runtime smoke, debug exports, and the Windows exported-build boot smoke. Suite names, leak checks, and `--suite=` filtering are documented in `docs/TESTING_AND_RELEASE.md`.
 
 Direct Godot entry points remain:
 

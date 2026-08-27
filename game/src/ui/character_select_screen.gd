@@ -240,7 +240,7 @@ func _apply_interactive_state(reason: String) -> void:
 	_back_button.tooltip_text = reason if _busy else "Return to the title menu."
 	for index: int in _slot_buttons.size():
 		var locked: bool = _roster != null and _roster.is_locked(index)
-		_slot_buttons[index].disabled = _busy or locked
+		_slot_buttons[index].disabled = _busy
 		if _busy:
 			_slot_buttons[index].tooltip_text = reason
 		_delete_buttons[index].disabled = _busy

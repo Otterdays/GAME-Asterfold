@@ -415,6 +415,11 @@ func _validate_actor_layer_kit() -> void:
 				"field"
 			)
 			_compare_layer_order(
+				(export_settings as Dictionary).get("doll_layer_order", []),
+				ActorLayerIds.DOLL_LAYER_ORDER,
+				"doll"
+			)
+			_compare_layer_order(
 				(export_settings as Dictionary).get("hair_style_ids", []),
 				AppearanceCatalog.HAIR_STYLE_ORDER,
 				"hair style"
