@@ -15,11 +15,11 @@ The game is in **preproduction**. The Milestone 0 foundation and Milestone 1 wal
 
 ## Start here
 
-1. Read [AGENTS.md](../AGENTS.md) for project rules and architectural boundaries.
-2. Read [Changelog](../CHANGELOG.md) for the current `Unreleased` implementation record.
+1. Read [AGENTS.md](../AGENTS.md). Agents apply `/caveman ultra` first.
+2. Read [Summary](../docs/SUMMARY.md) for the current snapshot, then [Changelog](../CHANGELOG.md) for `Unreleased` work.
 3. Read [Vision](../docs/VISION.md) for the player promise.
 4. Read [Vertical Slice](../docs/VERTICAL_SLICE.md) for the active build target.
-5. Use the discipline-specific documents under `../docs/` before implementation.
+5. Use the discipline-specific documents under `../docs/` before implementation. See [docs/README.md](../docs/README.md) for the full map.
 
 ## Run the prototype on Windows
 
@@ -71,6 +71,8 @@ The exact engine patch is intentionally pinned. See [ADR-0001](../docs/decisions
 | Document | Owns |
 | --- | --- |
 | [Changelog](../CHANGELOG.md) | Demonstrated additions, changes, and fixes not yet included in a versioned build |
+| [Summary](../docs/SUMMARY.md) | Agent start-here snapshot and quick links |
+| [Milestone Status](../docs/MILESTONE_STATUS.md) | Demonstrated M0/M1 evidence and pending acceptance |
 | [Vision](../docs/VISION.md) | Player promise, pillars, audience, constraints |
 | [Game Design](../docs/GAME_DESIGN.md) | Exploration, World Turns, combat, progression, towns |
 | [Art Direction](../docs/ART_DIRECTION.md) | Diorama look, camera, sprite and environment standards |

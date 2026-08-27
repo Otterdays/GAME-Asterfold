@@ -8,12 +8,17 @@ The project is currently pre-release, so completed work accumulates under `Unrel
 
 ### Added
 
+- Vendored the `/caveman` skill at `.cursor/skills/caveman/SKILL.md` with Asterfold default intensity **ultra**, plus an always-on Cursor rule, so agents can follow Rule 1 without a marketplace plugin.
+- Added a root README and agent status docs under `docs/` (`SUMMARY`, `SCRATCHPAD`, `SBOM`, `STYLE_GUIDE`, `ARCHITECTURE`, `My_Thoughts`, `docs/README`, `debugs/`).
 - Established the local Godot 4.7.2 M0 foundation, validation/export gate, title and settings shell, runtime service boundaries, and Git/LFS baseline.
 - Delivered the M1 Brindlewick walking diorama with Mara locomotion, eight-direction presentation, long-lens Peek camera, foreground fading, capture fixtures, and performance-soak tooling.
 - Added independently owned grass and dirt-road surface scenes, materials, and procedural shaders for Brindlewick.
 
 ### Changed
 
+- Made `/caveman ultra` the first agent contribution rule. Documentation and changelog maintenance is now Rule 2.
+- Corrected handbook current-phase language: M0 and M1 are implemented locally; M2 World Turns is the next target.
+- Documented `validate.bat` as the current Windows validation wrapper in `AGENTS.md` and `docs/TECHNICAL_ARCHITECTURE.md`.
 - Upgraded Brindlewick grass from a flat color to broad world-scale painted variation with restrained tuft detail.
 - Rebuilt Brindlewick's dirt road as a single rounded distance-field network driven by a validated layout resource, eliminating box-overlap seams and separating route data, rendering behavior, and material styling.
 - Deepened the dirt-road treatment with organically varied edges, continuous softened junctions, compacted center wear, broken twin cart ruts, sharply defined directional scuffs, and two anti-aliased scales of embedded gravel.

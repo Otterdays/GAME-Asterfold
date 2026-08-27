@@ -1,0 +1,12 @@
+---
+description: Always load /caveman ultra before any other Asterfold work.
+alwaysApply: true
+---
+
+# Caveman ultra first
+
+Before any other reading, tool use, or reply: read `.cursor/skills/caveman/SKILL.md` and operate at **ultra**.
+
+Chat replies follow caveman ultra. Code, comments, commits, documentation, and PR/issue text stay normal prose.
+
+Off only if the user says `stop caveman` or `normal mode`. If the skill file is missing, apply ultra from `AGENTS.md` Rule 1 anyway.

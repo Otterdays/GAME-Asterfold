@@ -2,11 +2,35 @@
 
 This file is the operating contract for every human or automated contributor working on Asterfold. Read it before changing Asterfold code, content, scenes, imports, build scripts, or documentation.
 
-## Rule 1: update documentation and the changelog
+## Rule 1: apply `/caveman ultra` first
+
+Every Asterfold agent task starts here. Before reading other documents, calling tools, or writing a reply:
+
+1. Load `.cursor/skills/caveman/SKILL.md`.
+2. Set intensity to **ultra** (`/caveman ultra`).
+3. Keep that intensity for the rest of the session unless the user says `stop caveman` or `normal mode`.
+
+Chat replies follow caveman ultra. Code, comments, commits, documentation, issue/PR text, and memory files stay normal prose.
+
+If the skill file is missing, apply the ultra rules in that file's documented form anyway. Do not skip this rule because a slash command, plugin, or marketplace install failed.
+
+Ultra in chat:
+
+- Drop articles, filler, pleasantries, and hedging.
+- Strip conjunctions when cause-then-effect stays unambiguous.
+- One word when one word is enough. State each fact once.
+- No invented prose abbreviations and no causal arrows.
+- Technical terms, code, paths, commands, and error strings stay exact.
+- Pattern: `[thing] [action] [reason]. [next step].`
+- Drop caveman for security warnings, irreversible confirmations, or sequences that become ambiguous without conjunctions; resume after.
+
+## Rule 2: update documentation and the changelog
 
 Every change must update `CHANGELOG.md` and every affected source-of-truth document in the same commit. Do this proportionally, but do not skip it: implementation, asset, tooling, test, and process changes all need an `Unreleased` changelog entry plus documentation that lets the next contributor find, operate, and extend the result without reverse-engineering it. Documentation-only changes still update the changelog.
 
 Before implementation, identify which documents own the behavior being changed. Before completion, verify the changelog and those documents describe only behavior actually demonstrated. A change with stale documentation or no changelog entry is incomplete.
+
+Agent status docs under `docs/` (`SUMMARY.md`, `SCRATCHPAD.md`, `SBOM.md`, and related files) are part of this rule. Product truth still lives in the documents listed under Source-of-truth order.
 
 ## Project scope
 
@@ -51,7 +75,7 @@ Code is evidence of current behavior, not permission to silently change intended
 
 ## Required reading by task
 
-- Any Asterfold task: this file, `game/README.md`, and `docs/VISION.md`.
+- Any Asterfold task: Rule 1 (`.cursor/skills/caveman/SKILL.md` at ultra), this file, `docs/SUMMARY.md`, `docs/SCRATCHPAD.md`, `game/README.md`, and `docs/VISION.md`.
 - Gameplay or UI: add `docs/GAME_DESIGN.md` and `docs/ACCESSIBILITY_AND_UX.md`.
 - Rendering, camera, scene, shader, or asset work: add `docs/ART_DIRECTION.md`, `docs/TECHNICAL_ARCHITECTURE.md`, and ADR-0002.
 - Systems, saving, tools, or data: add `docs/TECHNICAL_ARCHITECTURE.md`, `docs/CONTENT_PIPELINE.md`, and ADR-0003.
@@ -61,7 +85,7 @@ Code is evidence of current behavior, not permission to silently change intended
 
 ## Current phase
 
-Asterfold begins in **preproduction / Milestone 0**. Documentation is intentionally landing before the playable scaffold. Do not attempt the full game first. The next implementation target is the walking diorama described in `docs/VERTICAL_SLICE.md`; after that, build one complete vertical slice before expanding content.
+Asterfold is in **preproduction**. Milestone 0 foundation and Milestone 1 walking diorama are implemented locally; demonstrated evidence lives in `docs/MILESTONE_STATUS.md`. Do not attempt the full game. The next implementation target is **M2 World Turns** in `docs/VERTICAL_SLICE.md`; after that, finish one complete vertical slice before expanding content.
 
 Scope rules:
 
@@ -88,7 +112,10 @@ Keep responsibilities recognizable as the project grows:
 
 ```text
 AGENTS.md               Asterfold project contract
-docs/                   Asterfold product and engineering truth
+.cursor/skills/caveman/ vendored `/caveman` skill; Asterfold default is ultra
+.cursor/rules/          always-on Cursor rules, including caveman ultra
+README.md               user-facing project entry
+docs/                   Asterfold product, engineering, and agent status truth
 game/                   standalone Godot project root
   addons/               pinned third-party Godot addons
   art_source/           editable .aseprite, .blend, layered source art
@@ -189,17 +216,19 @@ Budgets are guardrails, not excuses to degrade the art prematurely. Profile repr
 
 For each change:
 
-1. Inspect repository status, read the documents required for the task, and reserve the appropriate `CHANGELOG.md` entry and documentation updates.
-2. State the smallest player-visible or tool-visible outcome and its acceptance checks.
-3. Search for an existing owner, pattern, and test before adding a new abstraction.
-4. Implement the smallest vertical slice of the change through data, domain, presentation, accessibility, and verification as applicable.
-5. Run focused tests, then the standard validation suite. Open the relevant scene when visual behavior changes.
-6. Complete the changelog, affected documentation, content schemas, fixtures, and save migrations in the same change.
-7. Report what changed, what was verified, and any residual risk. Never claim a visual result that was not run or captured.
+1. Apply Rule 1 (`/caveman ultra`) before any other work.
+2. Inspect repository status, read the documents required for the task (`docs/SUMMARY.md`, `docs/SBOM.md`, `docs/SCRATCHPAD.md`, `docs/STYLE_GUIDE.md`, then the product docs for the change), and reserve the appropriate `CHANGELOG.md` entry and documentation updates.
+3. State the smallest player-visible or tool-visible outcome and its acceptance checks.
+4. Search for an existing owner, pattern, and test before adding a new abstraction.
+5. Implement the smallest vertical slice of the change through data, domain, presentation, accessibility, and verification as applicable.
+6. Run focused tests, then the standard validation suite. Open the relevant scene when visual behavior changes.
+7. Complete the changelog, affected documentation, content schemas, fixtures, and save migrations in the same change.
+8. Report what changed, what was verified, and any residual risk. Never claim a visual result that was not run or captured.
 
-Before the code scaffold exists, command examples below describe the required contract for Milestone 0. Once scripts are added, keep these entry points stable:
+Keep these validation entry points stable. On Windows, `validate.bat` is the supported wrapper for the same gate:
 
 ```powershell
+validate.bat
 godot --editor --path game
 godot --headless --editor --quit --path game
 godot --headless --path game --script res://tests/run_tests.gd

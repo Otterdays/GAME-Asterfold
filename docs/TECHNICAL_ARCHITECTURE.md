@@ -298,9 +298,11 @@ Vertical-slice reference budgets are in `AGENTS.md`; measurement procedure is in
 - No addon may become the sole readable representation of core battle, save, or facet state.
 - Network access is not part of the runtime vertical slice.
 
-## Planned validation entry points
+## Validation entry points
 
-From the workspace root after Milestone 0:
+From the workspace root, Windows contributors run `validate.bat`. That wrapper locates Godot 4.7.2 Standard and runs import/script parsing, the unit/integration suite, content/provenance validation, a runtime smoke, debug exports, and the Windows exported-build boot smoke.
+
+Direct Godot entry points remain:
 
 ```powershell
 godot --headless --editor --quit --path game
@@ -308,4 +310,4 @@ godot --headless --path game --script res://tests/run_tests.gd
 godot --headless --path game --script res://tools/validate_content.gd
 ```
 
-Milestone 0 must make these commands real or provide stable wrapper scripts that preserve their intent.
+If `godot` is not on `PATH`, use `$ASTERFOLD_GODOT` or the Desktop convention documented in `game/README.md`. Do not hard-code a contributor's local path.
