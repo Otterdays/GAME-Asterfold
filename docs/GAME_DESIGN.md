@@ -51,6 +51,10 @@ Peek Orbit is available through captured mouse look, the right stick, or assigne
 
 Peek is the everyday answer to “I want to feel inside this 2D world.” It is tactile presentation, not a puzzle state.
 
+### First-person look
+
+Look around is a presentation-only scout. The player opens a top-down map of the current zone, clicks (or confirms) a point, and views from that ground-relative eye height with a center crosshair and no visible body. It does not move Mara, change collision, or commit a facet. Cancel or Leave view returns to the diorama camera.
+
 ## World Turns
 
 World Turns are authored, meaningful quarter-turn changes to a zone's active **facet**. They are not arbitrary rotation of world transforms.
@@ -224,11 +228,41 @@ Save, rest, equipment, Calling adjustment, and quest recall must be available th
 | Confirm / interact | Interact | Confirm |
 | Cancel | Back / close | Back one level |
 | Menu | Open field menu | Context pause |
+| Equipment | Open the equipment screen | Return to equipment from a submenu |
 | Peek | Orbit camera | Inspect combatant/detail |
 | Fold left/right | Commit valid World Turn | Cycle target group/page |
 | Shoulder actions | Quick party/status view | Cycle actors/targets |
 
 Bindings are semantic and fully remappable. Prompts update when the active input device changes without rapid icon flicker.
+
+Default equipment bindings are keyboard `I` and controller Select/Back. `E` and `Q` remain World Turn right and left; equipment never takes a World Turn key. Every semantic action, including equipment, appears in the title Controls list for remapping.
+
+## Equipment slots and body regions
+
+Anatomy and equipment are deliberately two maps. Body regions exist so the player can point at a knee or a ring finger; equipment slots exist so gear stays legible.
+
+The paper doll addresses 31 body layers: head; torso, stomach, waist, and pelvis; and per side a shoulder, upper arm, forearm, hand, five fingers, thigh, knee, calf, and foot. World cards collapse the ten finger layers into their hand because 32 pixels per metre cannot resolve a finger.
+
+The v1 slot catalog is closed at sixteen slots:
+
+| Slot | Covers |
+| --- | --- |
+| Head | Head |
+| Necklace | Neck and upper chest accent |
+| Shoulders | Both shoulders as one set |
+| Back | Cloak accent over the torso |
+| Torso | Torso and upper arms |
+| Stomach | Abdomen |
+| Waist | Waist |
+| Legs | Pelvis, thighs, knees, calves |
+| Boots | Both feet as one set |
+| Gloves | Both hands and all ten fingers as one set |
+| Ring x4 | Right index, right ring finger, left index, left ring finger |
+| Main hand, Off hand | Held items; a two-handed main hand blocks the off hand |
+
+Selecting a body region focuses the slot that governs it: a knee or calf focuses Legs, a thumb focuses Gloves, and a ring finger focuses its own ring. Rings draw over gloves so all four stay visible. Replacement items repaint the layers they cover; accent items such as headwear, necklaces, rings, and held tools draw on top of whatever is already there. Headwear is an accent so it never repaints the face, which outranks costume detail in the readability order.
+
+Adding, removing, or splitting a slot is a content and save migration, not a text edit. Per-finger armour, independent left and right gloves, and jewelry beyond the necklace and four rings are out of scope for v1.
 
 ## Tuning principles
 

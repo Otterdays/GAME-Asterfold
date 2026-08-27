@@ -6,6 +6,13 @@ extends Resource
 @export var placements: Array[ZonePlacement] = []
 
 
+func get_placement_at(grid_x: int, grid_z: int, catalog: WorldPieceCatalog = null) -> ZonePlacement:
+	var index: int = find_index(grid_x, grid_z, catalog)
+	if index < 0:
+		return null
+	return placements[index]
+
+
 func find_index(grid_x: int, grid_z: int, catalog: WorldPieceCatalog = null) -> int:
 	for index: int in placements.size():
 		var placement: ZonePlacement = placements[index]
@@ -40,6 +47,18 @@ func set_cell(
 	placement.grid_z = grid_z
 	placement.yaw_quarter_turns = posmod(yaw_quarter_turns, 4)
 	placements.append(placement)
+
+
+func toggle_same_piece(
+	piece_id: StringName,
+	grid_x: int,
+	grid_z: int,
+	catalog: WorldPieceCatalog = null
+) -> bool:
+	var existing: ZonePlacement = get_placement_at(grid_x, grid_z, catalog)
+	if existing == null or existing.piece_id != piece_id:
+		return false
+	return remove_cell(grid_x, grid_z, catalog)
 
 
 func remove_cell(grid_x: int, grid_z: int, catalog: WorldPieceCatalog = null) -> bool:

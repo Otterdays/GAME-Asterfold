@@ -1,13 +1,18 @@
 class_name MapMakerCamera
 extends Camera3D
 
+signal short_right_click
+
 const MIN_DISTANCE: float = 12.0
-const MAX_DISTANCE: float = 90.0
+const MAX_DISTANCE: float = 120.0
 const PAN_SPEED_MPS: float = 18.0
+# Drag pan scales with distance so the grabbed ground point tracks the cursor closely.
+const DRAG_PAN_SCALE: float = 0.0022
+const RIGHT_DRAG_THRESHOLD_PX: float = 6.0
 const FOLLOW_SPEED: float = 10.0
 const GROUND_PLANE := Plane(Vector3.UP, 0.0)
 const DEFAULT_PIVOT: Vector3 = Vector3(0.0, 0.0, 8.0)
-const DEFAULT_DISTANCE: float = 42.0
+const DEFAULT_DISTANCE: float = 68.0
 const DEFAULT_YAW: float = deg_to_rad(38.0)
 const DEFAULT_PITCH: float = deg_to_rad(-40.0)
 
@@ -16,6 +21,9 @@ var distance: float = DEFAULT_DISTANCE
 var yaw: float = DEFAULT_YAW
 var pitch: float = DEFAULT_PITCH
 var _orbiting: bool = false
+var _dragging: bool = false
+var _right_pending: bool = false
+var _right_press_position: Vector2 = Vector2.ZERO
 var _session: MapMakerCameraSession = MapMakerCameraSession.new()
 var _follow_snapped: bool = false
 
@@ -55,6 +63,18 @@ func _unhandled_input(event: InputEvent) -> void:
 			if _orbiting:
 				_session.note_manual_camera()
 			get_viewport().set_input_as_handled()
+		elif mouse_button.button_index == MOUSE_BUTTON_RIGHT:
+			if mouse_button.pressed:
+				_right_pending = true
+				_dragging = false
+				_right_press_position = mouse_button.position
+			else:
+				if _dragging:
+					_dragging = false
+				elif _right_pending:
+					short_right_click.emit()
+				_right_pending = false
+			get_viewport().set_input_as_handled()
 		elif mouse_button.pressed and mouse_button.button_index == MOUSE_BUTTON_WHEEL_UP:
 			_session.note_manual_camera()
 			distance = clampf(distance - 4.0, MIN_DISTANCE, MAX_DISTANCE)
@@ -67,10 +87,22 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 	elif event is InputEventMouseMotion:
 		var motion: InputEventMouseMotion = event as InputEventMouseMotion
+		if _right_pending and not _dragging:
+			if motion.position.distance_to(_right_press_position) >= RIGHT_DRAG_THRESHOLD_PX:
+				_dragging = true
+				_session.note_manual_camera()
 		if _orbiting:
 			_session.note_manual_camera()
 			yaw -= motion.relative.x * 0.006
 			pitch = clampf(pitch - motion.relative.y * 0.006, deg_to_rad(-80.0), deg_to_rad(-12.0))
+			_apply_transform()
+			get_viewport().set_input_as_handled()
+		elif _dragging:
+			_session.note_manual_camera()
+			var drag_speed: float = distance * DRAG_PAN_SCALE
+			var right: Vector3 = Vector3(cos(yaw), 0.0, -sin(yaw))
+			var forward: Vector3 = Vector3(-sin(yaw), 0.0, -cos(yaw))
+			pivot_position -= (right * motion.relative.x + forward * motion.relative.y) * drag_speed
 			_apply_transform()
 			get_viewport().set_input_as_handled()
 		elif motion.relative.length_squared() > 0.25:

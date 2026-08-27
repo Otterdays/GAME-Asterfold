@@ -13,6 +13,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
 	z_index = 80
+	add_theme_stylebox_override(&"panel", MapMakerTheme.tooltip_style())
 	var margin: MarginContainer = MarginContainer.new()
 	margin.add_theme_constant_override("margin_left", 10)
 	margin.add_theme_constant_override("margin_top", 8)
@@ -22,6 +23,7 @@ func _ready() -> void:
 	_label = Label.new()
 	_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_label.custom_minimum_size = Vector2(280, 0)
+	_label.add_theme_color_override(&"font_color", MapMakerTheme.TEXT_COLOR)
 	margin.add_child(_label)
 
 

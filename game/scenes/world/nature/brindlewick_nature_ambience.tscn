@@ -1,0 +1,45 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://src/presentation/nature_ambience.gd" id="1_ambience"]
+[ext_resource type="Script" path="res://src/presentation/ambient_bird_flock.gd" id="2_birds"]
+[ext_resource type="Script" path="res://src/presentation/leaf_fall_emitter.gd" id="3_leaves"]
+[ext_resource type="Script" path="res://src/presentation/footfall_motes.gd" id="4_footfall"]
+[ext_resource type="Resource" path="res://content/wildlife/hearthfinch.tres" id="5_species"]
+[ext_resource type="Resource" path="res://content/zones/brindlewick_square/brindlewick_tree_grove_layout.tres" id="6_grove"]
+[ext_resource type="Resource" path="res://content/zones/brindlewick_square/brindlewick_dirt_road_layout.tres" id="7_road"]
+[ext_resource type="Material" path="res://assets/materials/environment/ambient_bird_hearthfinch_material.tres" id="8_bird_material"]
+[ext_resource type="Material" path="res://assets/materials/environment/falling_leaf_civic_material.tres" id="9_leaf_material"]
+[ext_resource type="Material" path="res://assets/materials/environment/footfall_dust_material.tres" id="10_dust_material"]
+[ext_resource type="Material" path="res://assets/materials/environment/footfall_grass_material.tres" id="11_grass_material"]
+
+[node name="NatureAmbience" type="Node3D" node_paths=PackedStringArray("bird_flock", "leaf_fall", "footfall_motes")]
+script = ExtResource("1_ambience")
+bird_flock = NodePath("BirdFlock")
+leaf_fall = NodePath("LeafFall")
+footfall_motes = NodePath("FootfallMotes")
+
+[node name="BirdFlock" type="Node3D" parent="."]
+script = ExtResource("2_birds")
+species = ExtResource("5_species")
+anchor_layout = ExtResource("6_grove")
+bird_material = ExtResource("8_bird_material")
+flock_seed = 20260827
+motion_enabled = true
+
+[node name="LeafFall" type="Node3D" parent="."]
+script = ExtResource("3_leaves")
+layout = ExtResource("6_grove")
+leaf_material = ExtResource("9_leaf_material")
+leaf_count = 80
+leaf_size_m = 0.16
+leaf_lifetime_seconds = 9.0
+fall_speed_mps = 0.55
+motion_enabled = true
+
+[node name="FootfallMotes" type="Node3D" parent="."]
+script = ExtResource("4_footfall")
+road_layout = ExtResource("7_road")
+dust_material = ExtResource("10_dust_material")
+grass_material = ExtResource("11_grass_material")
+walk_speed_threshold_mps = 0.9
+motion_enabled = true

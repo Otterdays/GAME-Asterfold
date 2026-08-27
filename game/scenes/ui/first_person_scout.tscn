@@ -1,0 +1,145 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/presentation/first_person_scout.gd" id="1_scout"]
+
+[node name="FirstPersonScout" type="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_scout")
+
+[node name="OpenButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -168.0
+offset_top = -40.0
+offset_right = -12.0
+offset_bottom = -12.0
+grow_horizontal = 0
+grow_vertical = 0
+focus_mode = 2
+text = "Look around"
+
+[node name="Picker" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.08, 0.82)
+
+[node name="Instruction" type="Label" parent="Picker"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 16.0
+offset_top = 10.0
+offset_right = -16.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(0.95, 0.93, 0.86, 1)
+theme_override_font_sizes/font_size = 16
+text = "Click a place on the map to look from there."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="MapHost" type="SubViewportContainer" parent="Picker"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -118.0
+offset_right = 240.0
+offset_bottom = 122.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+stretch = true
+
+[node name="MapViewport" type="SubViewport" parent="Picker/MapHost"]
+unique_name_in_owner = true
+handle_input_locally = false
+size = Vector2i(480, 240)
+render_target_update_mode = 4
+
+[node name="MapCamera" type="Camera3D" parent="Picker/MapHost/MapViewport"]
+unique_name_in_owner = true
+projection = 1
+current = true
+size = 40.0
+far = 200.0
+
+[node name="MapCursor" type="ColorRect" parent="Picker/MapHost"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 12.0
+offset_bottom = 12.0
+mouse_filter = 2
+color = Color(0.98, 0.86, 0.32, 1)
+
+[node name="Crosshair" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="H" type="ColorRect" parent="Crosshair"]
+layout_mode = 0
+offset_left = -8.0
+offset_top = -1.0
+offset_right = 8.0
+offset_bottom = 1.0
+mouse_filter = 2
+color = Color(0.96, 0.96, 0.92, 0.95)
+
+[node name="V" type="ColorRect" parent="Crosshair"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = -8.0
+offset_right = 1.0
+offset_bottom = 8.0
+mouse_filter = 2
+color = Color(0.96, 0.96, 0.92, 0.95)
+
+[node name="LeaveButton" type="Button" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = -40.0
+offset_right = 132.0
+offset_bottom = -12.0
+grow_vertical = 0
+text = "Leave view"
+
+[node name="ScoutEye" type="Camera3D" parent="."]
+unique_name_in_owner = true
+fov = 70.0
+near = 0.05
+far = 140.0

@@ -6,7 +6,7 @@ Accessibility is a system constraint and acceptance criterion. It is not a separ
 
 - Complete keyboard and gamepad navigation without a mouse.
 - Full remapping for gameplay and UI actions, including separate left/right World Turn inputs.
-- Mouse support where appropriate, without mouse-only controls. Field exploration captures the mouse for Peek; Space+WASD Peek and gamepad right stick remain.
+- Field play captures the mouse for Peek; Space+WASD Peek and gamepad right stick remain. First-person look uses `scout` (V / Controller Y) or the **Look around** button, then a map click or Confirm. Cancel leaves the scout before it returns to title.
 - Subtitles/text for all spoken or essential audio information.
 - Information is never communicated by color, sound, vibration, or motion alone.
 - Text size, camera motion, screen shake, flashing, battle speed, and hold/toggle behavior are adjustable.
@@ -25,6 +25,7 @@ Before story content, the player can set:
 - hold versus toggle preferences
 - controller glyph family when auto-detection is incorrect
 - high-contrast focus and combat indicators
+- window mode, window resolution (720p through 4K when the desktop fits), UI scale, and presentation quality (default High 1920×1080)
 
 The setup is skippable and all options remain available from title and pause menus. No setting requires loading a campaign.
 
@@ -48,6 +49,25 @@ The setup is skippable and all options remain available from title and pause men
 - Closing a modal restores the control that opened it.
 - Lists announce position and wrap behavior visually; unexpected wrap is avoided.
 - Mouse movement does not thrash focus or input glyphs.
+- Title Settings uses clickable **Video**, **Accessibility**, and **Controls** tabs. Only the selected page is visible. Initial focus is the tab bar so keyboard and gamepad can change pages without a mouse.
+- Starting the walking diorama, metrics room, or map maker from title immediately disables every title control and covers the canvas with an input sink. Cancel, Confirm, menu, F10, and pointer clicks do nothing until the world exists and the activating press is released. Disabled buttons explain the lock in their tooltip. Focus is restored when the title is shown again. The title clearing stays visible for the hitch; this is not a separate loading screen.
+- Title and shell `BaseButton` controls gold-lift and scale up on mouse hover. Hover and click also play short UI cues. The visual highlight remains if SFX/UI is muted. Mouse hover does not steal keyboard or gamepad focus.
+- The equipment screen focuses its first slot on open, restores the slot row that opened an item picker, and steps back one level on cancel before closing. Field movement and mouse capture are released while it is open.
+- Equipment slots always state their occupant in text and label an unoccupied slot **Empty**; a slot made unavailable by a two-handed weapon says so instead of appearing full. Slot state is never carried by colour alone. The paper doll conveys focus by drawing only the focused body region.
+
+## Display
+
+Window resolution and UI scale are independent, in the Sims 4 sense:
+
+- **Window mode**: Windowed, borderless, or exclusive fullscreen. F11 and Alt+Enter (`toggle_fullscreen`) switch windowed and borderless only, so the shortcut never lands in exclusive fullscreen. Using the shortcut updates the Video tab control and the saved setting.
+- **Windowed sizing**: Windowed mode fits the screen's usable rect and reserves title-bar height, so a desktop-sized resolution still shows window controls instead of masquerading as fullscreen.
+- **Quit shortcut**: F10 (`quit_prompt`) opens an in-canvas confirmation panel instead of closing immediately. "YES, QUIT" receives focus first so Confirm (Enter or controller A) accepts, and Cancel, F10, or "NO, KEEP PLAYING" dismisses it. Both buttons are reachable by keyboard, controller, and mouse; the mouse is released while the prompt is open.
+- **Resolution**: Desktop native, or a standard size that fits the current screen (720p through 4K). This is the OS window size. It does not replace presentation quality.
+- **UI scale**: 80%, 100%, 125%, and 150%. HUD and menus layout against a fixed 1920×1080 UI reference; larger scale grows chrome without changing the window.
+- **Presentation quality**: Low, Medium, or High. High is default. This scales 3D via `Viewport.scaling_3d_scale` (640/1920, 1280/1920, or 1.0). The title clearing stays 1920×1080.
+- **Text scale** stays on Accessibility and multiplies font sizes on top of UI scale.
+
+`user://settings.cfg` stores `accessibility`, `bindings`, and `video` separately. Headless runs skip window resize.
 
 ## Text and language
 
@@ -81,6 +101,8 @@ Settings:
 - Flash intensity: Full / Reduced / Off for nonessential flashes.
 
 Reduced World Turn replaces the orbit with anticipation, cover, viewpoint step, and settle. Minimal camera mode disables Peek auto-recenter animation and uses discrete offsets.
+
+Ambient nature follows the same setting. Outside Full camera motion, tree crown sway stops, the bird flock freezes in place rather than disappearing so the town keeps its silhouettes, leaf fall stops emitting, and footfall dust and grass motes are silenced. None of it carries information, so nothing is lost when it is off.
 
 Avoid repeated high-contrast flashes. No essential mechanic should require tracking an object during a fast camera move.
 

@@ -164,7 +164,7 @@ These rules are non-negotiable unless an ADR replaces them:
 - **Stable IDs cross boundaries.** Saves, quests, dialogue, and references use namespaced `StringName` IDs such as `zone.brindlewick_square`, never display names, node paths, array positions, or resource paths.
 - **Only declared services persist across scenes.** Prefer dependency injection and scene ownership. Autoloads are restricted to `GameFlow`, `ContentDB`, `SaveService`, `InputRouter`, `AudioDirector`, and a small `EventBus`; adding one requires an ADR.
 - **Signals point upward; direct calls point downward.** Children may signal intent to owners. Owners configure children. Avoid global event broadcasts when a typed local signal or direct dependency is clearer.
-- **Input actions are semantic.** Gameplay consumes `move`, `confirm`, `cancel`, `menu`, `peek`, `fold_left`, and `fold_right`, never raw keys or device buttons.
+- **Input actions are semantic.** Gameplay consumes `move`, `confirm`, `cancel`, `menu`, `peek`, `fold_left`, `fold_right`, and `scout`, never raw keys or device buttons. The shell also uses `toggle_fullscreen` and `quit_prompt`.
 - **Pause is explicit.** Every process that can run during menus, transitions, or dialogue must have an intentional process mode.
 - **Time is injected where rules depend on it.** Do not read wall-clock time from deterministic battle, quest, or save-domain tests.
 - **Randomness is owned and seedable.** Do not call global random helpers inside deterministic systems.
@@ -233,8 +233,11 @@ validate.bat
 godot --editor --path game
 godot --headless --editor --quit --path game
 godot --headless --path game --script res://tests/run_tests.gd
+godot --headless --path game --script res://tests/run_tests.gd -- --suite=project_contract
 godot --headless --path game --script res://tools/validate_content.gd
 ```
+
+The test runner discovers `res://tests/suites/*_tests.gd`. See `docs/TESTING_AND_RELEASE.md` for suite names and leak checks.
 
 If `godot` is not on `PATH`, document and use a task-specific environment variable such as `$ASTERFOLD_GODOT`; do not hard-code a contributor's local path.
 

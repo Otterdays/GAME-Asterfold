@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://src/presentation/foreground_occluder.gd" id="1_occluder"]
 [ext_resource type="Shader" path="res://assets/materials/foreground_occluder.gdshader" id="2_shader"]
+[ext_resource type="PackedScene" path="res://scenes/world/nature/brindlewick_nature_ambience.tscn" id="3_nature"]
 
 [sub_resource type="Environment" id="Environment_brindlewick"]
 background_mode = 1
@@ -66,6 +67,8 @@ position = Vector3(0, 2.8, 23)
 light_color = Color(1, 0.72, 0.38, 1)
 light_energy = 2.2
 omni_range = 7.0
+
+[node name="NatureAmbience" parent="." instance=ExtResource("3_nature")]
 
 [node name="Foreground" type="Node3D" parent="."]
 

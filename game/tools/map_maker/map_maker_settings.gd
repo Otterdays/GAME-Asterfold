@@ -6,7 +6,7 @@ const IDLE_RESET_MIN_SECONDS: float = 1.0
 const IDLE_RESET_MAX_SECONDS: float = 60.0
 const DEFAULT_IDLE_RESET_SECONDS: float = 10.0
 
-var follow_cursor: bool = true
+var follow_cursor: bool = false
 var idle_reset: bool = true
 var idle_reset_seconds: float = DEFAULT_IDLE_RESET_SECONDS
 
@@ -15,7 +15,7 @@ func load_from_disk() -> void:
 	var config: ConfigFile = ConfigFile.new()
 	if config.load(STORE_PATH) != OK:
 		return
-	follow_cursor = bool(config.get_value("camera", "follow_cursor", true))
+	follow_cursor = bool(config.get_value("camera", "follow_cursor", false))
 	idle_reset = bool(config.get_value("camera", "idle_reset", true))
 	idle_reset_seconds = clampf(
 		float(config.get_value("camera", "idle_reset_seconds", DEFAULT_IDLE_RESET_SECONDS)),

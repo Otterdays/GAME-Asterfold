@@ -46,6 +46,8 @@ If the slice exceeds a budget, remove or combine content before silently expandi
 9. Return to Brindlewick at dusk shows changed staging, dialogue, music, route, and choice consequence.
 10. Save-complete beat and a clear hook, not a trailer pretending the rest of the game exists.
 
+Step 5 remains incomplete. A graybox equipment preview exists ahead of schedule: a layered Mara kit, the closed sixteen-slot catalog, a paper-doll screen on the `equipment` action, and one graybox item per slot. Callings, item stats, shops, battle Item, and equipment persistence are still unbuilt, so the step is not satisfied.
+
 ## Milestones
 
 Milestones are dependency gates, not calendar promises.
@@ -58,7 +60,7 @@ Deliver:
 - `game/project.godot` pinned to the approved engine baseline.
 - Folder structure and import defaults.
 - App shell, title/debug entry, error logging, and semantic input map.
-- Headless test runner and content validator entry points.
+- Headless test runner and content validator entry points. [AMENDED 2026-08-27]: the runner discovers `TestCase` suites under `game/tests/suites/`; see [TESTING_AND_RELEASE.md](TESTING_AND_RELEASE.md).
 - CI for import, tests, validation, and a debug export.
 - License/provenance manifest structure.
 - Graybox metrics scene with controller movement and camera target.
@@ -79,7 +81,8 @@ Deliver:
 - Long-lens camera rig, Peek Orbit, recenter, camera volumes, and foreground fade.
 - Graybox Brindlewick primary loop with landmark and stable composition.
 - Grounding shader/material test, alpha strategy, contact shadow, and direction hysteresis.
-- Accessibility settings for camera motion, text scale shell, and remapping foundation.
+- Accessibility settings for camera motion, text scale shell, and remapping foundation. [AMENDED 2026-08-27]: Video settings cover window mode, output resolution, UI scale, and presentation quality.
+- [AMENDED 2026-08-27] Ambient nature: one bird species circling authored trees, leaf fall from the grove, and surface-aware footfall motes. Presentation only, gated on camera motion, and authorable through the map maker's Nature family. Additional species are content, not new scope.
 
 Exit criteria:
 

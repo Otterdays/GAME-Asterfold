@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/world/pieces/leaf_drift.gd" id="1_script"]
+[ext_resource type="Script" path="res://src/presentation/leaf_fall_emitter.gd" id="2_leaves"]
+[ext_resource type="Material" path="res://assets/materials/environment/falling_leaf_civic_material.tres" id="3_material"]
+
+[node name="LeafDrift" type="Node3D" node_paths=PackedStringArray("leaf_fall")]
+script = ExtResource("1_script")
+leaf_fall = NodePath("LeafFall")
+
+[node name="LeafFall" type="Node3D" parent="."]
+script = ExtResource("2_leaves")
+local_crown_height_m = 4.4
+local_crown_radius_m = 2.6
+local_emission_points = 8
+leaf_material = ExtResource("3_material")
+leaf_count = 24
+leaf_size_m = 0.16
+leaf_lifetime_seconds = 9.0
+fall_speed_mps = 0.55
+motion_enabled = true

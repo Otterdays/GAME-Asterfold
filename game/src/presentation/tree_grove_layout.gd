@@ -66,27 +66,9 @@ func get_placement_transform(index: int) -> Transform3D:
 
 ## Signed distance from a point to the authored road surface. Negative values are on the road.
 func distance_to_road_m(point: Vector2) -> float:
-	if road_layout == null or road_layout.patches.is_empty():
+	if road_layout == null:
 		return INF
-	var distance: float = INF
-	for patch_index: int in road_layout.patches.size():
-		var radius: float = 0.0
-		if patch_index < road_layout.corner_radii_m.size():
-			radius = road_layout.corner_radii_m[patch_index]
-		var patch_distance: float = DirtRoadNetwork3D.rounded_box_distance(
-			point,
-			road_layout.patches[patch_index],
-			radius
-		)
-		if is_inf(distance):
-			distance = patch_distance
-		else:
-			distance = DirtRoadNetwork3D.smooth_union_distance(
-				distance,
-				patch_distance,
-				road_layout.join_softness_m
-			)
-	return distance
+	return road_layout.signed_distance_m(point)
 
 
 func validate_definition() -> Array[String]:

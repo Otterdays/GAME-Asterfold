@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ActorLayerKit" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/presentation/actor_layer_kit.gd" id="1_kit"]
+[ext_resource type="Texture2D" path="res://assets/generated/characters/mara/mara_layers_field.png" id="2_field"]
+[ext_resource type="Texture2D" path="res://assets/generated/characters/mara/mara_layers_doll.png" id="3_doll"]
+[ext_resource type="Texture2D" path="res://assets/generated/characters/mara/mara_hair_field.png" id="4_hair_field"]
+[ext_resource type="Texture2D" path="res://assets/generated/characters/mara/mara_hair_doll.png" id="5_hair_doll"]
+
+[resource]
+script = ExtResource("1_kit")
+actor_id = &"actor.mara"
+field_atlas = ExtResource("2_field")
+doll_atlas = ExtResource("3_doll")
+hair_field_atlas = ExtResource("4_hair_field")
+hair_doll_atlas = ExtResource("5_hair_doll")
+hair_style_ids = Array[StringName]([&"hair.crop", &"hair.fringe", &"hair.tousle"])
+frame_width = 48
+frame_height = 64
+columns = 12
+rows = 5
+doll_frame_width = 96
+doll_frame_height = 128

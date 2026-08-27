@@ -26,6 +26,22 @@ func set_patch_center(index: int, center_xz: Vector2) -> bool:
 	return true
 
 
+## Signed distance from a world XZ point to the authored road surface.
+## Negative values stand on the road; INF means no road is authored.
+func signed_distance_m(point: Vector2) -> float:
+	if patches.is_empty():
+		return INF
+	var distance: float = INF
+	for index: int in patches.size():
+		var radius: float = corner_radii_m[index] if index < corner_radii_m.size() else 0.0
+		var patch_distance: float = DirtRoadNetwork3D.rounded_box_distance(point, patches[index], radius)
+		if is_inf(distance):
+			distance = patch_distance
+		else:
+			distance = DirtRoadNetwork3D.smooth_union_distance(distance, patch_distance, join_softness_m)
+	return distance
+
+
 func validate_definition() -> Array[String]:
 	var errors: Array[String] = []
 	if network_size_m.x <= 0.0 or network_size_m.y <= 0.0:

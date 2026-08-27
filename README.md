@@ -10,7 +10,7 @@ This is **preproduction**. Milestone 0 (foundation) and Milestone 1 (Brindlewick
 2. Read [docs/SUMMARY.md](docs/SUMMARY.md) for current status.
 3. Install **Godot 4.7.2 Standard**, then double-click `launch.bat`.
 
-Detailed run, validate, and toolchain notes live in [game/README.md](game/README.md). Product rules live under [docs/](docs/README.md). Demonstrated work is in [CHANGELOG.md](CHANGELOG.md) and [docs/MILESTONE_STATUS.md](docs/MILESTONE_STATUS.md).
+Detailed run, validate, and toolchain notes live in [game/README.md](game/README.md). Test runner and gates: [docs/TESTING_AND_RELEASE.md](docs/TESTING_AND_RELEASE.md). Product rules live under [docs/](docs/README.md). Demonstrated work is in [CHANGELOG.md](CHANGELOG.md) and [docs/MILESTONE_STATUS.md](docs/MILESTONE_STATUS.md).
 
 ## Next build target
 

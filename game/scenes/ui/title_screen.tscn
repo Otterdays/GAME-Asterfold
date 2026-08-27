@@ -1,16 +1,18 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://src/ui/title_screen.gd" id="1_title"]
 [ext_resource type="Material" path="res://assets/materials/ui/title_clearing_material.tres" id="2_clearing"]
+[ext_resource type="PackedScene" path="res://scenes/ui/character_select_screen.tscn" id="3_select"]
+[ext_resource type="PackedScene" path="res://scenes/ui/character_create_screen.tscn" id="4_create"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ghost_normal"]
 content_margin_left = 14.0
 content_margin_top = 8.0
 content_margin_right = 14.0
 content_margin_bottom = 8.0
-bg_color = Color(0.12, 0.16, 0.2, 0)
+bg_color = Color(0.07, 0.11, 0.10, 0.88)
 border_width_left = 2
-border_color = Color(0.42, 0.58, 0.54, 0)
+border_color = Color(0.42, 0.58, 0.54, 0.55)
 corner_radius_top_left = 2
 corner_radius_top_right = 2
 corner_radius_bottom_right = 2
@@ -21,9 +23,14 @@ content_margin_left = 14.0
 content_margin_top = 8.0
 content_margin_right = 14.0
 content_margin_bottom = 8.0
-bg_color = Color(0.16, 0.22, 0.27, 0.85)
-border_width_left = 2
-border_color = Color(0.46, 0.68, 0.62, 1)
+bg_color = Color(0.28, 0.36, 0.26, 0.96)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.98, 0.88, 0.42, 1)
+shadow_color = Color(0.98, 0.86, 0.32, 0.45)
+shadow_size = 8
 corner_radius_top_left = 2
 corner_radius_top_right = 2
 corner_radius_bottom_right = 2
@@ -89,9 +96,14 @@ content_margin_left = 14.0
 content_margin_top = 9.0
 content_margin_right = 14.0
 content_margin_bottom = 9.0
-bg_color = Color(0.18, 0.34, 0.20, 0.96)
-border_width_left = 2
-border_color = Color(0.78, 0.88, 0.58, 1)
+bg_color = Color(0.32, 0.46, 0.22, 0.98)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 0.92, 0.48, 1)
+shadow_color = Color(1, 0.88, 0.35, 0.5)
+shadow_size = 10
 corner_radius_top_left = 2
 corner_radius_top_right = 2
 corner_radius_bottom_right = 2
@@ -143,7 +155,7 @@ corner_radius_bottom_left = 2
 Button/colors/font_color = Color(0.90, 0.93, 0.86, 1)
 Button/colors/font_disabled_color = Color(0.58, 0.62, 0.54, 1)
 Button/colors/font_focus_color = Color(0.98, 0.99, 0.94, 1)
-Button/colors/font_hover_color = Color(0.97, 0.98, 0.92, 1)
+Button/colors/font_hover_color = Color(1, 0.98, 0.82, 1)
 Button/colors/font_pressed_color = Color(0.88, 0.92, 0.82, 1)
 Button/styles/disabled = SubResource("StyleBoxFlat_ghost_disabled")
 Button/styles/focus = SubResource("StyleBoxFlat_ghost_focus")
@@ -151,6 +163,22 @@ Button/styles/hover = SubResource("StyleBoxFlat_ghost_hover")
 Button/styles/normal = SubResource("StyleBoxFlat_ghost_normal")
 Button/styles/pressed = SubResource("StyleBoxFlat_ghost_pressed")
 Label/colors/font_color = Color(0.78, 0.84, 0.88, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_menu_plate"]
+content_margin_left = 28.0
+content_margin_top = 22.0
+content_margin_right = 28.0
+content_margin_bottom = 22.0
+bg_color = Color(0.05, 0.08, 0.07, 0.78)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.78, 0.86, 0.72, 0.35)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [node name="TitleScreen" type="Control"]
 unique_name_in_owner = true
@@ -163,13 +191,16 @@ grow_vertical = 2
 theme = SubResource("Theme_title")
 script = ExtResource("1_title")
 
-[node name="Backdrop" type="ColorRect" parent="."]
+[node name="ClearingPaint" type="ColorRect" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+texture_filter = 0
 material = ExtResource("2_clearing")
 color = Color(1, 1, 1, 1)
 
@@ -181,80 +212,99 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Menu" type="VBoxContainer" parent="Center"]
-custom_minimum_size = Vector2(260, 0)
+[node name="Plate" type="PanelContainer" parent="Center"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 6
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_menu_plate")
+
+[node name="Menu" type="VBoxContainer" parent="Center/Plate"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(420, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Title" type="Label" parent="Center/Menu"]
+[node name="Title" type="Label" parent="Center/Plate/Menu"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.97, 0.90, 1)
 theme_override_colors/font_shadow_color = Color(0.08, 0.14, 0.10, 0.72)
 theme_override_constants/shadow_offset_x = 0
-theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 36
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 72
 text = "ASTERFOLD"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="Center/Menu"]
+[node name="Subtitle" type="Label" parent="Center/Plate/Menu"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.86, 0.90, 0.76, 1)
 theme_override_colors/font_shadow_color = Color(0.08, 0.14, 0.10, 0.55)
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 1
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 20
 text = "A small world worth turning"
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="Center/Menu"]
-custom_minimum_size = Vector2(0, 12)
+[node name="Spacer" type="Control" parent="Center/Plate/Menu"]
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="StartButton" type="Button" parent="Center/Menu"]
+[node name="StartButton" type="Button" parent="Center/Plate/Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(248, 36)
+custom_minimum_size = Vector2(400, 48)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.98, 0.90, 1)
 theme_override_colors/font_disabled_color = Color(0.58, 0.62, 0.52, 1)
 theme_override_colors/font_focus_color = Color(0.99, 1, 0.94, 1)
-theme_override_colors/font_hover_color = Color(0.99, 1, 0.94, 1)
+theme_override_colors/font_hover_color = Color(1, 0.98, 0.82, 1)
 theme_override_colors/font_pressed_color = Color(0.90, 0.94, 0.82, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_primary_normal")
 theme_override_styles/hover = SubResource("StyleBoxFlat_primary_hover")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_primary_pressed")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_primary_disabled")
 theme_override_styles/focus = SubResource("StyleBoxFlat_primary_focus")
-text = "Start Walking Diorama"
+text = "Play"
 
-[node name="StartStatus" type="Label" parent="Center/Menu"]
+[node name="StartStatus" type="Label" parent="Center/Plate/Menu"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.72, 0.64, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 16
 text = "Required content is unavailable."
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="MetricsButton" type="Button" parent="Center/Menu"]
+[node name="MetricsButton" type="Button" parent="Center/Plate/Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(248, 32)
+custom_minimum_size = Vector2(400, 44)
 layout_mode = 2
 text = "Open Metrics Room"
 
-[node name="SettingsButton" type="Button" parent="Center/Menu"]
+[node name="MapMakerButton" type="Button" parent="Center/Plate/Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(248, 32)
+custom_minimum_size = Vector2(400, 44)
+layout_mode = 2
+text = "Open Map Maker"
+
+[node name="SettingsButton" type="Button" parent="Center/Plate/Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 44)
 layout_mode = 2
 text = "Settings"
 
-[node name="QuitButton" type="Button" parent="Center/Menu"]
+[node name="QuitButton" type="Button" parent="Center/Plate/Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(248, 32)
+custom_minimum_size = Vector2(400, 44)
 layout_mode = 2
 text = "Quit"
+
+[node name="CharacterSelectScreen" parent="." instance=ExtResource("3_select")]
+unique_name_in_owner = true
+
+[node name="CharacterCreateScreen" parent="." instance=ExtResource("4_create")]
+unique_name_in_owner = true
 
 [node name="VersionLabel" type="Label" parent="."]
 unique_name_in_owner = true
@@ -264,13 +314,25 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -200.0
-offset_top = -20.0
-offset_right = 200.0
-offset_bottom = -4.0
+offset_left = -280.0
+offset_top = -36.0
+offset_right = 280.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(0.78, 0.84, 0.70, 1)
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 16
 text = "Development build"
 horizontal_alignment = 1
+
+[node name="InputCatcher" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 100
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_default_cursor_shape = 4

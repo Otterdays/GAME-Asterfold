@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="BirdSpeciesDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/world/bird_species_definition.gd" id="1_definition"]
+
+[resource]
+script = ExtResource("1_definition")
+id = &"bird.brindlewick.slate_swift"
+display_name_key = &"bird.brindlewick.slate_swift.name"
+flock_size = 5
+wingspan_m = 0.62
+cruise_speed_mps = 5.6
+circuit_radius_min_m = 7.0
+circuit_radius_max_m = 13.0
+cruise_height_min_m = 9.0
+cruise_height_max_m = 14.0
+body_length_ratio = 1.15
+head_length_ratio = 0.18
+beak_length_ratio = 0.06
+tail_length_ratio = 0.8
+tail_fork_ratio = 0.62
+wing_sweep_ratio = 0.72
+wing_taper = 0.3
+bob_amplitude_m = 0.35
+bob_speed = 1.1
+flap_hz = 6.0
+flap_amplitude = 0.42
+bank_degrees = 28.0

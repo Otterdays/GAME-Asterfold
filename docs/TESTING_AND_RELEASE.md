@@ -32,10 +32,38 @@ Pure or platform-light tests cover:
 - quest condition/effect evaluation and idempotency
 - stable ID parsing/resolution
 - world piece catalog, footprint occupancy, dirt-road patch centers, and map-maker tooltip catalog
+- tree species metrics, deterministic crown variants, and grove placement rules (grid snap, yaw snap, scale range, road shoulder, ground bounds, trunk spacing, row alignment)
+- ambient bird species metrics, the shared baseline body build and its part tags, seeded flock circuits, grove-derived leaf emission points, footfall surface classification against the dirt-road layout, and the placeable nature pieces
 - save serialization, validation, and each migration step
 - input glyph hysteresis and binding conflicts
 
 Tests use fixed time and RNG sources. Floating-point comparisons declare tolerances.
+
+### Local Godot runner
+
+M0/M1 unit and integration checks run together through `res://tests/run_tests.gd`. That script discovers every `*_tests.gd` file under `res://tests/suites/`, instantiates each as a `TestCase`, and prints `[TEST] suite start|done` lines with check count, fail count, elapsed milliseconds, and `Performance.OBJECT_COUNT` delta. After a suite returns, leftover `SceneTree` root children (except installed `InputRouter`, `ContentDB`, and `GameFlow`) and grown service signal-connection counts fail the run. A passing session prints `[TEST] PASS: 426 checks across 8 suites.` as of 2026-08-27. Content/provenance remains a separate gate: `res://tools/validate_content.gd`.
+
+```powershell
+godot --headless --path game --script res://tests/run_tests.gd
+godot --headless --path game --script res://tests/run_tests.gd -- --suite=project_contract
+```
+
+`--suite=` matches `suite_name()`, not the file name. Current suites:
+
+| `suite_name()` | File | Owns |
+| --- | --- | --- |
+| `project_contract` | `project_contract_tests.gd` | Version, renderer, semantic input map, audio buses |
+| `camera_and_peek` | `camera_and_peek_tests.gd` | Movement math, sprite direction, Peek, map-maker camera session |
+| `accessibility_and_input` | `accessibility_and_input_tests.gd` | Settings clamp/round-trip including display/video, rebind, confirm/cancel swap, device hysteresis |
+| `world_content` | `world_content_tests.gd` | Zone manifest, dirt road, placements, trees, grove layout, map-maker catalogs |
+| `tree_grove_runtime` | `tree_grove_runtime_tests.gd` | Grove instantiate, MultiMesh batching, sway vs motion mode |
+| `nature_ambience` | `nature_ambience_tests.gd` | Bird species validation, shared baseline mesh and part tags, flock circuits and MultiMesh, leaf emission points, footfall surface classification, map-maker nature pieces, motion-mode gating |
+| `app_flow_and_persistence` | `app_flow_and_persistence_tests.gd` | Required scenes, settings file including `video`, title busy lock, title audio and button hover, title/field/Video-Accessibility-Controls tabs, missing-zone error |
+| `equipment` | `equipment_tests.gd` | Slot/layer contract, loadout rules including two-handed blocking, inventory transactions, item catalog validation, layer composition and caching, the `equipment` binding |
+
+Add a suite by dropping `*_tests.gd` that extends `TestCase`, overrides `suite_name()` and `run()`, and uses `_check` / `_check_vector2` / `_check_vector3`. `run()` may `await tree.process_frame` or `tree.physics_frame`. Do not put suites under `tests/fixtures/`.
+
+Bullets above that name combat, saves, quests, or World Turns remain the target ladder. They are not present in the current suites until those systems exist.
 
 ### Integration tests
 
@@ -79,7 +107,7 @@ Automation may call debug-only semantic helpers but cannot mutate state in ways 
 
 ## Visual verification
 
-Capture at 640 x 360 internal resolution and at 1080p presentation:
+Capture at presentation quality High (1920 x 1080) by default, and also at Low 640 x 360 when checking the minimum scale:
 
 - each zone/facet at authored camera center and Peek extremes
 - sprite eight-direction spin, idle, walk, and turn transition
@@ -116,7 +144,7 @@ Play end-to-end with:
 - no audio
 - no haptics
 - screen shake and flashes off
-- 150% text and pseudo-localization
+- 150% text, 150% UI scale, and pseudo-localization
 - keyboard-only and controller-only
 - high-contrast indicators and grayscale display
 - slow/paused command selection
@@ -159,7 +187,7 @@ Before M5 candidate:
 - 60-minute idle/pause/resume and controller reconnect run.
 - Repeated return-to-title/new-game/load cycle while watching retained nodes and memory.
 
-The test runner detects leaked scene ownership, duplicate signal callbacks, increasing memory trends, and unhandled errors where instrumentation permits.
+See **Local Godot runner** for leak and object-count behavior. Fail-closed memory soak remains an M5 candidate item.
 
 ## Severity
 
@@ -171,6 +199,8 @@ The test runner detects leaked scene ownership, duplicate signal callbacks, incr
 | Low | cosmetic or low-impact polish issue | triaged and documented |
 
 ## CI gate order
+
+`validate.bat` currently runs import, then the combined `run_tests.gd` suite (unit plus today's integration checks), then `validate_content.gd`, then runtime smoke, then exports. The numbered ladder below is the intended hosted split; do not treat steps 3 and 5 as two separate local commands yet.
 
 1. Repository and license/provenance checks.
 2. Headless import and script parse.

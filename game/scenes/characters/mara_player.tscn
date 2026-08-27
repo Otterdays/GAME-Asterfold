@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://src/world/player_actor.gd" id="1_player"]
 [ext_resource type="Script" path="res://src/presentation/sprite_actor.gd" id="2_sprite_actor"]
 [ext_resource type="Texture2D" path="res://assets/generated/characters/mara/mara_prototype.png" id="3_mara"]
+[ext_resource type="Resource" path="res://content/actors/mara_layer_kit.tres" id="4_layer_kit"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape_player"]
 radius = 0.36
@@ -35,6 +36,7 @@ shape = SubResource("CapsuleShape_player")
 [node name="SpriteActor" type="Node3D" parent="." node_paths=PackedStringArray("sprite")]
 script = ExtResource("2_sprite_actor")
 sprite = NodePath("MaraSprite")
+layer_kit = ExtResource("4_layer_kit")
 
 [node name="MaraSprite" type="Sprite3D" parent="SpriteActor"]
 texture_filter = 1
@@ -44,7 +46,7 @@ shaded = true
 texture = ExtResource("3_mara")
 pixel_size = 0.03125
 offset = Vector2(0, 30)
-hframes = 6
+hframes = 12
 vframes = 5
 frame = 24
 

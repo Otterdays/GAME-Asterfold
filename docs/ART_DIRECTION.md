@@ -28,6 +28,7 @@ If fog, lighting, foreground art, particles, or texture noise reverses this orde
 - Target height: around the player torso, adjusted by camera volume.
 - Distance: chosen per zone to preserve a readable character height, not a universal constant.
 - Peek Orbit: up to 24 degrees horizontal and 8 degrees vertical from the authored view.
+- First-person look is a separate scout camera (about 70° FOV) opened from a top-down zone map. It is not the default exploration lens.
 - World Turn: a 90 degree yaw arc, normally 0.55–0.8 seconds with authored anticipation and settle.
 
 Long-lens perspective preserves the town-plan clarity of an illustrated map while still producing parallax and foreground movement. Orthographic projection may be used for isolated UI tableaux, never as an unreviewed zone-level shortcut.
@@ -47,9 +48,10 @@ All nonessential battle cuts can be shortened. Repeated common actions should re
 
 ## Resolution and pixel treatment
 
-- Reference internal render size: **640 x 360** for the vertical slice.
-- Supported integer presentations: 1280 x 720, 1920 x 1080, and 2560 x 1440 with letterboxing or controlled crop policies.
-- UI layout uses the internal canvas but must remain usable at high-resolution accessibility scale.
+- Default presentation quality: **1920 x 1080**. High quality is allowed and is the shipping default.
+- Minimum supported world/title render scale: **640 x 360** (Low). Medium is 1280 x 720.
+- Window presentations: 1280 x 720, 1920 x 1080, 2560 x 1440, and 3840 x 2160 when the desktop fits, plus a Desktop native option.
+- UI layout uses the 1920 x 1080 reference canvas and must remain usable at high-resolution accessibility scale.
 - World sprite reference density: **32 pixels per meter**.
 - Standard adult sprite canvas: **48 x 64 pixels**, with a visible body height of roughly 54–60 pixels depending on silhouette.
 - Props may use denser source art for hero details, but adjacent assets must share edge and texture rhythm.
@@ -95,6 +97,17 @@ Do not begin full sprite production at this maximum. Validate silhouette, direct
 - Rim or outline effects are contextual readability tools. They must not flatten every character into the same sticker.
 - Hair, capes, and held objects may use layered cards only after measuring overdraw and direction behavior.
 
+### Layered actor kits
+
+Actor art is authored as named humanoid layers and flattened before it reaches the world. The runtime keeps one billboarded quad per actor; layer count never becomes quad count.
+
+- Field layers, back to front: thighs, knees, calves, feet, pelvis, waist, abdomen, torso, upper arms, forearms, hands, shoulders, head. Twenty-one layers, left and right authored separately.
+- The paper doll adds five fingers per hand for a total of thirty-one layers and draws at 2x field density on a 96 x 128 canvas.
+- Field cards collapse fingers into their hand layer. Do not author finger detail for world sprites at 32 pixels per metre.
+- Layer draw order is the atlas order. Changing the order is a content regeneration.
+- Graybox equipment recolours the layers it covers and draws accents inside the covered layer's opaque bounds, so direction changes and legal mirroring keep working without per-item art.
+- Equipment must remain readable in grayscale: slot state is always carried by text in the equipment screen, never by colour alone.
+
 ## Environments
 
 ### Shape language
@@ -127,6 +140,35 @@ Do not begin full sprite production at this maximum. Validate silhouette, direct
 Ground families are independently owned assets rather than inline zone colors. Grass, dirt road, stone, water, and other traversal surfaces each receive a discoverable scene/material/shader boundary when they need distinct art direction or reuse. Zone geometry composes those modules and owns their placement; it does not duplicate their shader implementation.
 
 For the M1 Brindlewick prototype, grass uses broad world-scale value patches with restrained tuft marks. The dirt road is one continuous rounded network rather than overlapping rectangular meshes: broad worn-earth variation establishes the base, organic edge modulation softens the silhouette, compacted center wear and broken twin cart ruts imply use, and sharper directional scuffs plus two anti-aliased stone scales provide focal detail. The stones use stable world-sized cells with analytic edge smoothing so they read crisply at 640×360 without reverting to block noise or distant shimmer. Junctions must read as one traveled surface without darker overlap seams or stacked geometry. Surface variation must remain subordinate to Mara and the route and retain a clear grass/road value separation in grayscale.
+
+### Trees
+
+Trees are original 3D bodies, not lollipop cards or crowns copied from another game. Each species is a silhouette family:
+
+- **Civic shade:** wide, slightly flattened, honey-tinted green crown on a short trunk; the plaza and gate landmark tree.
+- **Orchard tidemark:** taller, clustered knobs with rare berry-cloth accents; carries the orchard-slope story north of the bell.
+- **Gate sentinel:** vertical, tighter, cooler slate-green crown; forms the town's perimeter wall of foliage.
+
+Rules:
+
+- A crown is two to four overlapping asymmetric masses, never one sphere on a stick. Species differ by mass count, pitch, and proportion before they differ by hue.
+- Trunks and crowns keep broad painted value grouping. No high-frequency normal detail, no photoreal bark.
+- Crowns render opaque to protect the overdraw budget. Only crown-fade species carry a per-tree occluder that lowers crown opacity when the camera ray is blocked; the fade never touches gameplay collision.
+- Only the trunk collides. Walk-under species must keep at least the 2.25 m door clearance under their lowest crown mass.
+- Crown sway is a small vertex offset seeded per instance. It is disabled entirely in Reduced and Minimal camera motion.
+- Perimeter density thins at the south gate so the arrival silhouette stays the bell tower, and no tree intrudes on a road shoulder, door clearance, or camera volume.
+
+### Living nature
+
+Ambient life is what turns a dressed set into a place. It is quiet, peripheral, and never competes with Mara or the route.
+
+- **One bird body, many birds.** Every species is built from the same flat card: head, beak, tapered body, two-segment swept wings, and a tail that can fan or fork. Species differ first by silhouette ratios and only then by palette, and each part of the body can be recoloured on its own. New birds are authored, not modelled.
+- **Hearthfinch:** the baseline. A small warm-brown finch with a pale belly, a soft honey beak, dark wingtips, a short fanned tail, and an unhurried beat. It circles authored trees at 6 to 11 m on individually seeded circuits, banks into its turns, and beats out of phase with the rest of the flock so the sky never pulses in unison.
+- **Slate swift:** the proof that the baseline carries variants. Cool slate grey, narrow swept wings, a deeply forked tail, a faster beat, and a higher, wider circuit.
+- **Leaf fall:** leaves drift from every authored crown mass, spin as they fall, thin out when they turn edge-on, and dissolve across the last metre above the ground rather than popping out. Colour stays inside the field leaf palette.
+- **Footfall:** a stride raises soft warm dust on the dirt road and flicks short cool blades on the grass. Motes are low, brief, and fade as they rise, so a walked route never accumulates residue.
+- All three read in grayscale as small moving values against static ones, and all three stop outside Full camera motion.
+- Builders place ambient life themselves: the map maker's **Nature** family drops finch roosts, swift roosts, and leaf drifts anywhere on the square. Footfall follows the ground, so moving a road moves the dust.
 
 ### Lighting
 
@@ -174,7 +216,7 @@ Reduced-motion mode uses a brief hold, midpoint occlusion, and near-instant view
 
 The interface resembles an expedition notebook built from folded vellum, enamel pins, inked icons, and narrow metal rules. It is clean rather than distressed.
 
-The title shell is a static painted woodland clearing authored for the 640×360 canvas: large soft ellipses for grove and canopy, soft trunks, and ordered dither to hide sky banding. No TIME. High-frequency noise and hard step edges are forbidden here because canvas_items nearest-upscale turns them into blocky clusters. Focus is a high-contrast pale outline, not hue alone.
+The title shell paints a long-lens woodland diorama on a full-rect ColorRect (no SubViewport, no TIME): sky and sun, hills, painted grass ramps, a worn dirt path, a hashed far treeline, multi-mass crowns using the field leaf palette, and foreground overhang. A dark plate sits under the menu.
 
 - Body text prioritizes a highly legible UI font; decorative pixel lettering is limited to headings and labels.
 - Default body text is equivalent to at least 18 px at 1080p; scalable to 150% without clipping.

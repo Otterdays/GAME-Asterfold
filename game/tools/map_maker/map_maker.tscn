@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://tools/map_maker/map_maker_app.gd" id="1_app"]
 [ext_resource type="Script" path="res://tools/map_maker/map_maker_camera.gd" id="2_camera"]
 [ext_resource type="Script" path="res://tools/map_maker/map_maker_palette.gd" id="3_palette"]
 [ext_resource type="Script" path="res://tools/map_maker/map_maker_tooltip.gd" id="4_tooltip"]
 [ext_resource type="Script" path="res://tools/map_maker/map_maker_settings_panel.gd" id="5_settings"]
+[ext_resource type="Script" path="res://tools/map_maker/map_maker_preview.gd" id="6_preview"]
+[ext_resource type="Script" path="res://tools/map_maker/map_maker_grid.gd" id="7_grid"]
+[ext_resource type="Script" path="res://tools/map_maker/map_maker_toast.gd" id="8_toast"]
 
 [node name="MapMaker" type="Node3D"]
 script = ExtResource("1_app")
@@ -16,6 +19,14 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 script = ExtResource("2_camera")
 
+[node name="Preview" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("6_preview")
+
+[node name="Grid" type="Node3D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("7_grid")
+
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="Palette" type="PanelContainer" parent="HUD"]
@@ -25,7 +36,7 @@ anchor_right = 1.0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = -8.0
-offset_bottom = 132.0
+offset_bottom = 8.0
 grow_horizontal = 2
 script = ExtResource("3_palette")
 
@@ -45,19 +56,28 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="ButtonRow" type="HBoxContainer" parent="HUD/Palette/Margin/Column"]
+[node name="ButtonScroll" type="ScrollContainer" parent="HUD/Palette/Margin/Column"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 52)
+horizontal_scroll_mode = 2
+vertical_scroll_mode = 0
+
+[node name="ButtonRow" type="HBoxContainer" parent="HUD/Palette/Margin/Column/ButtonScroll"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
 [node name="StatusLabel" type="Label" parent="HUD/Palette/Margin/Column"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 15
 text = "Loading Brindlewick"
 
 [node name="HelpLabel" type="Label" parent="HUD/Palette/Margin/Column"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 13
 autowrap_mode = 3
 
 [node name="SettingsPanel" type="PanelContainer" parent="HUD"]
@@ -66,12 +86,28 @@ visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -360.0
-offset_top = 112.0
+offset_left = -368.0
+offset_top = 160.0
 offset_right = -8.0
-offset_bottom = 320.0
+offset_bottom = 372.0
 grow_horizontal = 0
 script = ExtResource("5_settings")
+
+[node name="Toast" type="PanelContainer" parent="HUD"]
+unique_name_in_owner = true
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -92.0
+offset_right = 260.0
+offset_bottom = -44.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("8_toast")
 
 [node name="Tooltip" type="PanelContainer" parent="HUD"]
 unique_name_in_owner = true

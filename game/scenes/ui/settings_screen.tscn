@@ -27,10 +27,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 12.0
-offset_top = 8.0
-offset_right = -12.0
-offset_bottom = -8.0
+offset_left = 48.0
+offset_top = 32.0
+offset_right = -48.0
+offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -39,84 +39,187 @@ layout_mode = 2
 
 [node name="InnerMargin" type="MarginContainer" parent="Margin/Panel"]
 layout_mode = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
 
 [node name="Layout" type="VBoxContainer" parent="Margin/Panel/InnerMargin"]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 12
 
 [node name="Heading" type="Label" parent="Margin/Panel/InnerMargin/Layout"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.93, 0.96, 0.97, 1)
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 28
 text = "Settings"
 
-[node name="CameraRow" type="HBoxContainer" parent="Margin/Panel/InnerMargin/Layout"]
+[node name="SettingsPages" type="TabContainer" parent="Margin/Panel/InnerMargin/Layout"]
+unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 3
+current_tab = 0
 
-[node name="Label" type="Label" parent="Margin/Panel/InnerMargin/Layout/CameraRow"]
+[node name="Video" type="MarginContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+metadata/_tab_index = 0
+
+[node name="VideoBody" type="VBoxContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="WindowModeRow" type="HBoxContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video/VideoBody"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video/VideoBody/WindowModeRow"]
 custom_minimum_size = Vector2(210, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+text = "Window mode"
+
+[node name="WindowModeOption" type="OptionButton" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video/VideoBody/WindowModeRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 40)
+layout_mode = 2
+
+[node name="ResolutionRow" type="HBoxContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video/VideoBody"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video/VideoBody/ResolutionRow"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Resolution"
+
+[node name="ResolutionOption" type="OptionButton" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video/VideoBody/ResolutionRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 40)
+layout_mode = 2
+
+[node name="UIScaleRow" type="HBoxContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video/VideoBody"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video/VideoBody/UIScaleRow"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "UI scale"
+
+[node name="UIScaleOption" type="OptionButton" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video/VideoBody/UIScaleRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 40)
+layout_mode = 2
+
+[node name="QualityRow" type="HBoxContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video/VideoBody"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video/VideoBody/QualityRow"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Presentation quality"
+
+[node name="PresentationQualityOption" type="OptionButton" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Video/VideoBody/QualityRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 40)
+layout_mode = 2
+
+[node name="Accessibility" type="MarginContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+metadata/_tab_index = 1
+
+[node name="AccessibilityBody" type="VBoxContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Accessibility"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CameraRow" type="HBoxContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Accessibility/AccessibilityBody"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Accessibility/AccessibilityBody/CameraRow"]
+custom_minimum_size = Vector2(210, 0)
+layout_mode = 2
+size_flags_horizontal = 3
 text = "Camera motion"
 
-[node name="CameraMotionOption" type="OptionButton" parent="Margin/Panel/InnerMargin/Layout/CameraRow"]
+[node name="CameraMotionOption" type="OptionButton" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Accessibility/AccessibilityBody/CameraRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(210, 38)
+custom_minimum_size = Vector2(240, 40)
 layout_mode = 2
 
-[node name="TextRow" type="HBoxContainer" parent="Margin/Panel/InnerMargin/Layout"]
+[node name="TextRow" type="HBoxContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Accessibility/AccessibilityBody"]
 layout_mode = 2
+theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="Margin/Panel/InnerMargin/Layout/TextRow"]
+[node name="Label" type="Label" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Accessibility/AccessibilityBody/TextRow"]
 custom_minimum_size = Vector2(210, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Text scale"
 
-[node name="TextScaleOption" type="OptionButton" parent="Margin/Panel/InnerMargin/Layout/TextRow"]
+[node name="TextScaleOption" type="OptionButton" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Accessibility/AccessibilityBody/TextRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(210, 38)
+custom_minimum_size = Vector2(240, 40)
 layout_mode = 2
 
-[node name="SwapConfirmCancel" type="CheckButton" parent="Margin/Panel/InnerMargin/Layout"]
+[node name="SwapConfirmCancel" type="CheckButton" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Accessibility/AccessibilityBody"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 38)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Swap confirm and cancel"
 
-[node name="ControlsHeading" type="Label" parent="Margin/Panel/InnerMargin/Layout"]
+[node name="Controls" type="MarginContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages"]
+visible = false
 layout_mode = 2
-theme_override_colors/font_color = Color(0.86, 0.89, 0.96, 1)
-theme_override_font_sizes/font_size = 20
-text = "Controls"
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+metadata/_tab_index = 2
 
-[node name="BindingsScroll" type="ScrollContainer" parent="Margin/Panel/InnerMargin/Layout"]
-custom_minimum_size = Vector2(0, 30)
+[node name="ControlsBody" type="VBoxContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Controls"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="BindingsScroll" type="ScrollContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Controls/ControlsBody"]
 layout_mode = 2
 size_flags_vertical = 3
+horizontal_scroll_mode = 0
 
-[node name="BindingsList" type="VBoxContainer" parent="Margin/Panel/InnerMargin/Layout/BindingsScroll"]
+[node name="BindingsList" type="VBoxContainer" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Controls/ControlsBody/BindingsScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 6
+
+[node name="ResetBindingsButton" type="Button" parent="Margin/Panel/InnerMargin/Layout/SettingsPages/Controls/ControlsBody"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Reset bindings"
 
 [node name="Buttons" type="HBoxContainer" parent="Margin/Panel/InnerMargin/Layout"]
 layout_mode = 2
 alignment = 2
 theme_override_constants/separation = 10
 
-[node name="ResetBindingsButton" type="Button" parent="Margin/Panel/InnerMargin/Layout/Buttons"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(170, 38)
-layout_mode = 2
-text = "Reset bindings"
-
 [node name="BackButton" type="Button" parent="Margin/Panel/InnerMargin/Layout/Buttons"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(130, 38)
+custom_minimum_size = Vector2(130, 40)
 layout_mode = 2
 text = "Back"
 

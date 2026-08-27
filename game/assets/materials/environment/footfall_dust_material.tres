@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/materials/environment/footfall_mote.gdshader" id="1_shader"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/mote_core = Color(0.74, 0.63, 0.47, 1)
+shader_parameter/mote_edge = Color(0.53, 0.44, 0.32, 1)
+shader_parameter/mote_opacity = 0.5
+shader_parameter/blade_shape = 0.0
+shader_parameter/settle_height_m = 0.6

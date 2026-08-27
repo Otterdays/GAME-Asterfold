@@ -32,5 +32,8 @@ None. `game/addons/` is unused. Adding an addon requires an ADR and a row here.
 
 ## Changes
 
+- 2026-08-27: Added original prototype title music and UI transients (Karplus-Strong / foley synthesis, no packages or sampled libraries). Git LFS holds the generated WAVs under `game/assets/audio/`.
+- 2026-08-27: Added the Brindlewick nature ambience (bird species definitions, one shared procedural bird body, leaf-fall and footfall particle components, three painted shaders, and three map-maker nature pieces). Project-owned original work built on stock Godot `GPUParticles3D` / `MultiMesh`; no packages, addons, or third-party assets added.
+- 2026-08-27: Added the Brindlewick tree system (species definitions, grove layout, painted trunk/crown shaders, grove components). Project-owned original work; no packages, addons, or third-party assets added.
 - 2026-08-27: Added an internal map maker that uses the pinned Godot 4.7.2 Standard editor/runtime. No new third-party packages.
 - 2026-08-27: Initial SBOM. No package install or remove. Added vendored caveman skill as an editor/agent asset.

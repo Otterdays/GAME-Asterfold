@@ -17,7 +17,7 @@ The smallest useful architecture is preferred. Systems become services only when
 - Typed GDScript 2.0.
 - Fixed physics rate: 60 Hz.
 - Initial desktop render API: Vulkan; Compatibility renderer is a later measured fallback, not an assumption.
-- Reference render canvas: 640 x 360, scaled according to presentation policy.
+- Default presentation canvas: 1920 x 1080 (High). Low 640 x 360 remains the minimum supported world/title render scale. Window size is independent and may be 720p through 4K.
 - Initial build targets: Windows x86-64 and Linux x86-64.
 - All player actions must work through keyboard and a standard dual-stick controller.
 
@@ -61,7 +61,7 @@ App (Node)
 `- DebugLayer (CanvasLayer, development only)
 ```
 
-`GameFlow` owns transitions between stable game states. It loads a zone asynchronously, validates its manifest, stages actors, and only then releases the previous zone. The screen transition is presentation; it never acts as proof that loading succeeded.
+`GameFlow` owns transitions between stable game states. It currently instantiates the target zone synchronously. The app shell keeps the title clearing visible for that hitch, disables title actions, and raises `WorldLoadBlocker` until the first idle field frame after the zone exists so a click cannot fall through. Asynchronous loads, a `TransitionLayer`, and releasing the previous zone only after the next is staged remain the M4 zone-transition plan. The screen cover is presentation; it never acts as proof that loading succeeded.
 
 ## Autoload boundaries
 
@@ -77,6 +77,8 @@ Allowed long-lived services:
 | `EventBus` | Small set of declared cross-lifetime notifications | Local scene communication or arbitrary strings |
 
 All service APIs are typed. Adding another autoload requires evidence that scene ownership and explicit injection are insufficient, then an ADR.
+
+Title music and UI transients currently live on the app-shell `TitleShellAudio` node (Music / UI buses). That is scene ownership, not the `AudioDirector` autoload. Do not promote it without an ADR.
 
 ## Zone contract
 
@@ -105,7 +107,11 @@ Surface modules are presentation composition, not world state. Their shaders may
 
 Roads use a data/render/style split. A zone-owned `DirtRoadLayout` resource declares bounded rounded patches and join softness on the meter grid. `DirtRoadNetwork3D` is a reusable presentation component that validates the resource, generates one surface containing tightly bounded patch quads, and copies layout uniforms into an instance-local material. The shared shader produces a smooth distance-field union and surface treatment. Keeping the mesh near the road avoids evaluating the detailed shader over the whole zone; batching retains one draw call. This removes visible overlap seams while keeping authoring data out of shader code and shared materials free of zone-specific mutable state.
 
-Map-maker dress uses the same data/instance split. `WorldPieceCatalog` lists reusable piece scenes in `prop`, `building`, and `tree` families. A zone-owned `ZonePlacementList` stores grid cells, piece IDs, footprints, and quarter-turn yaw. `PlacementLayer` instances those components when the zone is ready. The internal map maker loads the composed zone scene, edits placements and dirt-road patch centers, and never joins `GameFlow` or the title. Tooltips are a separate overlay plus `MapMakerTooltipCatalog`, not inline palette strings. Cursor follow and idle restore are `MapMakerSettings` options shown in the Settings panel.
+Trees use the same split. `TreeDefinition` describes a species; a zone-owned `TreeGroveLayout` stores placements and validates them against the dirt-road layout, the logical grid, ground bounds, and trunk spacing; `TreeBody3D` builds one painted body with trunk-only collision; `TreeGrove3D` composes hero bodies plus one MultiMesh per batched species part and a single batched trunk-collision body. Crowns collide only on the camera occlusion mask through `tree_crown_occluder.gd`, which implements the same `set_faded` contract the camera rig already raycasts for. `ZoneController` forwards camera-motion accessibility settings to the grove so crown sway stops outside Full motion.
+
+Ambient nature reuses that authored data instead of adding a second source of truth. `NatureAmbience` is a zone presentation node owning three components: `AmbientBirdFlock` seeds per-bird circuits from the grove's tree placements and renders the flock as one MultiMesh with the flap phase carried in instance custom data; `LeafFallEmitter` turns every crown mass in the grove layout into an emission point for a single `GPUParticles3D`; `FootfallMotes` rides an injected actor and enables one of its dust and grass emitters based on `DirtRoadLayout.signed_distance_m`, because the painted dirt road has no collider to query. There is one bird body: `AmbientBirdFlock.build_bird_mesh(definition)` builds head, beak, body, two-segment swept wings, and a forkable tail from the species ratios and tags each part in UV.x, so a variant species is a definition plus a material rather than new geometry. The flock and the leaf emitter also run standalone: with no grove assigned they anchor on their own node, which is what the map maker's `nature` family pieces (`piece.bird_roost`, `piece.swift_roost`, `piece.leaf_drift`) use. `ZoneController` injects the player, forwards camera-motion accessibility settings, and fans the same settings to the `ambient_motion` group so builder-placed nature obeys reduced motion too. Reduced and Minimal motion freeze the flock, stop leaf fall, and silence footfall motes. None of these components read or write gameplay state.
+
+Map-maker dress uses the same data/instance split. `WorldPieceCatalog` lists reusable piece scenes in `prop`, `building`, and `tree` families. A zone-owned `ZonePlacementList` stores grid cells, piece IDs, footprints, and quarter-turn yaw. `PlacementLayer` instances those components when the zone is ready. The internal map maker loads the composed zone scene, edits placements and dirt-road patch centers, and never joins `GameFlow`. Title **Open Map Maker** uses `change_scene_to_file` from the app shell. `map_maker.bat` still opens the same scene. Tooltips are a separate overlay plus `MapMakerTooltipCatalog`, not inline palette strings. Cursor follow and idle restore are `MapMakerSettings` options shown in the Settings panel. Placement preview uses `MapMakerPreview`: a translucent ghost of the held piece, amber overlay on editable hover targets, click-to-unplace on the same piece, and short right-click delete with right-drag pan.
 
 ## Coordinate conventions
 
@@ -150,6 +156,8 @@ Any failure before `COMMITTING` returns to the source facet. A failure during co
 ### Peek Orbit
 
 Peek applies a presentation-only offset beneath the committed camera rig. It cannot alter the active facet, cursor target, navigation direction basis, or saved state. Camera-relative movement always uses committed yaw rather than transient peek yaw; this avoids movement wobble while inspecting. Field play captures the mouse immediately and drives Peek from mouse motion. Keyboard Peek and right stick remain. Peek recenters after 10 seconds without look input.
+
+First-person look (`FirstPersonScout`) is a second presentation camera. The field HUD **Look around** control (semantic `scout`) opens a top-down SubViewport of the live zone. A click or Confirm chooses an XZ point inside the zone bounds; the scout eye sits 1.65 m above ground, hides Mara, and shows a center crosshair. Mouse and Peek-stick look. The world does not rotate. Cancel returns to the long-lens rig without changing spawn or save state.
 
 ### Character sprite direction
 
@@ -213,6 +221,19 @@ Every definition contains a namespaced stable ID. Cross-references are IDs resol
 
 Runtime models contain primitives, stable IDs, and small value objects. Nodes and Resources never appear in serialized state.
 
+## Equipment and layered actor presentation
+
+`ItemDefinition` is immutable content. Runtime ownership is split so presentation never becomes game truth:
+
+- `EquipmentSlotCatalog` and `ActorLayerIds` own the closed slot list and the canonical body-layer identities.
+- `EquipmentLoadout` owns occupancy rules: one occupant per slot, set items occupying a single slot, and a two-handed main hand that blocks rather than silently fills the off hand.
+- `PartyInventory` owns instances, bag membership, and equip/unequip transactions, and emits `loadout_changed`.
+- `SpriteLayerCompositor` reacts to the loadout by flattening per-layer art into one texture. It decides nothing about what is equipped.
+
+There is no equipment autoload. `AppShell` owns one session-scoped `PartyInventory`, the equipment screen sends intent to it, and the zone controller forwards the resulting definitions to the actor's `SpriteActor`. The loadout is discarded on return to title; campaign persistence waits for `SaveService` and the save envelope below.
+
+The compositor recomposes a whole direction sheet on equipment change and caches recent loadouts, so the world actor stays one billboarded quad regardless of layer count.
+
 ## Quest and flag state
 
 Quest state is explicit:
@@ -265,6 +286,8 @@ Migrations are sequential pure transformations from version N to N+1. A build th
 
 UI screens define an initial focus target, directional neighbors where automatic navigation is ambiguous, a cancel destination, and a focus restoration target. Mouse hover cannot permanently steal gamepad focus.
 
+Title Settings uses a `TabContainer` with **Video** (window mode, output resolution, UI scale, presentation quality), **Accessibility** (camera motion, text scale, confirm/cancel swap), and **Controls** (rebinding list and reset). `DisplaySettings` owns window mode, resolution, and UI scale. `AccessibilitySettings` owns presentation quality and text scale. Window resolution sets the OS window or fullscreen size. UI scale grows HUD and menus inside a 1920×1080 UI reference without changing that window size. Presentation quality sets `WorldViewport.scaling_3d_scale`; the title clearing stays High 1920×1080. F11 and Alt+Enter (`toggle_fullscreen`) toggle windowed and borderless from `AppShell._input`, then refresh the Video tab and save. F10 (`quit_prompt`) opens the shell's `QuitPrompt` panel with "YES, QUIT" focused. Both shortcuts are suppressed while the Controls tab is capturing a rebind so the keys remain bindable. Values persist under `user://settings.cfg` keys `accessibility`, `bindings`, and `video`. Clicking a tab title switches the visible page. Opening the screen focuses the tab bar; cancel still returns to title.
+
 ## Asynchrony and cancellation
 
 Zone loads, dialogue sequences, transitions, and long presentations can outlive their initiating node. Each receives an operation token owned by `GameFlow` or the scene controller. After every `await`, code verifies token validity and node lifetime before mutating state.
@@ -303,13 +326,14 @@ Vertical-slice reference budgets are in `AGENTS.md`; measurement procedure is in
 
 ## Validation entry points
 
-From the workspace root, Windows contributors run `validate.bat`. That wrapper locates Godot 4.7.2 Standard and runs import/script parsing, the unit/integration suite, content/provenance validation, a runtime smoke, debug exports, and the Windows exported-build boot smoke.
+From the workspace root, Windows contributors run `validate.bat`. That wrapper locates Godot 4.7.2 Standard and runs import/script parsing, the discovered `TestCase` suite (`res://tests/run_tests.gd`, 426 checks across 8 suites as of 2026-08-27), content/provenance validation, a runtime smoke, debug exports, and the Windows exported-build boot smoke. Suite names, leak checks, and `--suite=` filtering are documented in `docs/TESTING_AND_RELEASE.md`.
 
 Direct Godot entry points remain:
 
 ```powershell
 godot --headless --editor --quit --path game
 godot --headless --path game --script res://tests/run_tests.gd
+godot --headless --path game --script res://tests/run_tests.gd -- --suite=project_contract
 godot --headless --path game --script res://tools/validate_content.gd
 ```
 

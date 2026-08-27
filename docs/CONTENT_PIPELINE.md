@@ -103,9 +103,9 @@ Do not art-lock a space before navigation, occlusion, fold-safe positions, and b
 
 ### Internal map maker
 
-The playable shell never launches or mentions the map maker. Contributors run `map_maker.bat` from the repository root, which opens `game/tools/map_maker/map_maker.tscn` against the Godot project. The tool instantiates the same Brindlewick zone scene the walking diorama loads, freezes Mara and the playable camera, and writes `*_placements.tres` plus the dirt-road layout. Grass, spawns, camera volumes, bounds, and presentation stay visible so the builder is connected to the live world even when those layers are not yet writable.
+The map maker is an authoring tool, not a `GameFlow` state. Launch it from title **Open Map Maker** or `map_maker.bat`. Both open `game/tools/map_maker/map_maker.tscn` against the Godot project. [AMENDED 2026-08-27]: title now launches the scene; earlier isolation from the shell is superseded. The tool instantiates the same Brindlewick zone scene the walking diorama loads, freezes Mara and the playable camera, and writes `*_placements.tres` plus the dirt-road layout. Grass, spawns, camera volumes, bounds, and presentation stay visible so the builder is connected to the live world even when those layers are not yet writable.
 
-Beginner chrome uses four families: Things, Buildings, Trees, Roads. Status reports a weighted connectivity/control score. Hover tooltips live in a separate catalog (`game/tools/map_maker/map_maker_tooltip_catalog.tres`) and overlay, not Godot `tooltip_text`.
+Beginner chrome uses five families: Things, Buildings, Trees, Nature, Roads. Status reports a weighted connectivity/control score. Hover tooltips live in a separate catalog (`game/tools/map_maker/map_maker_tooltip_catalog.tres`) and overlay, not Godot `tooltip_text`.
 
 Dress, landmarks, and trees are reusable world components:
 
@@ -121,7 +121,7 @@ game/tools/map_maker/
 
 Weighted leftover work (highest first): spawn markers, grass ground, camera volumes, walk bounds, lights/occluders. Those surfaces are already visible in the builder.
 
-Place on the 0.5 m grid. Left click places or moves the selected road, right click removes a piece, `R` rotates, and Ctrl+S writes both placement and road resources. Cursor follow and idle restore to default vision live in the map maker Settings panel (defaults on, 10 seconds). Validation rejects unknown piece IDs, overlapping footprints, and positions outside the zone bounds.
+Place on the 0.5 m grid. Left click places the selected piece, or lifts it if that same piece already occupies the cell. A live ghost follows the held piece. Amber overlay marks any hoverable dress piece that can be edited. Short right-click deletes; right-drag still pans. `R` rotates, Delete mode still turns left-click into erase, and Ctrl+S writes both placement and road resources. Cursor follow and idle restore to default vision live in the map maker Settings panel (cursor-follow off by default, 10 seconds). Validation rejects unknown piece IDs, overlapping footprints, and positions outside the zone bounds.
 
 ### Ground-surface ownership
 
@@ -153,7 +153,92 @@ The zone geometry layer owns composition and landmarks by instancing these surfa
 
 Code-native procedural surface shaders are project source, not generated binary art, and therefore do not require an asset-provenance entry. Bitmap or model-backed replacements must follow the normal `art_source/`, runtime export, provenance, and validation workflow.
 
-The title shell uses the same rule: `game/assets/materials/ui/title_clearing.gdshader` is a static canvas-item painting (no `TIME`), owned by the title scene rather than any zone.
+The title shell uses the same rule: `game/assets/materials/ui/title_clearing.gdshader` is a static canvas-item painting (no `TIME`) of a long-lens woodland diorama on a full-rect ColorRect.
+
+### Tree ownership
+
+Trees follow the same data/render/style split as ground surfaces:
+
+```text
+game/assets/materials/environment/
+  tree_trunk.gdshader
+  tree_trunk_material.tres
+  tree_crown.gdshader
+  tree_crown_civic_material.tres
+  tree_crown_orchard_material.tres
+  tree_crown_sentinel_material.tres
+game/content/trees/
+  civic_shade.tres
+  orchard_tidemark.tres
+  gate_sentinel.tres
+game/content/zones/brindlewick_square/
+  brindlewick_tree_grove_layout.tres
+game/scenes/world/trees/
+  tree_body.tscn
+  brindlewick_tree_grove.tscn
+game/src/world/tree_definition.gd
+game/src/presentation/
+  tree_grove_layout.gd
+  tree_body_3d.gd
+  tree_grove_3d.gd
+  tree_crown_occluder.gd
+```
+
+- `TreeDefinition` is an immutable species record: stable `tree.*` ID, trunk taper and height, canopy radius and walk-under clearance, crown masses, crown flatten, allowed scale range, yaw snap, variant count, crown-fade flag, and materials. Validation rejects trunks wider than their canopy, missing materials, crown masses outside the declared canopy, and walk-under claims below the 2.25 m door metric.
+- `TreeGroveLayout` is the zone-owned placement table: parallel rows of species ID, XZ position, yaw, uniform scale, variant seed, and a hero flag, plus ground bounds, the zone dirt-road layout, and hero/batch budgets. Validation rejects off-grid positions, unsnapped yaw, out-of-range scale, unknown species, trees on the road shoulder, trees off the ground surface, crowded trunks, misaligned rows, and budget overruns.
+- `TreeBody3D` builds one species body: root flare, tapered trunk, crown masses, and a trunk-only cylinder collider. Crown jitter comes from a locally seeded generator, so one seed always produces the same silhouette.
+- `TreeGrove3D` builds hero specimens as full bodies and collapses the remaining rows into one MultiMesh per species part, plus a single batched trunk-collision body. It also drives crown sway from the camera-motion accessibility setting.
+
+To add a tree: author a species definition, add or reuse a crown material, then add one placement row. To add a map-maker-placeable tree, wrap a `tree_body.tscn` instance in a piece scene and catalog it.
+
+Tree shaders are code-native procedural source and follow the same provenance exemption as the ground surfaces; the shader/material pair is still recorded in `assets/asset_manifest.json`.
+
+### Nature ambience ownership
+
+Ambient life is presentation-only and reuses the authored world data rather than duplicating it:
+
+```text
+game/assets/materials/environment/
+  ambient_bird.gdshader
+  ambient_bird_hearthfinch_material.tres
+  falling_leaf.gdshader
+  falling_leaf_civic_material.tres
+  footfall_mote.gdshader
+  footfall_dust_material.tres
+  footfall_grass_material.tres
+  ambient_bird_slate_swift_material.tres
+game/content/wildlife/
+  hearthfinch.tres
+  slate_swift.tres
+game/scenes/world/nature/
+  brindlewick_nature_ambience.tscn
+game/scenes/world/pieces/
+  bird_roost.tscn
+  swift_roost.tscn
+  leaf_drift.tscn
+game/src/world/bird_species_definition.gd
+game/src/world/pieces/
+  bird_roost.gd
+  leaf_drift.gd
+game/src/presentation/
+  nature_ambience.gd
+  ambient_bird_flock.gd
+  leaf_fall_emitter.gd
+  footfall_motes.gd
+```
+
+- `BirdSpeciesDefinition` is an immutable species record: stable `bird.*` ID, localization key, flock size, wingspan, cruise speed, circuit radius and cruise height ranges, silhouette ratios (body length, head, beak, tail length and fork, wing sweep and taper), bob, flap rate and amplitude, and bank angle. Validation rejects unordered ranges and any species that would cruise below the 2.0 m clearance that keeps birds out of walkable space.
+- There is one bird body. `AmbientBirdFlock.build_bird_mesh(definition)` builds head, beak, tapered body, two-segment swept wings, and a forkable tail entirely from those ratios, and tags each part in UV.x so the shared shader can recolour body, belly, head, beak, wing, wingtip, and tail independently. **A new species is a definition plus a material, never new geometry.** `slate_swift.tres` exists to prove it: faster, higher, deeply forked tail, swept narrow wings, cool slate palette, same builder.
+- `AmbientBirdFlock` seeds one circuit per bird from the zone's `TreeGroveLayout` anchors, hero specimens first, and renders the whole flock as one MultiMesh with a per-bird flap phase in instance custom data.
+- `LeafFallEmitter` reads every crown mass in the same grove layout and feeds them to one `GPUParticles3D` as emission points, so a town-wide leaf fall stays a single draw.
+- `FootfallMotes` classifies the ground under an injected actor with `DirtRoadLayout.signed_distance_m`, because the painted dirt road has no collider of its own, and enables exactly one of its dust and grass emitters.
+- `NatureAmbience` is the zone-facing coordinator. `ZoneController` injects the player and forwards accessibility settings; nothing here writes save, quest, or collision state.
+
+Ambient life is also authorable in the map maker. The **Nature** family offers `piece.bird_roost`, `piece.swift_roost`, and `piece.leaf_drift`. Those pieces wrap the same components in standalone mode: a flock with no `anchor_layout` circles its own node origin, and a leaf emitter with no `layout` sheds from a ring above itself (`local_crown_height_m`, `local_crown_radius_m`, `local_emission_points`). Placed pieces join the `ambient_motion` group, and `ZoneController` fans accessibility settings out to that group so builder-placed nature obeys reduced motion exactly like the zone-wide system. Footfall motes are not placeable because they follow the walking actor; a builder changes them by moving dirt-road patches, since the mote choice is read from the road layout.
+
+To add a species or a new ambient effect: author the definition resource, add its material, then add the node to a zone's nature-ambience scene or wrap it in a world piece. Content validation checks every species, the scene, that the zone's leaf fall and footfall motes point at the zone-owned grove and dirt-road layouts, and that every catalogued piece family has a palette tab.
+
+These shaders are code-native procedural source with the same provenance exemption as the ground surfaces, and each shader/material pair is recorded in `assets/asset_manifest.json`.
 
 ### World Turn authoring
 
@@ -181,6 +266,23 @@ The validator checks that reachable targets have safe markers, no marker overlap
 - Tags follow `animation_direction`, for example `walk_ne`, `idle_s`, `interact_w`.
 - Pivot metadata uses the ground contact between the feet, not image center.
 - Palette and outline choices follow the zone/character color script.
+
+### Layered graybox kit
+
+Until Aseprite sources exist, `game/tools/generate_mara_layers.ps1` is the deterministic source of the Mara kit. One run produces:
+
+- `mara_layers_field.png`: the 21 field layers stacked vertically, each a full 288 x 320 direction sheet.
+- `mara_layers_doll.png`: the 31 paper-doll layers stacked horizontally, each a 96 x 128 south idle frame.
+- `mara_prototype.png`: the flattened unequipped field sheet used as the fallback texture.
+- `mara_layers.source.json`: provenance plus the exact field and doll layer orders.
+
+Both atlases are copied into `assets/generated/characters/mara/` and recorded in `assets/asset_manifest.json`. `ActorLayerKit` (`content/actors/mara_layer_kit.tres`) points the runtime at them, and the content validator fails if the generated layer order disagrees with `ActorLayerIds`.
+
+### Equipment definitions
+
+Equipment lives in `content/items/item_catalog.tres` as immutable `ItemDefinition` resources resolved through `ContentDB`. Each definition carries a stable `item.*` ID, a localization key, one slot from the closed catalog, a draw mode of replace or overlay, a graybox colour, and a two-handed flag. Runtime ownership is separate: `PartyInventory` holds instances and an `EquipmentLoadout`.
+
+Validation requires a stable namespaced ID, a localization key, a known slot, every slot to have at least one graybox item, and every body layer to reach a focusable slot.
 
 ### Export
 
@@ -234,7 +336,7 @@ Quest definitions declare availability, objectives, completion conditions, journ
 
 ## Audio content
 
-Runtime audio standards are defined in `docs/AUDIO_DIRECTION.md`. Each asset records source, license, loop points where applicable, loudness review status, and intended bus. Music stems for the same cue must share exact length, sample rate, and loop boundaries.
+Runtime audio standards are defined in `docs/AUDIO_DIRECTION.md`. Each asset records source, license, loop points where applicable, loudness review status, and intended bus. Music stems for the same cue must share exact length, sample rate, and loop boundaries. [AMENDED 2026-08-27]: regenerate title/UI prototype WAVs with `godot --headless --path game --script res://tools/generate_title_audio.gd`.
 
 ## Validation tiers
 
@@ -270,6 +372,8 @@ Runtime audio standards are defined in `docs/AUDIO_DIRECTION.md`. Each asset rec
 - Grayscale and color-vision simulation checks.
 
 Validation errors fail CI. Explicit warnings require an owner and reason before a release candidate.
+
+Zone and piece definition checks also run inside `world_content` and `tree_grove_runtime` suites (`res://tests/run_tests.gd`). Full provenance remains `res://tools/validate_content.gd`.
 
 ## Provenance and legal safety
 

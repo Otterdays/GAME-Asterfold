@@ -38,7 +38,7 @@ When documents disagree, follow the source-of-truth order in `AGENTS.md`. Code i
 | [ACCESSIBILITY_AND_UX.md](ACCESSIBILITY_AND_UX.md) | Inclusive controls, readability, motion, difficulty |
 | [VERTICAL_SLICE.md](VERTICAL_SLICE.md) | Milestone scope, acceptance criteria, exclusions |
 | [MILESTONE_STATUS.md](MILESTONE_STATUS.md) | Demonstrated implementation evidence |
-| [TESTING_AND_RELEASE.md](TESTING_AND_RELEASE.md) | Automated, manual, performance, and release gates |
+| [TESTING_AND_RELEASE.md](TESTING_AND_RELEASE.md) | Automated runner (`run_tests.gd` suites), manual, performance, and release gates |
 | [decisions/](decisions/) | Accepted architecture decision records |
 
 Changelog is [../CHANGELOG.md](../CHANGELOG.md), not a second changelog in this folder.

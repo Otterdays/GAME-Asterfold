@@ -1,36 +1,77 @@
-{
-  "schema_version": 1,
-  "asset_id": "sprite.actor.mara.prototype",
-  "source_file": "mara_prototype.png",
-  "author": "Asterfold project",
-  "authorship": "Original project-owned prototype drawn by the Asterfold project via its deterministic PowerShell generator; no external model or source artwork was used.",
-  "license": "Project-owned original work",
-  "review_status": "Approved for M1 prototype only",
-  "external_sources": [],
-  "generation": {
-    "tool": "game/tools/generate_mara_prototype.ps1",
-    "model": null,
-    "prompt": null,
-    "review_status": "approved for M1 prototype only"
-  },
-  "export_settings": {
-    "format": "PNG RGBA",
-    "sheet_size": [288, 320],
-    "frame_size": [48, 64],
-    "pixels_per_meter": 32,
-    "filter": "nearest",
-    "mipmaps": false
-  },
-  "frame": {
-    "width": 48,
-    "height": 64,
-    "columns": 6,
-    "rows": 5,
-    "directions": ["north", "north_east", "east", "south_east", "south"],
-    "mirrored_directions": ["north_west", "west", "south_west"],
-    "idle_frames": 2,
-    "walk_frames": 4,
-    "ground_pivot": [24, 60]
-  },
-  "palette": ["#263142", "#35445D", "#52627C", "#D7A07B", "#EDBE91", "#8D405A", "#B65A70", "#E3A64B", "#46566D", "#212B3A", "#F0E2B8"]
+﻿{
+    "schema_version":  1,
+    "asset_id":  "sprite.actor.mara.prototype",
+    "source_file":  "mara_prototype.png",
+    "author":  "Asterfold project",
+    "authorship":  "Original project-owned prototype drawn by the Asterfold project via its deterministic PowerShell generator; no external model or source artwork was used. Since the layered kit landed, this sheet is the flattened unequipped fallback produced by the same generator.",
+    "license":  "Project-owned original work",
+    "review_status":  "Approved for M1 prototype only",
+    "external_sources":  [
+
+                         ],
+    "generation":  {
+                       "tool":  "game/tools/generate_mara_layers.ps1",
+                       "model":  null,
+                       "prompt":  null,
+                       "review_status":  "approved for M1 prototype only"
+                   },
+    "export_settings":  {
+                            "format":  "PNG RGBA",
+                            "sheet_size":  [
+                                               576,
+                                               320
+                                           ],
+                            "frame_size":  [
+                                               48,
+                                               64
+                                           ],
+                            "pixels_per_meter":  32,
+                            "filter":  "nearest",
+                            "mipmaps":  false
+                        },
+    "frame":  {
+                  "width":  48,
+                  "height":  64,
+                  "columns":  12,
+                  "rows":  5,
+                  "directions":  [
+                                     "north",
+                                     "north_east",
+                                     "east",
+                                     "south_east",
+                                     "south"
+                                 ],
+                  "mirrored_directions":  [
+                                              "north_west",
+                                              "west",
+                                              "south_west"
+                                          ],
+                  "idle_frames":  4,
+                  "walk_frames":  8,
+                  "ground_pivot":  [
+                                       24,
+                                       60
+                                   ]
+              },
+    "palette":  [
+                    "#2A241C",
+                    "#3D2814",
+                    "#6B4423",
+                    "#8B5E3C",
+                    "#C48662",
+                    "#D7A07B",
+                    "#EDBE91",
+                    "#5C3A1A",
+                    "#8B5A2B",
+                    "#A6723E",
+                    "#243A5C",
+                    "#3B5A8A",
+                    "#5A7AAB",
+                    "#8B7355",
+                    "#C4A574",
+                    "#D4BC94",
+                    "#4A3728",
+                    "#F2E6D8",
+                    "#3A2A22"
+                ]
 }

@@ -138,7 +138,7 @@ func _write_report(
 		"rendering_driver": RenderingServer.get_current_rendering_driver_name(),
 		"gpu": RenderingServer.get_video_adapter_name(),
 		"cpu": OS.get_processor_name(),
-		"internal_resolution": [640, 360],
+		"internal_resolution": [1920, 1080],
 		"output_resolution": [DisplayServer.window_get_size().x, DisplayServer.window_get_size().y],
 		"duration_seconds": duration_seconds,
 		"sample_count": frame_samples.size(),

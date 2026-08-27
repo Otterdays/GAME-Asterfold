@@ -8,10 +8,147 @@
       "creator": "Asterfold project",
       "license": "Project-owned original work",
       "attribution_required": false,
-      "generation_tool": "res://tools/generate_mara_prototype.ps1",
+      "generation_tool": "res://tools/generate_mara_layers.ps1",
       "generation_model": null,
       "prompt_record": null,
       "review_status": "Approved for M1 prototype only"
+    },
+    {
+      "id": "sprite.actor.mara.layers_field",
+      "source": "res://art_source/characters/mara/mara_layers_field.png",
+      "runtime": "res://assets/generated/characters/mara/mara_layers_field.png",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_tool": "res://tools/generate_mara_layers.ps1",
+      "generation_model": null,
+      "prompt_record": null,
+      "review_status": "Approved for the graybox layered kit only"
+    },
+    {
+      "id": "sprite.actor.mara.layers_doll",
+      "source": "res://art_source/characters/mara/mara_layers_doll.png",
+      "runtime": "res://assets/generated/characters/mara/mara_layers_doll.png",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_tool": "res://tools/generate_mara_layers.ps1",
+      "generation_model": null,
+      "prompt_record": null,
+      "review_status": "Approved for the graybox layered kit only"
+    },
+    {
+      "id": "material.environment.tree_trunk",
+      "source": "res://assets/materials/environment/tree_trunk.gdshader",
+      "runtime": "res://assets/materials/environment/tree_trunk_material.tres",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_model": null,
+      "prompt_record": null,
+      "review_status": "Approved for the Brindlewick graybox grove"
+    },
+    {
+      "id": "material.environment.tree_crown",
+      "source": "res://assets/materials/environment/tree_crown.gdshader",
+      "runtime": "res://assets/materials/environment/tree_crown_civic_material.tres",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_model": null,
+      "prompt_record": null,
+      "review_status": "Approved for the Brindlewick graybox grove"
+    },
+    {
+      "id": "material.environment.ambient_bird",
+      "source": "res://assets/materials/environment/ambient_bird.gdshader",
+      "runtime": "res://assets/materials/environment/ambient_bird_hearthfinch_material.tres",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_model": null,
+      "prompt_record": null,
+      "review_status": "Approved for the Brindlewick hearthfinch flock"
+    },
+    {
+      "id": "material.environment.ambient_bird_slate_swift",
+      "source": "res://assets/materials/environment/ambient_bird.gdshader",
+      "runtime": "res://assets/materials/environment/ambient_bird_slate_swift_material.tres",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_model": null,
+      "prompt_record": null,
+      "review_status": "Approved for the Brindlewick slate swift variant"
+    },
+    {
+      "id": "material.environment.falling_leaf",
+      "source": "res://assets/materials/environment/falling_leaf.gdshader",
+      "runtime": "res://assets/materials/environment/falling_leaf_civic_material.tres",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_model": null,
+      "prompt_record": null,
+      "review_status": "Approved for the Brindlewick grove leaf fall"
+    },
+    {
+      "id": "material.environment.footfall_dust",
+      "source": "res://assets/materials/environment/footfall_mote.gdshader",
+      "runtime": "res://assets/materials/environment/footfall_dust_material.tres",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_model": null,
+      "prompt_record": null,
+      "review_status": "Approved for the Brindlewick dirt road"
+    },
+    {
+      "id": "material.environment.footfall_grass",
+      "source": "res://assets/materials/environment/footfall_mote.gdshader",
+      "runtime": "res://assets/materials/environment/footfall_grass_material.tres",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_model": null,
+      "prompt_record": null,
+      "review_status": "Approved for the Brindlewick grass surface"
+    },
+    {
+      "id": "audio.music.title_fold_between",
+      "source": "res://src/audio/procedural_foley.gd",
+      "runtime": "res://assets/audio/music/title_fold_between.wav",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_tool": "res://tools/generate_title_audio.gd",
+      "generation_model": null,
+      "prompt_record": "Seeded Karplus-Strong D-dorian ostinato with wood knock, cloth rustle, and spare bell. No sampled libraries.",
+      "review_status": "Approved as a legal-safe title prototype loop only"
+    },
+    {
+      "id": "audio.ui.hover_bling",
+      "source": "res://src/audio/procedural_foley.gd",
+      "runtime": "res://assets/audio/ui/ui_hover_bling.wav",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_tool": "res://tools/generate_title_audio.gd",
+      "generation_model": null,
+      "prompt_record": "Short bell-plus-pluck hover transient.",
+      "review_status": "Approved as a legal-safe UI prototype transient"
+    },
+    {
+      "id": "audio.ui.click",
+      "source": "res://src/audio/procedural_foley.gd",
+      "runtime": "res://assets/audio/ui/ui_click.wav",
+      "creator": "Asterfold project",
+      "license": "Project-owned original work",
+      "attribution_required": false,
+      "generation_tool": "res://tools/generate_title_audio.gd",
+      "generation_model": null,
+      "prompt_record": "Wood-knock confirm transient.",
+      "review_status": "Approved as a legal-safe UI prototype transient"
     }
   ]
 }

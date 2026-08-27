@@ -4,6 +4,7 @@ extends Node3D
 @export var camera_rig: WorldCameraRig
 @export var gameplay_layer: ZoneGameplayLayer
 @export var tree_grove: TreeGrove3D
+@export var nature_ambience: NatureAmbience
 
 var _manifest: ZoneManifest
 
@@ -16,6 +17,8 @@ func _ready() -> void:
 			player.sprite_actor.camera_rig = camera_rig
 	if gameplay_layer != null and camera_rig != null:
 		gameplay_layer.configure_camera_rig(camera_rig)
+	if nature_ambience != null:
+		nature_ambience.configure_actor(player)
 
 
 func configure_zone(manifest: ZoneManifest, spawn_id: StringName) -> bool:
@@ -36,7 +39,36 @@ func apply_accessibility_settings(settings: AccessibilitySettings) -> void:
 		camera_rig.apply_accessibility_settings(settings)
 	if tree_grove != null:
 		tree_grove.apply_accessibility_settings(settings)
+	if nature_ambience != null:
+		nature_ambience.apply_accessibility_settings(settings)
+	# Map-maker-placed roosts and leaf drifts can be anywhere in the dress layer.
+	get_tree().call_group(
+		NatureAmbience.AMBIENT_MOTION_GROUP,
+		&"apply_accessibility_settings",
+		settings
+	)
 
 
 func get_camera_rig() -> WorldCameraRig:
 	return camera_rig
+
+
+func get_sprite_compositor() -> SpriteLayerCompositor:
+	if player == null or player.sprite_actor == null:
+		return null
+	return player.sprite_actor.get_layer_compositor()
+
+
+func apply_presentation(equipped: Array[ItemDefinition], appearance: CharacterAppearance) -> void:
+	if player != null and player.sprite_actor != null:
+		player.sprite_actor.apply_presentation(equipped, appearance)
+
+
+func apply_equipment(equipped: Array[ItemDefinition]) -> void:
+	if player != null and player.sprite_actor != null:
+		player.sprite_actor.apply_equipment(equipped)
+
+
+func set_player_input_enabled(enabled: bool) -> void:
+	if player != null:
+		player.set_input_enabled(enabled)

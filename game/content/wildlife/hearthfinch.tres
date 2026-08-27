@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="BirdSpeciesDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/world/bird_species_definition.gd" id="1_definition"]
+
+[resource]
+script = ExtResource("1_definition")
+id = &"bird.brindlewick.hearthfinch"
+display_name_key = &"bird.brindlewick.hearthfinch.name"
+flock_size = 9
+wingspan_m = 0.52
+cruise_speed_mps = 3.4
+circuit_radius_min_m = 4.5
+circuit_radius_max_m = 9.5
+cruise_height_min_m = 6.0
+cruise_height_max_m = 11.0
+body_length_ratio = 1.5
+head_length_ratio = 0.26
+beak_length_ratio = 0.12
+tail_length_ratio = 0.55
+tail_fork_ratio = 0.12
+wing_sweep_ratio = 0.3
+wing_taper = 0.6
+bob_amplitude_m = 0.55
+bob_speed = 0.8
+flap_hz = 4.2
+flap_amplitude = 0.55
+bank_degrees = 16.0

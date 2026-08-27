@@ -39,3 +39,12 @@ func rebuild() -> void:
 
 func get_placed_count() -> int:
 	return get_child_count()
+
+
+func get_instance_for_cell(grid_x: int, grid_z: int) -> Node3D:
+	if layout == null:
+		return null
+	var placement: ZonePlacement = layout.get_placement_at(grid_x, grid_z, catalog)
+	if placement == null:
+		return null
+	return get_node_or_null("cell_%d_%d" % [placement.grid_x, placement.grid_z]) as Node3D

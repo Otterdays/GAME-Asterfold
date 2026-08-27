@@ -17,9 +17,11 @@ const BINDABLE_ACTIONS: Array[StringName] = [
 	&"confirm",
 	&"cancel",
 	&"menu",
+	&"equipment",
 	&"peek",
 	&"fold_left",
 	&"fold_right",
+	&"scout",
 ]
 
 const ACTION_LABELS: Dictionary = {
@@ -30,9 +32,11 @@ const ACTION_LABELS: Dictionary = {
 	&"confirm": "Confirm",
 	&"cancel": "Cancel",
 	&"menu": "Menu",
+	&"equipment": "Equipment",
 	&"peek": "Keyboard Peek modifier",
 	&"fold_left": "World Turn left",
 	&"fold_right": "World Turn right",
+	&"scout": "Look around",
 }
 
 var _active_device: StringName = DEVICE_KEYBOARD_MOUSE

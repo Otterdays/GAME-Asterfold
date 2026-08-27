@@ -1,0 +1,169 @@
+[gd_resource type="Resource" script_class="ItemCatalog" load_steps=19 format=3]
+
+[ext_resource type="Script" path="res://src/world/item_catalog.gd" id="1_catalog"]
+[ext_resource type="Script" path="res://src/world/item_definition.gd" id="2_item"]
+
+[sub_resource type="Resource" id="Item_head"]
+script = ExtResource("2_item")
+id = &"item.armor.survey_cap"
+display_name_key = "item.armor.survey_cap.name"
+fallback_name = "Survey Cap"
+slot = &"slot.head"
+draw_mode = 1
+graybox_color = Color(0.298, 0.431, 0.549, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_neck"]
+script = ExtResource("2_item")
+id = &"item.jewelry.harvest_necklace"
+display_name_key = "item.jewelry.harvest_necklace.name"
+fallback_name = "Harvest Necklace"
+slot = &"slot.neck"
+draw_mode = 1
+graybox_color = Color(0.89, 0.761, 0.294, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_shoulders"]
+script = ExtResource("2_item")
+id = &"item.armor.field_mantle"
+display_name_key = "item.armor.field_mantle.name"
+fallback_name = "Field Mantle"
+slot = &"slot.shoulders"
+draw_mode = 0
+graybox_color = Color(0.427, 0.298, 0.478, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_back"]
+script = ExtResource("2_item")
+id = &"item.armor.travel_cloak"
+display_name_key = "item.armor.travel_cloak.name"
+fallback_name = "Travel Cloak"
+slot = &"slot.back"
+draw_mode = 1
+graybox_color = Color(0.243, 0.353, 0.275, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_torso"]
+script = ExtResource("2_item")
+id = &"item.armor.survey_coat"
+display_name_key = "item.armor.survey_coat.name"
+fallback_name = "Survey Coat"
+slot = &"slot.torso"
+draw_mode = 0
+graybox_color = Color(0.553, 0.251, 0.353, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_abdomen"]
+script = ExtResource("2_item")
+id = &"item.armor.ledger_wrap"
+display_name_key = "item.armor.ledger_wrap.name"
+fallback_name = "Ledger Wrap"
+slot = &"slot.abdomen"
+draw_mode = 0
+graybox_color = Color(0.725, 0.475, 0.235, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_waist"]
+script = ExtResource("2_item")
+id = &"item.armor.tool_belt"
+display_name_key = "item.armor.tool_belt.name"
+fallback_name = "Tool Belt"
+slot = &"slot.waist"
+draw_mode = 0
+graybox_color = Color(0.784, 0.635, 0.29, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_legs"]
+script = ExtResource("2_item")
+id = &"item.armor.canvas_trousers"
+display_name_key = "item.armor.canvas_trousers.name"
+fallback_name = "Canvas Trousers"
+slot = &"slot.legs"
+draw_mode = 0
+graybox_color = Color(0.275, 0.337, 0.427, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_feet"]
+script = ExtResource("2_item")
+id = &"item.armor.orchard_boots"
+display_name_key = "item.armor.orchard_boots.name"
+fallback_name = "Orchard Boots"
+slot = &"slot.feet"
+draw_mode = 0
+graybox_color = Color(0.129, 0.169, 0.227, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_hands"]
+script = ExtResource("2_item")
+id = &"item.armor.grip_gloves"
+display_name_key = "item.armor.grip_gloves.name"
+fallback_name = "Grip Gloves"
+slot = &"slot.hands"
+draw_mode = 0
+graybox_color = Color(0.478, 0.322, 0.188, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_ring_r_index"]
+script = ExtResource("2_item")
+id = &"item.jewelry.copper_band"
+display_name_key = "item.jewelry.copper_band.name"
+fallback_name = "Copper Band"
+slot = &"slot.ring.r_index"
+draw_mode = 1
+graybox_color = Color(0.831, 0.51, 0.278, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_ring_r_ring"]
+script = ExtResource("2_item")
+id = &"item.jewelry.chime_ring"
+display_name_key = "item.jewelry.chime_ring.name"
+fallback_name = "Chime Ring"
+slot = &"slot.ring.r_ring"
+draw_mode = 1
+graybox_color = Color(0.678, 0.749, 0.831, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_ring_l_index"]
+script = ExtResource("2_item")
+id = &"item.jewelry.tide_ring"
+display_name_key = "item.jewelry.tide_ring.name"
+fallback_name = "Tide Ring"
+slot = &"slot.ring.l_index"
+draw_mode = 1
+graybox_color = Color(0.353, 0.647, 0.694, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_ring_l_ring"]
+script = ExtResource("2_item")
+id = &"item.jewelry.lantern_ring"
+display_name_key = "item.jewelry.lantern_ring.name"
+fallback_name = "Lantern Ring"
+slot = &"slot.ring.l_ring"
+draw_mode = 1
+graybox_color = Color(0.929, 0.788, 0.443, 1)
+two_handed = false
+
+[sub_resource type="Resource" id="Item_main_hand"]
+script = ExtResource("2_item")
+id = &"item.tool.survey_stave"
+display_name_key = "item.tool.survey_stave.name"
+fallback_name = "Survey Stave"
+slot = &"slot.main_hand"
+draw_mode = 1
+graybox_color = Color(0.788, 0.698, 0.494, 1)
+two_handed = true
+
+[sub_resource type="Resource" id="Item_off_hand"]
+script = ExtResource("2_item")
+id = &"item.tool.lantern_shield"
+display_name_key = "item.tool.lantern_shield.name"
+fallback_name = "Lantern Shield"
+slot = &"slot.off_hand"
+draw_mode = 1
+graybox_color = Color(0.604, 0.655, 0.706, 1)
+two_handed = false
+
+[resource]
+script = ExtResource("1_catalog")
+items = Array[ItemDefinition]([SubResource("Item_head"), SubResource("Item_neck"), SubResource("Item_shoulders"), SubResource("Item_back"), SubResource("Item_torso"), SubResource("Item_abdomen"), SubResource("Item_waist"), SubResource("Item_legs"), SubResource("Item_feet"), SubResource("Item_hands"), SubResource("Item_ring_r_index"), SubResource("Item_ring_r_ring"), SubResource("Item_ring_l_index"), SubResource("Item_ring_l_ring"), SubResource("Item_main_hand"), SubResource("Item_off_hand")])
+starter_item_ids = Array[StringName]([&"item.armor.survey_cap", &"item.jewelry.harvest_necklace", &"item.armor.field_mantle", &"item.armor.travel_cloak", &"item.armor.survey_coat", &"item.armor.ledger_wrap", &"item.armor.tool_belt", &"item.armor.canvas_trousers", &"item.armor.orchard_boots", &"item.armor.grip_gloves", &"item.jewelry.copper_band", &"item.jewelry.chime_ring", &"item.jewelry.tide_ring", &"item.jewelry.lantern_ring", &"item.tool.survey_stave", &"item.tool.lantern_shield"])

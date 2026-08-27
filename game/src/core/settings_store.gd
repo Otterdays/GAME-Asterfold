@@ -19,17 +19,24 @@ static func load_data_from_path(path: String) -> Dictionary:
 	return {
 		"accessibility": config.get_value("settings", "accessibility", {}),
 		"bindings": config.get_value("settings", "bindings", {}),
+		"video": config.get_value("settings", "video", {}),
 	}
 
 
-static func save_data(accessibility: Dictionary, bindings: Dictionary) -> Error:
-	return save_data_to_path(SETTINGS_PATH, accessibility, bindings)
+static func save_data(accessibility: Dictionary, bindings: Dictionary, video: Dictionary = {}) -> Error:
+	return save_data_to_path(SETTINGS_PATH, accessibility, bindings, video)
 
 
-static func save_data_to_path(path: String, accessibility: Dictionary, bindings: Dictionary) -> Error:
+static func save_data_to_path(
+	path: String,
+	accessibility: Dictionary,
+	bindings: Dictionary,
+	video: Dictionary = {}
+) -> Error:
 	var config: ConfigFile = ConfigFile.new()
 	config.set_value("settings", "accessibility", accessibility)
 	config.set_value("settings", "bindings", bindings)
+	config.set_value("settings", "video", video)
 	var save_error: Error = config.save(path)
 	if save_error != OK:
 		push_error("[INPUT] Settings could not be saved: error %d." % save_error)

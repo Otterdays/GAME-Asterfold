@@ -3,6 +3,7 @@ extends Node
 const REGISTRY_PATH: String = "res://content/content_registry.tres"
 
 var _zones: Dictionary[StringName, ZoneManifest] = {}
+var _items: ItemCatalog
 var _validation_errors: Array[String] = []
 
 
@@ -12,6 +13,7 @@ func _ready() -> void:
 
 func reload_content() -> Array[String]:
 	_zones.clear()
+	_items = null
 	_validation_errors.clear()
 
 	if not ResourceLoader.exists(REGISTRY_PATH, "ContentRegistry"):
@@ -33,6 +35,16 @@ func reload_content() -> Array[String]:
 			continue
 		_zones[zone.id] = zone
 
+	if registry.items == null:
+		_validation_errors.append("Content registry must declare an item catalog.")
+	else:
+		_items = registry.items
+		for item_error: String in _items.validate_definition():
+			_validation_errors.append(item_error)
+		for definition: ItemDefinition in _items.items:
+			if definition != null and _zones.has(definition.id):
+				_validation_errors.append("Duplicate content ID '%s'." % definition.id)
+
 	return get_validation_errors()
 
 
@@ -52,3 +64,13 @@ func get_validation_summary() -> String:
 
 func get_zone(zone_id: StringName) -> ZoneManifest:
 	return _zones.get(zone_id) as ZoneManifest
+
+
+func get_item_catalog() -> ItemCatalog:
+	return _items
+
+
+func get_item(item_id: StringName) -> ItemDefinition:
+	if _items == null:
+		return null
+	return _items.get_item(item_id)

@@ -98,7 +98,7 @@ func _write_metadata() -> void:
 		"build": ProjectSettings.get_setting("application/config/version", "unknown"),
 		"renderer": RenderingServer.get_current_rendering_method(),
 		"gpu": RenderingServer.get_video_adapter_name(),
-		"internal_resolution": [640, 360],
+		"internal_resolution": [1920, 1080],
 		"output_resolution": [OUTPUT_SIZE.x, OUTPUT_SIZE.y],
 		"zone": "zone.brindlewick_square",
 		"facet": "north",

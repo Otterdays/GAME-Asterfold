@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="WorldPieceCatalog" load_steps=20 format=3]
+[gd_resource type="Resource" script_class="WorldPieceCatalog" load_steps=26 format=3]
 
 [ext_resource type="Script" path="res://src/world/world_piece_catalog.gd" id="1_catalog"]
 [ext_resource type="Script" path="res://src/world/world_piece_definition.gd" id="2_definition"]
@@ -8,6 +8,9 @@
 [ext_resource type="PackedScene" path="res://scenes/world/pieces/graybox_building.tscn" id="6_building"]
 [ext_resource type="PackedScene" path="res://scenes/world/pieces/bell_tower.tscn" id="7_bell"]
 [ext_resource type="PackedScene" path="res://scenes/world/pieces/shade_tree.tscn" id="8_tree"]
+[ext_resource type="PackedScene" path="res://scenes/world/pieces/bird_roost.tscn" id="9_roost"]
+[ext_resource type="PackedScene" path="res://scenes/world/pieces/swift_roost.tscn" id="10_swift"]
+[ext_resource type="PackedScene" path="res://scenes/world/pieces/leaf_drift.tscn" id="11_leaves"]
 
 [sub_resource type="Resource" id="Piece_crate"]
 script = ExtResource("2_definition")
@@ -147,6 +150,36 @@ scene = ExtResource("8_tree")
 footprint_x = 6
 footprint_z = 6
 
+[sub_resource type="Resource" id="Piece_roost"]
+script = ExtResource("2_definition")
+id = &"piece.bird_roost"
+display_name = "Finch roost"
+family = &"nature"
+tooltip_id = &"tooltip.piece.bird_roost"
+scene = ExtResource("9_roost")
+footprint_x = 2
+footprint_z = 2
+
+[sub_resource type="Resource" id="Piece_swift_roost"]
+script = ExtResource("2_definition")
+id = &"piece.swift_roost"
+display_name = "Swift roost"
+family = &"nature"
+tooltip_id = &"tooltip.piece.swift_roost"
+scene = ExtResource("10_swift")
+footprint_x = 2
+footprint_z = 2
+
+[sub_resource type="Resource" id="Piece_leaf_drift"]
+script = ExtResource("2_definition")
+id = &"piece.leaf_drift"
+display_name = "Leaf drift"
+family = &"nature"
+tooltip_id = &"tooltip.piece.leaf_drift"
+scene = ExtResource("11_leaves")
+footprint_x = 4
+footprint_z = 4
+
 [resource]
 script = ExtResource("1_catalog")
-pieces = Array[WorldPieceDefinition]([SubResource("Piece_crate"), SubResource("Piece_lamp"), SubResource("Piece_planter"), SubResource("Piece_bell"), SubResource("Piece_civic"), SubResource("Piece_tall"), SubResource("Piece_workshop"), SubResource("Piece_inn"), SubResource("Piece_west_gate"), SubResource("Piece_east_gate"), SubResource("Piece_tree")])
+pieces = Array[WorldPieceDefinition]([SubResource("Piece_crate"), SubResource("Piece_lamp"), SubResource("Piece_planter"), SubResource("Piece_bell"), SubResource("Piece_civic"), SubResource("Piece_tall"), SubResource("Piece_workshop"), SubResource("Piece_inn"), SubResource("Piece_west_gate"), SubResource("Piece_east_gate"), SubResource("Piece_tree"), SubResource("Piece_roost"), SubResource("Piece_swift_roost"), SubResource("Piece_leaf_drift")])

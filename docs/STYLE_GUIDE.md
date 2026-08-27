@@ -24,7 +24,9 @@ Append or annotate. Do not rewrite history out of `SCRATCHPAD.md`, `SBOM.md`, `C
 - `class_name` only for reusable domain or component types.
 - Static types on properties, parameters, returns, collections, and signal payloads.
 - Comments explain why, constraints, or non-obvious math. No syntax narration.
-- Semantic input actions only: `move`, `confirm`, `cancel`, `menu`, `peek`, `fold_left`, `fold_right`.
+- Semantic input actions only: `move`, `confirm`, `cancel`, `menu`, `equipment`, `peek`, `fold_left`, `fold_right`, `scout`. Shell also uses `toggle_fullscreen` and `quit_prompt`.
+- A new semantic action belongs in `InputRouter.BINDABLE_ACTIONS` and `ACTION_LABELS` so the title Controls list can remap it.
+- Headless tests extend `TestCase` in `game/tests/suites/*_tests.gd`. Do not grow `run_tests.gd` with new assertions.
 
 ## Limits (agent hygiene)
 

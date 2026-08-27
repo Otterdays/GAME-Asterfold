@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/materials/environment/ambient_bird.gdshader" id="1_shader"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/body_color = Color(0.26, 0.29, 0.35, 1)
+shader_parameter/belly_color = Color(0.62, 0.67, 0.72, 1)
+shader_parameter/head_color = Color(0.18, 0.2, 0.26, 1)
+shader_parameter/beak_color = Color(0.24, 0.23, 0.25, 1)
+shader_parameter/wing_color = Color(0.31, 0.35, 0.42, 1)
+shader_parameter/wingtip_color = Color(0.14, 0.16, 0.21, 1)
+shader_parameter/tail_color = Color(0.22, 0.25, 0.31, 1)
+shader_parameter/flap_hz = 6.0
+shader_parameter/flap_strength = 0.42
+shader_parameter/half_span_m = 0.31

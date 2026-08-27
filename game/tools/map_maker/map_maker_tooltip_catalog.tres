@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="MapMakerTooltipCatalog" load_steps=19 format=3]
+[gd_resource type="Resource" script_class="MapMakerTooltipCatalog" load_steps=24 format=3]
 
 [ext_resource type="Script" path="res://tools/map_maker/map_maker_tooltip_catalog.gd" id="1_catalog"]
 [ext_resource type="Script" path="res://tools/map_maker/map_maker_tooltip_entry.gd" id="2_entry"]
@@ -32,6 +32,12 @@ script = ExtResource("2_entry")
 id = &"tooltip.action.save"
 title = "Save"
 body = "Writes the square back to disk. The walking diorama loads these same files."
+
+[sub_resource type="Resource" id="Tip_delete"]
+script = ExtResource("2_entry")
+id = &"tooltip.action.delete"
+title = "Delete"
+body = "Turns on erase mode. Left-click a placed piece to remove it. A short right-click also deletes. Press Delete to toggle."
 
 [sub_resource type="Resource" id="Tip_crate"]
 script = ExtResource("2_entry")
@@ -99,6 +105,30 @@ id = &"tooltip.piece.shade_tree"
 title = "Tree"
 body = "A shade tree. Trunk sits on the clicked cell."
 
+[sub_resource type="Resource" id="Tip_nature"]
+script = ExtResource("2_entry")
+id = &"tooltip.mode.nature"
+title = "Nature"
+body = "Living things. Roosts add circling birds; a leaf drift sheds leaves over the cell. They do not block walking."
+
+[sub_resource type="Resource" id="Tip_roost"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.bird_roost"
+title = "Finch roost"
+body = "A perch post with hearthfinches circling above it. Slow, warm brown birds."
+
+[sub_resource type="Resource" id="Tip_swift_roost"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.swift_roost"
+title = "Swift roost"
+body = "The same roost with slate swifts: faster, higher, forked tails and swept wings."
+
+[sub_resource type="Resource" id="Tip_leaf_drift"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.leaf_drift"
+title = "Leaf drift"
+body = "Leaves fall from a ring above the cell. Put one over an awning or a gate."
+
 [resource]
 script = ExtResource("1_catalog")
-entries = Array[MapMakerTooltipEntry]([SubResource("Tip_props"), SubResource("Tip_buildings"), SubResource("Tip_trees"), SubResource("Tip_roads"), SubResource("Tip_save"), SubResource("Tip_crate"), SubResource("Tip_lamp"), SubResource("Tip_planter"), SubResource("Tip_bell"), SubResource("Tip_house"), SubResource("Tip_tall"), SubResource("Tip_workshop"), SubResource("Tip_inn"), SubResource("Tip_west"), SubResource("Tip_east"), SubResource("Tip_tree")])
+entries = Array[MapMakerTooltipEntry]([SubResource("Tip_props"), SubResource("Tip_buildings"), SubResource("Tip_trees"), SubResource("Tip_roads"), SubResource("Tip_nature"), SubResource("Tip_save"), SubResource("Tip_delete"), SubResource("Tip_crate"), SubResource("Tip_lamp"), SubResource("Tip_planter"), SubResource("Tip_bell"), SubResource("Tip_house"), SubResource("Tip_tall"), SubResource("Tip_workshop"), SubResource("Tip_inn"), SubResource("Tip_west"), SubResource("Tip_east"), SubResource("Tip_tree"), SubResource("Tip_roost"), SubResource("Tip_swift_roost"), SubResource("Tip_leaf_drift")])

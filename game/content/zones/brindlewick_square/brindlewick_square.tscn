@@ -7,11 +7,13 @@
 [ext_resource type="PackedScene" path="res://scenes/characters/mara_player.tscn" id="5_player"]
 [ext_resource type="PackedScene" path="res://scenes/world/world_camera_rig.tscn" id="6_camera"]
 
-[node name="BrindlewickSquare" type="Node3D" node_paths=PackedStringArray("player", "camera_rig", "gameplay_layer")]
+[node name="BrindlewickSquare" type="Node3D" node_paths=PackedStringArray("player", "camera_rig", "gameplay_layer", "tree_grove", "nature_ambience")]
 script = ExtResource("1_zone")
 player = NodePath("Player")
 camera_rig = NodePath("WorldCameraRig")
 gameplay_layer = NodePath("Gameplay")
+tree_grove = NodePath("Geometry/TreeGrove")
+nature_ambience = NodePath("Presentation/NatureAmbience")
 
 [node name="Geometry" parent="." instance=ExtResource("2_geometry")]
 

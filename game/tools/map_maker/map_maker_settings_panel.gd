@@ -14,18 +14,22 @@ var _close_button: Button
 func _ready() -> void:
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	theme = MapMakerTheme.build()
 	var margin: MarginContainer = MarginContainer.new()
-	margin.add_theme_constant_override(&"margin_left", 10)
-	margin.add_theme_constant_override(&"margin_top", 8)
-	margin.add_theme_constant_override(&"margin_right", 10)
-	margin.add_theme_constant_override(&"margin_bottom", 8)
+	margin.add_theme_constant_override(&"margin_left", 14)
+	margin.add_theme_constant_override(&"margin_top", 12)
+	margin.add_theme_constant_override(&"margin_right", 14)
+	margin.add_theme_constant_override(&"margin_bottom", 12)
 	add_child(margin)
 	var column: VBoxContainer = VBoxContainer.new()
 	column.add_theme_constant_override(&"separation", 8)
 	margin.add_child(column)
 	var heading: Label = Label.new()
 	heading.text = "Map maker settings"
+	heading.add_theme_font_size_override(&"font_size", 18)
 	column.add_child(heading)
+	var divider: HSeparator = HSeparator.new()
+	column.add_child(divider)
 	_follow_check = CheckBox.new()
 	_follow_check.text = "Follow cursor on start"
 	_follow_check.focus_mode = Control.FOCUS_ALL

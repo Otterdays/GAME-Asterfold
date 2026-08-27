@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ZonePlacementList" load_steps=16 format=3]
+[gd_resource type="Resource" script_class="ZonePlacementList" format=3]
 
 [ext_resource type="Script" path="res://src/world/zone_placement_list.gd" id="1_list"]
 [ext_resource type="Script" path="res://src/world/zone_placement.gd" id="2_placement"]
@@ -8,14 +8,12 @@ script = ExtResource("2_placement")
 piece_id = &"piece.crate_block"
 grid_x = 8
 grid_z = 22
-yaw_quarter_turns = 0
 
 [sub_resource type="Resource" id="Placement_lamp"]
 script = ExtResource("2_placement")
 piece_id = &"piece.lamp_post"
 grid_x = -10
 grid_z = 8
-yaw_quarter_turns = 0
 
 [sub_resource type="Resource" id="Placement_planter"]
 script = ExtResource("2_placement")
@@ -27,75 +25,74 @@ yaw_quarter_turns = 1
 [sub_resource type="Resource" id="Placement_bell"]
 script = ExtResource("2_placement")
 piece_id = &"piece.bell_tower"
-grid_x = 0
-grid_z = 0
-yaw_quarter_turns = 0
 
 [sub_resource type="Resource" id="Placement_civic"]
 script = ExtResource("2_placement")
 piece_id = &"piece.civic_house"
 grid_x = -26
 grid_z = -18
-yaw_quarter_turns = 0
 
 [sub_resource type="Resource" id="Placement_tall"]
 script = ExtResource("2_placement")
 piece_id = &"piece.tall_house"
 grid_x = 26
 grid_z = -20
-yaw_quarter_turns = 0
 
 [sub_resource type="Resource" id="Placement_workshop"]
 script = ExtResource("2_placement")
 piece_id = &"piece.workshop"
 grid_x = -26
 grid_z = 18
-yaw_quarter_turns = 0
 
 [sub_resource type="Resource" id="Placement_inn"]
 script = ExtResource("2_placement")
 piece_id = &"piece.inn"
 grid_x = 26
 grid_z = 18
-yaw_quarter_turns = 0
 
 [sub_resource type="Resource" id="Placement_west"]
 script = ExtResource("2_placement")
 piece_id = &"piece.west_gate"
 grid_x = -62
 grid_z = -6
-yaw_quarter_turns = 0
 
 [sub_resource type="Resource" id="Placement_east"]
 script = ExtResource("2_placement")
 piece_id = &"piece.east_gate"
 grid_x = 62
 grid_z = 8
-yaw_quarter_turns = 0
 
 [sub_resource type="Resource" id="Placement_tree_w"]
 script = ExtResource("2_placement")
 piece_id = &"piece.shade_tree"
 grid_x = -42
 grid_z = 24
-yaw_quarter_turns = 0
 
 [sub_resource type="Resource" id="Placement_tree_e"]
 script = ExtResource("2_placement")
 piece_id = &"piece.shade_tree"
 grid_x = 42
 grid_z = -24
-yaw_quarter_turns = 0
 
 [sub_resource type="Resource" id="Placement_tree_n"]
 script = ExtResource("2_placement")
 piece_id = &"piece.shade_tree"
 grid_x = -8
 grid_z = -48
-yaw_quarter_turns = 0
+
+[sub_resource type="Resource" id="Resource_s5vdc"]
+script = ExtResource("2_placement")
+piece_id = &"piece.crate_block"
+grid_x = 7
+grid_z = 20
+
+[sub_resource type="Resource" id="Resource_41sbs"]
+script = ExtResource("2_placement")
+piece_id = &"piece.crate_block"
+grid_x = -2
+grid_z = 15
 
 [resource]
 script = ExtResource("1_list")
 zone_id = &"zone.brindlewick_square"
-logical_grid_m = 0.5
-placements = Array[ZonePlacement]([SubResource("Placement_crate"), SubResource("Placement_lamp"), SubResource("Placement_planter"), SubResource("Placement_bell"), SubResource("Placement_civic"), SubResource("Placement_tall"), SubResource("Placement_workshop"), SubResource("Placement_inn"), SubResource("Placement_west"), SubResource("Placement_east"), SubResource("Placement_tree_w"), SubResource("Placement_tree_e"), SubResource("Placement_tree_n")])
+placements = Array[ExtResource("2_placement")]([SubResource("Placement_crate"), SubResource("Placement_lamp"), SubResource("Placement_planter"), SubResource("Placement_bell"), SubResource("Placement_civic"), SubResource("Placement_tall"), SubResource("Placement_workshop"), SubResource("Placement_inn"), SubResource("Placement_west"), SubResource("Placement_east"), SubResource("Placement_tree_w"), SubResource("Placement_tree_e"), SubResource("Placement_tree_n"), SubResource("Resource_s5vdc"), SubResource("Resource_41sbs")])
