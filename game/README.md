@@ -83,6 +83,7 @@ The exact engine patch is intentionally pinned. See [ADR-0001](../docs/decisions
 | [Accessibility and UX](../docs/ACCESSIBILITY_AND_UX.md) | Inclusive controls, readability, motion, difficulty |
 | [Vertical Slice](../docs/VERTICAL_SLICE.md) | Milestones, acceptance criteria, exclusions, risks |
 | [Testing and Release](../docs/TESTING_AND_RELEASE.md) | Automated, manual, performance, and release gates |
+| [Docs index](../docs/README.md) | Full documentation map, including agent status files |
 
 ## Current build status
 

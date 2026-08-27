@@ -36,7 +36,7 @@ Agent status docs under `docs/` (`SUMMARY.md`, `SCRATCHPAD.md`, `SBOM.md`, and r
 
 This directory is the standalone **Asterfold** project root:
 
-- Product and engineering documentation lives in `docs/`.
+- Product, engineering, and agent-status documentation lives in `docs/`.
 - The standalone Godot runtime lives in `game/`.
 
 Keep unrelated projects outside this root. Do not place Asterfold classes, assets, generated files, or build output in sibling projects.
