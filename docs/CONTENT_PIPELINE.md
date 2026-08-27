@@ -100,6 +100,25 @@ Large zones may split layers further, but the manifest remains the single entry 
 
 Do not art-lock a space before navigation, occlusion, fold-safe positions, and backtracking are playable.
 
+### Ground-surface ownership
+
+Keep surface look-development separate from zone composition:
+
+```text
+game/assets/materials/environment/
+  grass_surface.gdshader
+  grass_surface_material.tres
+  dirt_road_surface.gdshader
+  dirt_road_surface_material.tres
+game/scenes/world/surfaces/
+  brindlewick_grass_surface.tscn
+  brindlewick_dirt_road_surface.tscn
+```
+
+The material and shader own palette, scale, roughness, and painted variation. The surface scene owns reusable render geometry and any collision intrinsic to that surface. The zone geometry layer owns composition, transforms, and landmarks by instancing the surface scenes. Do not place grass and road shader subresources inline in the zone scene, and do not move player collision into a decorative road module when the canonical ground already owns it.
+
+Code-native procedural surface shaders are project source, not generated binary art, and therefore do not require an asset-provenance entry. Bitmap or model-backed replacements must follow the normal `art_source/`, runtime export, provenance, and validation workflow.
+
 ### World Turn authoring
 
 Every `FoldAnchor` declares:

@@ -16,9 +16,10 @@ The game is in **preproduction**. The Milestone 0 foundation and Milestone 1 wal
 ## Start here
 
 1. Read [AGENTS.md](../AGENTS.md) for project rules and architectural boundaries.
-2. Read [Vision](../docs/VISION.md) for the player promise.
-3. Read [Vertical Slice](../docs/VERTICAL_SLICE.md) for the active build target.
-4. Use the discipline-specific documents under `../docs/` before implementation.
+2. Read [Changelog](../CHANGELOG.md) for the current `Unreleased` implementation record.
+3. Read [Vision](../docs/VISION.md) for the player promise.
+4. Read [Vertical Slice](../docs/VERTICAL_SLICE.md) for the active build target.
+5. Use the discipline-specific documents under `../docs/` before implementation.
 
 ## Run the prototype on Windows
 
@@ -69,6 +70,7 @@ The exact engine patch is intentionally pinned. See [ADR-0001](../docs/decisions
 
 | Document | Owns |
 | --- | --- |
+| [Changelog](../CHANGELOG.md) | Demonstrated additions, changes, and fixes not yet included in a versioned build |
 | [Vision](../docs/VISION.md) | Player promise, pillars, audience, constraints |
 | [Game Design](../docs/GAME_DESIGN.md) | Exploration, World Turns, combat, progression, towns |
 | [Art Direction](../docs/ART_DIRECTION.md) | Diorama look, camera, sprite and environment standards |
@@ -82,6 +84,6 @@ The exact engine patch is intentionally pinned. See [ADR-0001](../docs/decisions
 
 ## Current build status
 
-The M0 implementation is locally recoverable and its automated/release gates are present. M1 supplies the Brindlewick zone package, stable manifest and spawn, 45–75 second primary loop, long-lens camera, three Peek motion modes, constrained camera volume, foreground fading, original five-facing/eight-direction Mara sheet, direction hysteresis, contact shadow, persisted accessibility profile, binding capture/conflict handling, and title/field/return flow.
+The M0 implementation is locally recoverable and its automated/release gates are present. M1 supplies the Brindlewick zone package, stable manifest and spawn, 45–75 second primary loop, long-lens camera, three Peek motion modes, constrained camera volume, foreground fading, original five-facing/eight-direction Mara sheet, direction hysteresis, contact shadow, persisted accessibility profile, binding capture/conflict handling, and title/field/return flow. Brindlewick grass and dirt roads are separate surface modules under `scenes/world/surfaces/`, with independently tunable materials and world-scale painted shaders under `assets/materials/environment/`.
 
 See [Milestone Status](../docs/MILESTONE_STATUS.md) for demonstrated evidence and explicitly pending manual acceptance. M2 World Turns, navigation topology changes, save-game state, NPC content, and combat remain out of scope.

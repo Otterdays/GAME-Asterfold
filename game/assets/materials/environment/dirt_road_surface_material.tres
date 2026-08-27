@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/materials/environment/dirt_road_surface.gdshader" id="1_shader"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/dirt_shadow = Color(0.32, 0.22, 0.13, 1)
+shader_parameter/dirt_base = Color(0.58, 0.43, 0.25, 1)
+shader_parameter/dirt_light = Color(0.71, 0.56, 0.34, 1)
+shader_parameter/pebble_color = Color(0.42, 0.38, 0.31, 1)
+shader_parameter/broad_scale = 0.16
+shader_parameter/detail_scale = 1.2

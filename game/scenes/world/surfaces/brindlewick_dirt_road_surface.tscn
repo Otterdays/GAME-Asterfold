@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Material" path="res://assets/materials/environment/dirt_road_surface_material.tres" id="1_material"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_road"]
+size = Vector3(1, 1, 1)
+
+[node name="DirtRoadSurface" type="Node3D"]
+
+[node name="SouthLoop" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.025, 20)
+scale = Vector3(54, 0.05, 3.2)
+material_override = ExtResource("1_material")
+mesh = SubResource("BoxMesh_road")
+
+[node name="NorthLoop" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.025, -20)
+scale = Vector3(54, 0.05, 3.2)
+material_override = ExtResource("1_material")
+mesh = SubResource("BoxMesh_road")
+
+[node name="WestLoop" type="MeshInstance3D" parent="."]
+position = Vector3(-25.4, 0.026, 0)
+scale = Vector3(3.2, 0.052, 40)
+material_override = ExtResource("1_material")
+mesh = SubResource("BoxMesh_road")
+
+[node name="EastLoop" type="MeshInstance3D" parent="."]
+position = Vector3(25.4, 0.026, 0)
+scale = Vector3(3.2, 0.052, 40)
+material_override = ExtResource("1_material")
+mesh = SubResource("BoxMesh_road")
+
+[node name="SouthSpoke" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.028, 11)
+scale = Vector3(3.2, 0.056, 18)
+material_override = ExtResource("1_material")
+mesh = SubResource("BoxMesh_road")
+
+[node name="BellSquare" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.03, 0)
+scale = Vector3(15, 0.06, 15)
+material_override = ExtResource("1_material")
+mesh = SubResource("BoxMesh_road")

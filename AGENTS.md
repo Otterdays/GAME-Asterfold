@@ -2,6 +2,12 @@
 
 This file is the operating contract for every human or automated contributor working on Asterfold. Read it before changing Asterfold code, content, scenes, imports, build scripts, or documentation.
 
+## Rule 1: update documentation and the changelog
+
+Every change must update `CHANGELOG.md` and every affected source-of-truth document in the same commit. Do this proportionally, but do not skip it: implementation, asset, tooling, test, and process changes all need an `Unreleased` changelog entry plus documentation that lets the next contributor find, operate, and extend the result without reverse-engineering it. Documentation-only changes still update the changelog.
+
+Before implementation, identify which documents own the behavior being changed. Before completion, verify the changelog and those documents describe only behavior actually demonstrated. A change with stale documentation or no changelog entry is incomplete.
+
 ## Project scope
 
 This directory is the standalone **Asterfold** project root:
@@ -183,12 +189,12 @@ Budgets are guardrails, not excuses to degrade the art prematurely. Profile repr
 
 For each change:
 
-1. Inspect repository status and read the documents required for the task.
+1. Inspect repository status, read the documents required for the task, and reserve the appropriate `CHANGELOG.md` entry and documentation updates.
 2. State the smallest player-visible or tool-visible outcome and its acceptance checks.
 3. Search for an existing owner, pattern, and test before adding a new abstraction.
 4. Implement the smallest vertical slice of the change through data, domain, presentation, accessibility, and verification as applicable.
 5. Run focused tests, then the standard validation suite. Open the relevant scene when visual behavior changes.
-6. Update affected documentation, content schemas, fixtures, and save migrations in the same change.
+6. Complete the changelog, affected documentation, content schemas, fixtures, and save migrations in the same change.
 7. Report what changed, what was verified, and any residual risk. Never claim a visual result that was not run or captured.
 
 Before the code scaffold exists, command examples below describe the required contract for Milestone 0. Once scripts are added, keep these entry points stable:

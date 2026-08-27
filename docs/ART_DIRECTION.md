@@ -124,6 +124,10 @@ Do not begin full sprite production at this maximum. Validate silhouette, direct
 - Texture atlases and trim sheets serve coherent material families; avoid one-off 4K textures.
 - World Turns may use subtle directional light and material response changes, but geometry identity remains stable.
 
+Ground families are independently owned assets rather than inline zone colors. Grass, dirt road, stone, water, and other traversal surfaces each receive a discoverable scene/material/shader boundary when they need distinct art direction or reuse. Zone geometry composes those modules and owns their placement; it does not duplicate their shader implementation.
+
+For the M1 Brindlewick prototype, grass uses broad world-scale value patches with restrained tuft marks, while dirt roads use a warmer worn-earth ramp, broad traffic variation, softened edge wear, and sparse stone accents. Their detail is procedural and world-positioned so adjacent modules share scale without large bitmap assets. Surface variation must remain subordinate to Mara and the route, retain a clear grass/road value separation in grayscale, and avoid tiny noise that shimmers at the 640×360 internal canvas.
+
 ### Lighting
 
 - One directional key light defines time and facet readability.

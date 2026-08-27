@@ -1,12 +1,7 @@
 [gd_scene load_steps=13 format=3]
 
-[sub_resource type="StandardMaterial3D" id="Material_ground"]
-albedo_color = Color(0.25, 0.34, 0.27, 1)
-roughness = 1.0
-
-[sub_resource type="StandardMaterial3D" id="Material_path"]
-albedo_color = Color(0.62, 0.52, 0.34, 1)
-roughness = 1.0
+[ext_resource type="PackedScene" path="res://scenes/world/surfaces/brindlewick_grass_surface.tscn" id="1_grass"]
+[ext_resource type="PackedScene" path="res://scenes/world/surfaces/brindlewick_dirt_road_surface.tscn" id="2_road"]
 
 [sub_resource type="StandardMaterial3D" id="Material_honey"]
 albedo_color = Color(0.66, 0.47, 0.28, 1)
@@ -54,54 +49,9 @@ rings = 6
 
 [node name="Geometry" type="Node3D"]
 
-[node name="Ground" type="StaticBody3D" parent="."]
-position = Vector3(0, -0.1, 0)
-scale = Vector3(68, 0.2, 58)
+[node name="GrassSurface" parent="." instance=ExtResource("1_grass")]
 
-[node name="Mesh" type="MeshInstance3D" parent="Ground"]
-material_override = SubResource("Material_ground")
-mesh = SubResource("BoxMesh_unit")
-
-[node name="Collision" type="CollisionShape3D" parent="Ground"]
-shape = SubResource("BoxShape_unit")
-
-[node name="Paths" type="Node3D" parent="."]
-
-[node name="SouthLoop" type="MeshInstance3D" parent="Paths"]
-position = Vector3(0, 0.025, 20)
-scale = Vector3(54, 0.05, 3.2)
-material_override = SubResource("Material_path")
-mesh = SubResource("BoxMesh_unit")
-
-[node name="NorthLoop" type="MeshInstance3D" parent="Paths"]
-position = Vector3(0, 0.025, -20)
-scale = Vector3(54, 0.05, 3.2)
-material_override = SubResource("Material_path")
-mesh = SubResource("BoxMesh_unit")
-
-[node name="WestLoop" type="MeshInstance3D" parent="Paths"]
-position = Vector3(-25.4, 0.026, 0)
-scale = Vector3(3.2, 0.052, 40)
-material_override = SubResource("Material_path")
-mesh = SubResource("BoxMesh_unit")
-
-[node name="EastLoop" type="MeshInstance3D" parent="Paths"]
-position = Vector3(25.4, 0.026, 0)
-scale = Vector3(3.2, 0.052, 40)
-material_override = SubResource("Material_path")
-mesh = SubResource("BoxMesh_unit")
-
-[node name="SouthSpoke" type="MeshInstance3D" parent="Paths"]
-position = Vector3(0, 0.028, 11)
-scale = Vector3(3.2, 0.056, 18)
-material_override = SubResource("Material_path")
-mesh = SubResource("BoxMesh_unit")
-
-[node name="BellSquare" type="MeshInstance3D" parent="Paths"]
-position = Vector3(0, 0.03, 0)
-scale = Vector3(15, 0.06, 15)
-material_override = SubResource("Material_path")
-mesh = SubResource("BoxMesh_unit")
+[node name="DirtRoadSurface" parent="." instance=ExtResource("2_road")]
 
 [node name="BellTower" type="StaticBody3D" parent="."]
 position = Vector3(0, 7, 0)

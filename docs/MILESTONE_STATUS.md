@@ -33,6 +33,7 @@ Pending manual acceptance:
 Implemented and demonstrated locally:
 
 - `zone.brindlewick_square` composes separate geometry, gameplay, and presentation layers from an explicit registry.
+- Brindlewick's grass and dirt-road ground are separately discoverable surface scenes with external material/shader resources. Both use restrained world-scale painted variation while preserving the original path transforms, canonical ground collision, and route readability.
 - The 188 m primary loop targets approximately 47 seconds at 4 m/s and includes the bell-tower landmark, three declared depth layers, a constrained camera volume, foreground laundry and awning occluders, and simplified collision.
 - Mara uses an original project-owned 48×64 sheet: two idle frames and four walk frames over five authored facings, with legal mirroring for eight displayed directions.
 - Camera-relative acceleration uses committed yaw only. Peek is presentation-only, clamps to ±24° horizontal / ±8° vertical, recenters after 1.25 seconds, and supports Full, Reduced, and Minimal modes.
@@ -41,6 +42,7 @@ Implemented and demonstrated locally:
 - The automated runner currently exercises 88 unit/integration checks, including title/field/return flow, focus restoration, synthetic movement, missing-content presentation, persistence, stable IDs, manifest validation, binding conflicts, UI confirm/cancel synchronization, device hysteresis/disconnect fallback, movement boundaries, direction hysteresis, and Peek timing.
 - The M1 capture harness records authored center, both Peek extremes, all motion modes, 100/150% UI, grayscale, and the eight-direction fixture at 640×360 internal resolution and 1920×1080 output.
 - A 600-second rendered traversal on an Intel N150 / Intel Graphics system completed 35,997 samples at 1920×1080 output using Forward+ / Vulkan. CPU time was 0.670 ms p50, 1.095 ms p95, and 1.250 ms p99; GPU time was 3.974 ms p50, 5.067 ms p95, and 5.364 ms p99; draw calls were 35 p50, 52 p95, and 57 maximum. These results are within the M1 exploration budgets.
+- After the independent grass/dirt shader upgrade, a 60-second rendered regression traversal completed 3,667 samples on the same system. CPU p99 was 1.439 ms, GPU p99 was 5.678 ms, and draw calls remained at 56 maximum, so the visual improvement remains within the established exploration budgets. The original 600-second soak remains the long-duration acceptance record.
 
 Pending manual acceptance:
 

@@ -13,6 +13,10 @@ const REQUIRED_DIRECTORIES: Array[String] = [
 const ASSET_MANIFEST_PATH: String = "res://assets/asset_manifest.json"
 const CONTENT_REGISTRY_PATH: String = "res://content/content_registry.tres"
 const MARA_SOURCE_METADATA_PATH: String = "res://art_source/characters/mara/mara_prototype.source.json"
+const GRASS_SURFACE_SCENE_PATH: String = "res://scenes/world/surfaces/brindlewick_grass_surface.tscn"
+const DIRT_ROAD_SURFACE_SCENE_PATH: String = "res://scenes/world/surfaces/brindlewick_dirt_road_surface.tscn"
+const GRASS_MATERIAL_PATH: String = "res://assets/materials/environment/grass_surface_material.tres"
+const DIRT_ROAD_MATERIAL_PATH: String = "res://assets/materials/environment/dirt_road_surface_material.tres"
 const ROUTE_SPEED_MPS: float = 4.0
 const MIN_ROUTE_SECONDS: float = 45.0
 const MAX_ROUTE_SECONDS: float = 75.0
@@ -152,10 +156,32 @@ func _validate_zone_package(manifest: ZoneManifest) -> void:
 			_failures.append("Zone '%s' requires at least one constrained camera volume." % manifest.id)
 	if zone.find_child("BellTower", true, false) == null:
 		_failures.append("Zone '%s' is missing its bell-tower landmark." % manifest.id)
+	if manifest.id == &"zone.brindlewick_square":
+		_validate_brindlewick_surfaces(zone)
 	var foreground: Node = zone.get_node_or_null("Presentation/Foreground")
 	if foreground == null or foreground.get_child_count() < manifest.foreground_occluder_ids.size():
 		_failures.append("Zone '%s' is missing declared foreground occluders." % manifest.id)
 	zone.free()
+
+
+func _validate_brindlewick_surfaces(zone: Node) -> void:
+	for scene_path: String in [GRASS_SURFACE_SCENE_PATH, DIRT_ROAD_SURFACE_SCENE_PATH]:
+		if not ResourceLoader.exists(scene_path):
+			_failures.append("Brindlewick surface scene is missing: %s" % scene_path)
+	var grass_surface: Node = zone.get_node_or_null("Geometry/GrassSurface")
+	if grass_surface == null or grass_surface.get_node_or_null("Ground/Collision") == null:
+		_failures.append("Brindlewick grass surface must own the canonical ground and collision.")
+	var dirt_road_surface: Node = zone.get_node_or_null("Geometry/DirtRoadSurface")
+	if dirt_road_surface == null or dirt_road_surface.get_child_count() < 6:
+		_failures.append("Brindlewick dirt-road surface must contain all six authored route pieces.")
+	var grass_material: ShaderMaterial = load(GRASS_MATERIAL_PATH) as ShaderMaterial
+	var dirt_road_material: ShaderMaterial = load(DIRT_ROAD_MATERIAL_PATH) as ShaderMaterial
+	if grass_material == null or grass_material.shader == null:
+		_failures.append("Brindlewick grass surface requires its external shader material.")
+	if dirt_road_material == null or dirt_road_material.shader == null:
+		_failures.append("Brindlewick dirt-road surface requires its external shader material.")
+	if grass_material != null and dirt_road_material != null and grass_material.shader == dirt_road_material.shader:
+		_failures.append("Grass and dirt road must remain independently owned shader families.")
 
 
 func _read_json(path: String) -> Variant:
