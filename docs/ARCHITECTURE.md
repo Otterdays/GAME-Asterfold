@@ -11,6 +11,7 @@ root
 |- AGENTS.md          contract, including /caveman ultra first
 |- README.md          user-facing entry
 |- CHANGELOG.md       demonstrated Unreleased work
+|- map_maker.bat      internal zone dress tool; not a playable entry
 |- docs/              product + agent status
 `- game/              Godot 4.7.2 project
 ```
@@ -39,6 +40,7 @@ The world never rotates. Camera yaw changes. `FacetController` commits authored 
 
 - App shell: title, settings, walking-diorama entry, metrics debug entry
 - Zone: `zone.brindlewick_square` with geometry, gameplay, and presentation layers
+- Dress: crate, lamp, planter, trees, and graybox buildings instanced by `PlacementLayer` from a zone placement list; map maker also writes dirt-road patch centers
 - Surfaces: independent grass and dirt-road scenes plus materials/shaders
 - Actor: original Mara prototype, eight displayed directions from five authored facings
 - Camera: long-lens rig, Peek clamp, recenter, motion modes, foreground fade

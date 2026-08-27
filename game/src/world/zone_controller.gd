@@ -3,6 +3,7 @@ extends Node3D
 @export var player: PlayerActor
 @export var camera_rig: WorldCameraRig
 @export var gameplay_layer: ZoneGameplayLayer
+@export var tree_grove: TreeGrove3D
 
 var _manifest: ZoneManifest
 
@@ -33,6 +34,8 @@ func configure_zone(manifest: ZoneManifest, spawn_id: StringName) -> bool:
 func apply_accessibility_settings(settings: AccessibilitySettings) -> void:
 	if camera_rig != null:
 		camera_rig.apply_accessibility_settings(settings)
+	if tree_grove != null:
+		tree_grove.apply_accessibility_settings(settings)
 
 
 func get_camera_rig() -> WorldCameraRig:

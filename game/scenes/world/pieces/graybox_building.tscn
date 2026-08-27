@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://src/world/pieces/graybox_building.gd" id="1_script"]
+
+[sub_resource type="StandardMaterial3D" id="Material_body"]
+albedo_color = Color(0.66, 0.47, 0.28, 1)
+roughness = 0.92
+
+[sub_resource type="BoxMesh" id="BoxMesh_unit"]
+size = Vector3(1, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape_unit"]
+size = Vector3(1, 1, 1)
+
+[node name="GrayboxBuilding" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="Body" type="StaticBody3D" parent="."]
+unique_name_in_owner = true
+position = Vector3(0, 0.5, 0)
+
+[node name="BodyMesh" type="MeshInstance3D" parent="Body"]
+unique_name_in_owner = true
+material_override = SubResource("Material_body")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="Collision" type="CollisionShape3D" parent="Body"]
+shape = SubResource("BoxShape_unit")
+
+[node name="Roof" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+visible = false
+material_override = SubResource("Material_body")
+mesh = SubResource("BoxMesh_unit")
+
+[node name="Door" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+visible = false
+material_override = SubResource("Material_body")
+mesh = SubResource("BoxMesh_unit")

@@ -9,9 +9,12 @@ const REQUIRED_DIRECTORIES: Array[String] = [
 	"res://content/encounters",
 	"res://content/quests",
 	"res://content/zones",
+	"res://content/pieces",
 ]
 const ASSET_MANIFEST_PATH: String = "res://assets/asset_manifest.json"
 const CONTENT_REGISTRY_PATH: String = "res://content/content_registry.tres"
+const PIECE_CATALOG_PATH: String = "res://content/pieces/piece_catalog.tres"
+const MAP_MAKER_SCENE_PATH: String = "res://tools/map_maker/map_maker.tscn"
 const MARA_SOURCE_METADATA_PATH: String = "res://art_source/characters/mara/mara_prototype.source.json"
 const GRASS_SURFACE_SCENE_PATH: String = "res://scenes/world/surfaces/brindlewick_grass_surface.tscn"
 const DIRT_ROAD_SURFACE_SCENE_PATH: String = "res://scenes/world/surfaces/brindlewick_dirt_road_surface.tscn"
@@ -40,6 +43,8 @@ func _run() -> void:
 	_validate_asset_manifest()
 	_validate_source_metadata()
 	_validate_content_registry()
+	_validate_piece_catalog()
+	_validate_map_maker_isolation()
 
 	if _failures.is_empty():
 		print("[CONTENT] PASS: %d assets and %d zones validated." % [_validated_assets, _validated_zones])
@@ -155,10 +160,14 @@ func _validate_zone_package(manifest: ZoneManifest) -> void:
 		var camera_volumes: Node = gameplay.get_node_or_null("CameraVolumes")
 		if camera_volumes == null or camera_volumes.get_child_count() < 1:
 			_failures.append("Zone '%s' requires at least one constrained camera volume." % manifest.id)
+	var placement_layer: PlacementLayer = zone.get_node_or_null("Geometry/PlacementLayer") as PlacementLayer
+	if placement_layer != null:
+		placement_layer.rebuild()
 	if zone.find_child("BellTower", true, false) == null:
 		_failures.append("Zone '%s' is missing its bell-tower landmark." % manifest.id)
 	if manifest.id == &"zone.brindlewick_square":
 		_validate_brindlewick_surfaces(zone)
+		_validate_brindlewick_placements(zone, manifest)
 	var foreground: Node = zone.get_node_or_null("Presentation/Foreground")
 	if foreground == null or foreground.get_child_count() < manifest.foreground_occluder_ids.size():
 		_failures.append("Zone '%s' is missing declared foreground occluders." % manifest.id)
@@ -192,6 +201,92 @@ func _validate_brindlewick_surfaces(zone: Node) -> void:
 		_failures.append("Brindlewick dirt-road surface requires its external shader material.")
 	if grass_material != null and dirt_road_material != null and grass_material.shader == dirt_road_material.shader:
 		_failures.append("Grass and dirt road must remain independently owned shader families.")
+
+
+func _validate_piece_catalog() -> void:
+	if not ResourceLoader.exists(PIECE_CATALOG_PATH):
+		_failures.append("World piece catalog is missing: %s" % PIECE_CATALOG_PATH)
+		return
+	var catalog: WorldPieceCatalog = load(PIECE_CATALOG_PATH) as WorldPieceCatalog
+	if catalog == null:
+		_failures.append("World piece catalog could not be loaded.")
+		return
+	_failures.append_array(catalog.validate_definition())
+	var expected_ids: Array[StringName] = [
+		&"piece.crate_block",
+		&"piece.lamp_post",
+		&"piece.planter_box",
+		&"piece.bell_tower",
+		&"piece.civic_house",
+		&"piece.shade_tree",
+	]
+	for piece_id: StringName in expected_ids:
+		if not catalog.has_piece(piece_id):
+			_failures.append("World piece catalog is missing '%s'." % piece_id)
+		else:
+			var packed_scene: PackedScene = catalog.get_scene(piece_id)
+			if packed_scene == null:
+				continue
+			var instance: Node = packed_scene.instantiate()
+			if piece_id == &"piece.crate_block" or piece_id == &"piece.lamp_post" or piece_id == &"piece.planter_box":
+				if not instance is StaticBody3D:
+					_failures.append("Piece '%s' must be a StaticBody3D component." % piece_id)
+			elif instance == null or not instance is Node3D:
+				_failures.append("Piece '%s' must inherit Node3D." % piece_id)
+			instance.free()
+
+
+func _validate_map_maker_isolation() -> void:
+	if not ResourceLoader.exists(MAP_MAKER_SCENE_PATH, "PackedScene"):
+		_failures.append("Map maker scene is missing: %s" % MAP_MAKER_SCENE_PATH)
+	if not ResourceLoader.exists("res://tools/map_maker/map_maker_tooltip_catalog.tres"):
+		_failures.append("Map maker tooltip catalog is missing.")
+	else:
+		var tooltip_catalog: MapMakerTooltipCatalog = load("res://tools/map_maker/map_maker_tooltip_catalog.tres") as MapMakerTooltipCatalog
+		if tooltip_catalog == null:
+			_failures.append("Map maker tooltip catalog could not be loaded.")
+		else:
+			_failures.append_array(tooltip_catalog.validate_definition())
+	var title_source: String = FileAccess.get_file_as_string("res://src/ui/title_screen.gd")
+	if title_source.contains("map_maker"):
+		_failures.append("Title screen must not reference the internal map maker.")
+	var app_source: String = FileAccess.get_file_as_string("res://src/presentation/app_shell.gd")
+	if app_source.contains("map_maker"):
+		_failures.append("App shell must not reference the internal map maker.")
+	var flow_source: String = FileAccess.get_file_as_string("res://src/services/game_flow.gd")
+	if flow_source.contains("map_maker"):
+		_failures.append("GameFlow must not reference the internal map maker.")
+
+
+func _validate_brindlewick_placements(zone: Node, manifest: ZoneManifest) -> void:
+	var placement_layer: PlacementLayer = zone.get_node_or_null("Geometry/PlacementLayer") as PlacementLayer
+	if placement_layer == null:
+		_failures.append("Brindlewick geometry must instance PlacementLayer for map-maker dress pieces.")
+		return
+	var catalog: WorldPieceCatalog = placement_layer.catalog
+	var layout: ZonePlacementList = placement_layer.layout
+	if catalog == null or catalog.resource_path != PIECE_CATALOG_PATH:
+		_failures.append("Brindlewick PlacementLayer must reference the shared piece catalog.")
+	if layout == null:
+		_failures.append("Brindlewick PlacementLayer must reference its zone placement list.")
+		return
+	if layout.zone_id != manifest.id:
+		_failures.append("Brindlewick placement list zone ID must match the zone manifest.")
+	_failures.append_array(layout.validate_definition(catalog, manifest.validation_bounds))
+	placement_layer.rebuild()
+	if placement_layer.get_placed_count() != layout.placements.size():
+		_failures.append("Brindlewick PlacementLayer must instance every authored placement.")
+	if layout.placements.size() != 13:
+		_failures.append("Brindlewick must author all 13 map-maker world pieces.")
+	if not layout.has_piece(&"piece.bell_tower"):
+		_failures.append("Brindlewick placement list must include the bell tower.")
+	var crate: Node = placement_layer.find_child("cell_8_22", true, false)
+	var lamp: Node = placement_layer.find_child("cell_-10_8", true, false)
+	var planter: Node = placement_layer.find_child("cell_6_-8", true, false)
+	if not crate is CrateBlock or not lamp is LampPost or not planter is PlanterBox:
+		_failures.append("Brindlewick starter placements must include crate, lamp, and planter components.")
+	if zone.find_child("BellTower", true, false) == null:
+		_failures.append("Brindlewick bell tower component must remain discoverable after PlacementLayer rebuild.")
 
 
 func _read_json(path: String) -> Variant:

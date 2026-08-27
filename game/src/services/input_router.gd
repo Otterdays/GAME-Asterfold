@@ -64,6 +64,10 @@ func consider_input_device(event: InputEvent, now_msec: int) -> void:
 			detected_device = DEVICE_KEYBOARD_MOUSE
 	elif event is InputEventMouseButton and (event as InputEventMouseButton).pressed:
 		detected_device = DEVICE_KEYBOARD_MOUSE
+	elif event is InputEventMouseMotion:
+		var motion: InputEventMouseMotion = event as InputEventMouseMotion
+		if motion.relative.length_squared() > 0.25:
+			detected_device = DEVICE_KEYBOARD_MOUSE
 
 	if not detected_device.is_empty():
 		_request_device_change(detected_device, now_msec)

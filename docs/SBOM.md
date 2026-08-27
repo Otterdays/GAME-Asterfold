@@ -32,4 +32,5 @@ None. `game/addons/` is unused. Adding an addon requires an ADR and a row here.
 
 ## Changes
 
+- 2026-08-27: Added an internal map maker that uses the pinned Godot 4.7.2 Standard editor/runtime. No new third-party packages.
 - 2026-08-27: Initial SBOM. No package install or remove. Added vendored caveman skill as an editor/agent asset.

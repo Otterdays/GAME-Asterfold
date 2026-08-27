@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="TreeDefinition" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/world/tree_definition.gd" id="1_definition"]
+[ext_resource type="Material" path="res://assets/materials/environment/tree_trunk_material.tres" id="2_trunk"]
+[ext_resource type="Material" path="res://assets/materials/environment/tree_crown_orchard_material.tres" id="3_crown"]
+
+[resource]
+script = ExtResource("1_definition")
+id = &"tree.brindlewick.orchard_tidemark"
+display_name_key = &"tree.brindlewick.orchard_tidemark.name"
+trunk_material = ExtResource("2_trunk")
+crown_material = ExtResource("3_crown")
+trunk_base_radius_m = 0.32
+trunk_top_radius_m = 0.22
+trunk_height_m = 3.8
+canopy_radius_m = 2.6
+canopy_clearance_m = 2.6
+walk_under = true
+crown_masses = Array[Vector4]([Vector4(0, 5.1, 0, 1.9), Vector4(-0.9, 4.4, -0.6, 1.5), Vector4(0.8, 4.6, 0.7, 1.4)])
+crown_flatten = Vector3(1, 0.85, 1)
+scale_range = Vector2(0.85, 1.15)
+yaw_snap_degrees = 15
+variant_count = 4
+fade_crown = false
+root_flare_radius_m = 0.6
+draw_budget_weight = 2

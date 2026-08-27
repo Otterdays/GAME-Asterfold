@@ -1,0 +1,152 @@
+[gd_resource type="Resource" script_class="WorldPieceCatalog" load_steps=20 format=3]
+
+[ext_resource type="Script" path="res://src/world/world_piece_catalog.gd" id="1_catalog"]
+[ext_resource type="Script" path="res://src/world/world_piece_definition.gd" id="2_definition"]
+[ext_resource type="PackedScene" path="res://scenes/world/pieces/crate_block.tscn" id="3_crate"]
+[ext_resource type="PackedScene" path="res://scenes/world/pieces/lamp_post.tscn" id="4_lamp"]
+[ext_resource type="PackedScene" path="res://scenes/world/pieces/planter_box.tscn" id="5_planter"]
+[ext_resource type="PackedScene" path="res://scenes/world/pieces/graybox_building.tscn" id="6_building"]
+[ext_resource type="PackedScene" path="res://scenes/world/pieces/bell_tower.tscn" id="7_bell"]
+[ext_resource type="PackedScene" path="res://scenes/world/pieces/shade_tree.tscn" id="8_tree"]
+
+[sub_resource type="Resource" id="Piece_crate"]
+script = ExtResource("2_definition")
+id = &"piece.crate_block"
+display_name = "Crate"
+family = &"prop"
+tooltip_id = &"tooltip.piece.crate_block"
+scene = ExtResource("3_crate")
+footprint_x = 2
+footprint_z = 2
+
+[sub_resource type="Resource" id="Piece_lamp"]
+script = ExtResource("2_definition")
+id = &"piece.lamp_post"
+display_name = "Lamp"
+family = &"prop"
+tooltip_id = &"tooltip.piece.lamp_post"
+scene = ExtResource("4_lamp")
+footprint_x = 1
+footprint_z = 1
+
+[sub_resource type="Resource" id="Piece_planter"]
+script = ExtResource("2_definition")
+id = &"piece.planter_box"
+display_name = "Planter"
+family = &"prop"
+tooltip_id = &"tooltip.piece.planter_box"
+scene = ExtResource("5_planter")
+footprint_x = 2
+footprint_z = 2
+
+[sub_resource type="Resource" id="Piece_bell"]
+script = ExtResource("2_definition")
+id = &"piece.bell_tower"
+display_name = "Bell tower"
+family = &"building"
+tooltip_id = &"tooltip.piece.bell_tower"
+scene = ExtResource("7_bell")
+footprint_x = 10
+footprint_z = 10
+
+[sub_resource type="Resource" id="Piece_civic"]
+script = ExtResource("2_definition")
+id = &"piece.civic_house"
+display_name = "House"
+family = &"building"
+tooltip_id = &"tooltip.piece.civic_house"
+scene = ExtResource("6_building")
+footprint_x = 18
+footprint_z = 14
+body_size = Vector3(9, 6.2, 7)
+body_color = Color(0.66, 0.47, 0.28, 1)
+accent_color = Color(0.47, 0.22, 0.31, 1)
+has_roof = true
+has_door = true
+
+[sub_resource type="Resource" id="Piece_tall"]
+script = ExtResource("2_definition")
+id = &"piece.tall_house"
+display_name = "Tall house"
+family = &"building"
+tooltip_id = &"tooltip.piece.tall_house"
+scene = ExtResource("6_building")
+footprint_x = 20
+footprint_z = 14
+body_size = Vector3(10, 8.2, 7)
+body_color = Color(0.27, 0.34, 0.47, 1)
+accent_color = Color(0.47, 0.22, 0.31, 1)
+has_roof = true
+has_door = true
+
+[sub_resource type="Resource" id="Piece_workshop"]
+script = ExtResource("2_definition")
+id = &"piece.workshop"
+display_name = "Workshop"
+family = &"building"
+tooltip_id = &"tooltip.piece.workshop"
+scene = ExtResource("6_building")
+footprint_x = 16
+footprint_z = 14
+body_size = Vector3(8, 7.2, 7)
+body_color = Color(0.47, 0.22, 0.31, 1)
+accent_color = Color(0.27, 0.34, 0.47, 1)
+has_roof = true
+has_door = true
+
+[sub_resource type="Resource" id="Piece_inn"]
+script = ExtResource("2_definition")
+id = &"piece.inn"
+display_name = "Inn"
+family = &"building"
+tooltip_id = &"tooltip.piece.inn"
+scene = ExtResource("6_building")
+footprint_x = 18
+footprint_z = 14
+body_size = Vector3(9, 6.2, 7)
+body_color = Color(0.66, 0.47, 0.28, 1)
+accent_color = Color(0.47, 0.22, 0.31, 1)
+has_roof = true
+has_door = true
+
+[sub_resource type="Resource" id="Piece_west_gate"]
+script = ExtResource("2_definition")
+id = &"piece.west_gate"
+display_name = "West gate"
+family = &"building"
+tooltip_id = &"tooltip.piece.west_gate"
+scene = ExtResource("6_building")
+footprint_x = 14
+footprint_z = 26
+body_size = Vector3(7, 8, 13)
+body_color = Color(0.27, 0.34, 0.47, 1)
+has_roof = false
+has_door = false
+
+[sub_resource type="Resource" id="Piece_east_gate"]
+script = ExtResource("2_definition")
+id = &"piece.east_gate"
+display_name = "East gate"
+family = &"building"
+tooltip_id = &"tooltip.piece.east_gate"
+scene = ExtResource("6_building")
+footprint_x = 14
+footprint_z = 26
+body_size = Vector3(7, 7, 13)
+body_color = Color(0.66, 0.47, 0.28, 1)
+has_roof = false
+has_door = false
+
+[sub_resource type="Resource" id="Piece_tree"]
+script = ExtResource("2_definition")
+id = &"piece.shade_tree"
+display_name = "Tree"
+family = &"tree"
+tooltip_id = &"tooltip.piece.shade_tree"
+scene = ExtResource("8_tree")
+footprint_x = 6
+footprint_z = 6
+
+[resource]
+script = ExtResource("1_catalog")
+pieces = Array[WorldPieceDefinition]([SubResource("Piece_crate"), SubResource("Piece_lamp"), SubResource("Piece_planter"), SubResource("Piece_bell"), SubResource("Piece_civic"), SubResource("Piece_tall"), SubResource("Piece_workshop"), SubResource("Piece_inn"), SubResource("Piece_west_gate"), SubResource("Piece_east_gate"), SubResource("Piece_tree")])

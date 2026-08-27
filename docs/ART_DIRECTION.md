@@ -174,6 +174,8 @@ Reduced-motion mode uses a brief hold, midpoint occlusion, and near-instant view
 
 The interface resembles an expedition notebook built from folded vellum, enamel pins, inked icons, and narrow metal rules. It is clean rather than distressed.
 
+The title shell is a static painted woodland clearing authored for the 640×360 canvas: large soft ellipses for grove and canopy, soft trunks, and ordered dither to hide sky banding. No TIME. High-frequency noise and hard step edges are forbidden here because canvas_items nearest-upscale turns them into blocky clusters. Focus is a high-contrast pale outline, not hue alone.
+
 - Body text prioritizes a highly legible UI font; decorative pixel lettering is limited to headings and labels.
 - Default body text is equivalent to at least 18 px at 1080p; scalable to 150% without clipping.
 - Selected focus uses shape, movement, contrast, and optional sound.

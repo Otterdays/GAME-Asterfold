@@ -12,6 +12,20 @@ const MIN_CORNER_RADIUS_M: float = 0.05
 @export_range(0.05, 2.0, 0.05) var join_softness_m: float = 0.55
 
 
+func set_patch_center(index: int, center_xz: Vector2) -> bool:
+	if index < 0 or index >= patches.size():
+		return false
+	var patch: Vector4 = patches[index]
+	var half_size: Vector2 = Vector2(patch.z, patch.w)
+	var network_half_size: Vector2 = network_size_m * 0.5
+	var clamped: Vector2 = Vector2(
+		clampf(center_xz.x, -network_half_size.x + half_size.x, network_half_size.x - half_size.x),
+		clampf(center_xz.y, -network_half_size.y + half_size.y, network_half_size.y - half_size.y)
+	)
+	patches[index] = Vector4(clamped.x, clamped.y, patch.z, patch.w)
+	return true
+
+
 func validate_definition() -> Array[String]:
 	var errors: Array[String] = []
 	if network_size_m.x <= 0.0 or network_size_m.y <= 0.0:

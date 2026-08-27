@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="TreeDefinition" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/world/tree_definition.gd" id="1_definition"]
+[ext_resource type="Material" path="res://assets/materials/environment/tree_trunk_material.tres" id="2_trunk"]
+[ext_resource type="Material" path="res://assets/materials/environment/tree_crown_civic_material.tres" id="3_crown"]
+
+[resource]
+script = ExtResource("1_definition")
+id = &"tree.brindlewick.civic_shade"
+display_name_key = &"tree.brindlewick.civic_shade.name"
+trunk_material = ExtResource("2_trunk")
+crown_material = ExtResource("3_crown")
+trunk_base_radius_m = 0.42
+trunk_top_radius_m = 0.3
+trunk_height_m = 3.4
+canopy_radius_m = 3.4
+canopy_clearance_m = 2.5
+walk_under = true
+crown_masses = Array[Vector4]([Vector4(0, 4.6, 0, 2.7), Vector4(-1.2, 4.2, 0.7, 1.9), Vector4(1.1, 4.4, -0.8, 2)])
+crown_flatten = Vector3(1, 0.72, 1)
+scale_range = Vector2(0.9, 1.25)
+yaw_snap_degrees = 15
+variant_count = 3
+fade_crown = true
+root_flare_radius_m = 0.9
+draw_budget_weight = 3

@@ -6,6 +6,7 @@ const DEFAULT_VERTICAL_PEEK_DEGREES: float = CameraPeekModel.DEFAULT_VERTICAL_LI
 const TARGET_OFFSET: Vector3 = Vector3(0.0, 3.0, -8.0)
 const OCCLUSION_TARGET_HEIGHT: Vector3 = Vector3(0.0, 0.95, 0.0)
 const OCCLUDER_COLLISION_MASK: int = 2
+const MOUSE_LOOK_SENSITIVITY: float = 0.004
 
 @export var target: Node3D
 @export_range(0.0, 359.0, 0.5) var committed_yaw_degrees: float = 0.0
@@ -18,6 +19,8 @@ const OCCLUDER_COLLISION_MASK: int = 2
 var _peek_model: CameraPeekModel = CameraPeekModel.new()
 var _active_occluder: Node
 var _occlusion_elapsed: float = 0.0
+var _mouse_look: Vector2 = Vector2.ZERO
+var _mouse_delta: Vector2 = Vector2.ZERO
 
 
 func _ready() -> void:
@@ -70,12 +73,29 @@ func reset_peek_limits() -> void:
 
 func reset_peek_immediately() -> void:
 	_peek_model.reset()
+	_mouse_look = Vector2.ZERO
+	_mouse_delta = Vector2.ZERO
 	_apply_peek_transform(Vector2.ZERO)
 
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		var motion: InputEventMouseMotion = event as InputEventMouseMotion
+		_mouse_delta += motion.relative
+
+
 func _update_peek(delta: float) -> void:
-	var peek_input: Vector2 = InputRouter.get_peek_vector()
-	_apply_peek_transform(_peek_model.advance(peek_input, delta))
+	var stick_peek: Vector2 = InputRouter.get_peek_vector()
+	var mouse_moved: bool = _mouse_delta.length_squared() > 0.25
+	if mouse_moved:
+		_mouse_look.x = clampf(_mouse_look.x + _mouse_delta.x * MOUSE_LOOK_SENSITIVITY, -1.0, 1.0)
+		_mouse_look.y = clampf(_mouse_look.y + _mouse_delta.y * MOUSE_LOOK_SENSITIVITY, -1.0, 1.0)
+	_mouse_delta = Vector2.ZERO
+	var peek_input: Vector2 = stick_peek if stick_peek.length() >= CameraPeekModel.INPUT_EPSILON else _mouse_look
+	var input_active: bool = stick_peek.length() >= CameraPeekModel.INPUT_EPSILON or mouse_moved
+	_apply_peek_transform(_peek_model.advance_activity(peek_input, delta, input_active))
+	if not input_active and _peek_model.target_degrees == Vector2.ZERO:
+		_mouse_look = Vector2.ZERO
 
 
 func _apply_peek_transform(peek_degrees: Vector2) -> void:

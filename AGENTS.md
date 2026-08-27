@@ -132,6 +132,7 @@ game/                   standalone Godot project root
     encounters/
     items/
     quests/
+    pieces/              shared map-maker dress catalog
     zones/
   scenes/
     app/                 boot, shell, transitions
@@ -148,7 +149,7 @@ game/                   standalone Godot project root
     presentation/        cameras, animation, VFX, render adapters
     ui/                  UI controllers and view models
   tests/                 unit, integration, fixtures, smoke scenes
-  tools/                 importers, validators, build scripts
+  tools/                 importers, validators, build scripts, internal map maker
 ```
 
 Do not create a generic `utils` dumping ground. Put game code beside the domain that owns it, or name the precise shared concept under `game/src/core/`.

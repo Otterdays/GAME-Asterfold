@@ -39,7 +39,7 @@ The complete local gate is one command from the repository root:
 validate.bat
 ```
 
-It locates exactly Godot 4.7.2 Standard and runs import/script parsing, 98 unit and integration checks, content/provenance validation, a runtime smoke, Windows and Linux debug exports, and a Windows exported-build boot smoke. Build output and logs stay under ignored `game/builds/` and `game/logs/` directories.
+It locates exactly Godot 4.7.2 Standard and runs import/script parsing, 142 unit and integration checks, content/provenance validation, a runtime smoke, Windows and Linux debug exports, and a Windows exported-build boot smoke. Build output and logs stay under ignored `game/builds/` and `game/logs/` directories.
 
 Install the official pinned export templates once before the first full gate:
 
@@ -63,6 +63,7 @@ powershell -ExecutionPolicy Bypass -File game/tools/run_performance_soak.ps1
 - Blender for source environment art
 - Aseprite-compatible source files for sprite animation
 - Local Git on `main`, with Git LFS enabled for editable binary source art and runtime audio
+- Internal map maker: `map_maker.bat` from the repository root; see [Content Pipeline](../docs/CONTENT_PIPELINE.md)
 
 The exact engine patch is intentionally pinned. See [ADR-0001](../docs/decisions/0001-engine-and-language.md).
 

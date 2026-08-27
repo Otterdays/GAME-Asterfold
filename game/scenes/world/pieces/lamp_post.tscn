@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://src/world/pieces/lamp_post.gd" id="1_script"]
+
+[sub_resource type="StandardMaterial3D" id="Material_pole"]
+albedo_color = Color(0.22, 0.24, 0.28, 1)
+roughness = 0.7
+metallic = 0.18
+
+[sub_resource type="StandardMaterial3D" id="Material_lamp"]
+albedo_color = Color(1, 0.84, 0.48, 1)
+roughness = 0.35
+emission_enabled = true
+emission = Color(1, 0.78, 0.32, 1)
+emission_energy_multiplier = 2.4
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_pole"]
+top_radius = 0.06
+bottom_radius = 0.08
+height = 2.2
+radial_segments = 8
+
+[sub_resource type="SphereMesh" id="SphereMesh_lamp"]
+radius = 0.18
+height = 0.32
+radial_segments = 12
+rings = 8
+
+[sub_resource type="BoxShape3D" id="BoxShape_pole"]
+size = Vector3(0.22, 2.4, 0.22)
+
+[node name="LampPost" type="StaticBody3D"]
+script = ExtResource("1_script")
+
+[node name="Pole" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+material_override = SubResource("Material_pole")
+mesh = SubResource("CylinderMesh_pole")
+
+[node name="Lamp" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28, 0)
+material_override = SubResource("Material_lamp")
+mesh = SubResource("SphereMesh_lamp")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("BoxShape_pole")

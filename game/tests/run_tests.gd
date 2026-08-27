@@ -42,10 +42,12 @@ func _run() -> void:
 	_test_camera_relative_movement()
 	_test_direction_resolution()
 	_test_peek_motion()
+	_test_map_maker_camera_session()
 	_test_accessibility_settings()
 	_test_input_router()
 	_test_zone_manifest()
 	_test_dirt_road_network()
+	_test_world_placements()
 	_test_scene_resources()
 	_test_settings_persistence()
 	await _test_app_flow_and_movement()
@@ -114,14 +116,43 @@ func _test_peek_motion() -> void:
 	model.advance(Vector2(0.5, 0.0), 0.016)
 	_check_vector2(model.target_degrees, Vector2(12.0, 0.0), "Reduced Peek selects a discrete offset.")
 	model.set_motion_mode(AccessibilitySettings.CameraMotionMode.MINIMAL)
-	model.advance(Vector2.ZERO, 1.24)
-	_check_vector2(model.current_degrees, Vector2(12.0, 0.0), "Peek does not recenter before 1.25 seconds.")
+	model.advance(Vector2.ZERO, 9.99)
+	_check_vector2(model.current_degrees, Vector2(12.0, 0.0), "Peek does not recenter before 10 seconds.")
 	model.advance(Vector2.ZERO, 0.02)
-	_check_vector2(model.current_degrees, Vector2.ZERO, "Minimal Peek recenters instantly after inactivity.")
+	_check_vector2(model.current_degrees, Vector2.ZERO, "Minimal Peek recenters instantly after 10 idle seconds.")
+	model.reset()
+	model.set_limits(24.0, 8.0)
+	model.set_motion_mode(AccessibilitySettings.CameraMotionMode.MINIMAL)
+	model.advance_activity(Vector2(1.0, 0.0), 0.016, true)
+	model.advance_activity(Vector2(1.0, 0.0), 9.99, false)
+	_check_vector2(model.current_degrees, Vector2(24.0, 0.0), "Held mouse Peek stays until idle timeout.")
+	model.advance_activity(Vector2.ZERO, 0.02, false)
+	_check_vector2(model.current_degrees, Vector2.ZERO, "Idle mouse Peek restores default vision at 10 seconds.")
 	model.reset()
 	model.set_motion_mode(AccessibilitySettings.CameraMotionMode.FULL)
 	var first_step: Vector2 = model.advance(Vector2(1.0, 0.0), 0.016)
 	_check(first_step.x > 0.0 and first_step.x < 24.0, "Full Peek uses a damped continuous response.")
+
+
+func _test_map_maker_camera_session() -> void:
+	var session_script: GDScript = load("res://tools/map_maker/map_maker_camera_session.gd") as GDScript
+	_check(session_script != null, "Map maker camera session script loads.")
+	var session: RefCounted = session_script.new() as RefCounted
+	_check(bool(session.call(&"is_following")), "Map maker camera follows the cursor at start.")
+	_check(not bool(session.call(&"advance", 9.99)), "Cursor follow does not reset before 10 seconds.")
+	_check(bool(session.call(&"advance", 0.02)), "Idle follow restores default vision at 10 seconds.")
+	_check(not bool(session.call(&"is_following")), "Restored vision stays parked until the cursor moves.")
+	_check(not bool(session.call(&"advance", 20.0)), "Parked default vision does not keep retriggering.")
+	session.call(&"note_cursor_moved")
+	_check(bool(session.call(&"is_following")), "Cursor motion relocks the map maker camera.")
+	session.call(&"note_manual_camera")
+	_check(not bool(session.call(&"is_following")), "Orbit, pan, or zoom takes manual camera control.")
+	_check(bool(session.call(&"advance", 10.0)), "Manual camera restores default vision after 10 idle seconds.")
+	session.call(&"configure", false, true, 10.0)
+	_check(not bool(session.call(&"is_following")), "Follow cursor is optional in map maker settings.")
+	session.call(&"configure", true, false, 10.0)
+	session.call(&"note_cursor_moved")
+	_check(not bool(session.call(&"advance", 20.0)), "Idle restore can be disabled in map maker settings.")
 
 
 func _test_accessibility_settings() -> void:
@@ -222,6 +253,73 @@ func _test_dirt_road_network() -> void:
 	road.free()
 
 
+func _test_world_placements() -> void:
+	_check(ZonePlacement.snap_meters(2.4, 0.5) == 5, "World positions snap to the 0.5 m grid.")
+	_check(ZonePlacement.snap_meters(-0.24, 0.5) == 0, "Grid snap rounds toward the nearest cell.")
+	var catalog: WorldPieceCatalog = load("res://content/pieces/piece_catalog.tres") as WorldPieceCatalog
+	_check(catalog != null and catalog.validate_definition().is_empty(), "Shared piece catalog validates.")
+	_check(catalog != null and catalog.get_piece_ids().size() == 11, "Catalog exposes the full beginner piece set.")
+	if catalog != null:
+		_check(catalog.has_piece(&"piece.crate_block"), "Crate component is catalogued.")
+		_check(catalog.has_piece(&"piece.lamp_post"), "Lamp component is catalogued.")
+		_check(catalog.has_piece(&"piece.planter_box"), "Planter component is catalogued.")
+		_check(catalog.has_piece(&"piece.bell_tower"), "Bell tower is catalogued.")
+		_check(catalog.has_piece(&"piece.shade_tree"), "Shade tree is catalogued.")
+		_check(catalog.get_pieces_in_family(&"building").size() == 7, "Building family contains the town landmarks.")
+	var crate_scene: PackedScene = load("res://scenes/world/pieces/crate_block.tscn") as PackedScene
+	var lamp_scene: PackedScene = load("res://scenes/world/pieces/lamp_post.tscn") as PackedScene
+	var planter_scene: PackedScene = load("res://scenes/world/pieces/planter_box.tscn") as PackedScene
+	var crate: Node = crate_scene.instantiate() if crate_scene != null else null
+	var lamp: Node = lamp_scene.instantiate() if lamp_scene != null else null
+	var planter: Node = planter_scene.instantiate() if planter_scene != null else null
+	_check(crate is CrateBlock, "Crate piece is its own component type.")
+	_check(lamp is LampPost, "Lamp piece is its own component type.")
+	_check(planter is PlanterBox, "Planter piece is its own component type.")
+	if crate != null:
+		crate.free()
+	if lamp != null:
+		lamp.free()
+	if planter != null:
+		planter.free()
+	var layout: ZonePlacementList = ZonePlacementList.new()
+	layout.zone_id = &"zone.brindlewick_square"
+	layout.set_cell(&"piece.crate_block", 2, 4, 1)
+	layout.set_cell(&"piece.crate_block", 2, 4, 2)
+	_check(layout.placements.size() == 1, "Placing on an occupied cell replaces the previous piece.")
+	_check(layout.placements[0].yaw_quarter_turns == 2, "Replacement stores the new quarter-turn yaw.")
+	var bounds: AABB = AABB(Vector3(-34.0, -2.0, -29.0), Vector3(68.0, 24.0, 58.0))
+	_check(layout.validate_definition(catalog, bounds).is_empty(), "Valid placements pass catalog and bounds checks.")
+	layout.set_cell(&"piece.missing", 0, 0)
+	_check(not layout.validate_definition(catalog, bounds).is_empty(), "Unknown piece IDs fail validation.")
+	var authored: ZonePlacementList = load("res://content/zones/brindlewick_square/brindlewick_square_placements.tres") as ZonePlacementList
+	_check(authored != null and authored.placements.size() == 13, "Brindlewick stores thirteen map-maker placements.")
+	var layer_scene: PackedScene = load("res://scenes/world/placement_layer.tscn") as PackedScene
+	_check(layer_scene != null, "PlacementLayer scene loads.")
+	if layer_scene != null:
+		var layer: PlacementLayer = layer_scene.instantiate() as PlacementLayer
+		layer.rebuild()
+		_check(layer.get_placed_count() == 13, "PlacementLayer instances every authored world piece.")
+		_check(layer.find_child("cell_8_22", true, false) is CrateBlock, "Authored crate occupies its grid cell.")
+		layer.free()
+	_check(ResourceLoader.exists("res://tools/map_maker/map_maker.tscn", "PackedScene"), "Internal map maker scene exists outside the playable shell.")
+	var title_source: String = FileAccess.get_file_as_string("res://src/ui/title_screen.gd")
+	_check(not title_source.contains("map_maker"), "Playable title does not mention the map maker.")
+	_check(MapMakerWorldCoverage.connectivity_percent() == 100, "Coverage model treats the live zone as fully connected.")
+	_check(MapMakerWorldCoverage.control_percent() == 81, "Coverage model scores current writable world surfaces at 81 percent.")
+	_check(String(MapMakerWorldCoverage.ranked_next_routes()[0]["id"]) == "spawns", "Highest remaining authoring weight is spawn data.")
+	var tooltip_catalog: MapMakerTooltipCatalog = load("res://tools/map_maker/map_maker_tooltip_catalog.tres") as MapMakerTooltipCatalog
+	_check(tooltip_catalog != null and tooltip_catalog.validate_definition().is_empty(), "Map maker tooltips validate as a separate catalog.")
+	_check(tooltip_catalog != null and not tooltip_catalog.format_text(&"tooltip.action.save").is_empty(), "Save tooltip has beginner copy.")
+	var road_layout: DirtRoadLayout = DirtRoadLayout.new()
+	road_layout.network_size_m = Vector2(68.0, 58.0)
+	road_layout.patches = [Vector4(0.0, 0.0, 1.6, 1.6)]
+	road_layout.corner_radii_m = PackedFloat32Array([1.0])
+	_check(road_layout.set_patch_center(0, Vector2(4.0, -3.0)), "Road centers can move on the authored network.")
+	_check(is_equal_approx(road_layout.patches[0].x, 4.0), "Moved road patch stores the new center X.")
+	var house: WorldPieceDefinition = catalog.get_definition(&"piece.civic_house") if catalog != null else null
+	_check(house != null and house.covered_cells(0, 0).size() == 18 * 14, "Building footprints occupy every covered grid cell.")
+
+
 func _test_scene_resources() -> void:
 	for scene_path: String in REQUIRED_SCENES:
 		_check(ResourceLoader.exists(scene_path, "PackedScene"), "Scene '%s' exists." % scene_path)
@@ -302,6 +400,7 @@ func _test_app_flow_and_movement() -> void:
 
 
 func _finish() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	Input.action_release(&"move_left")
 	Input.action_release(&"move_right")
 	Input.action_release(&"move_forward")

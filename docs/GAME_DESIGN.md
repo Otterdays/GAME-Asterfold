@@ -41,10 +41,10 @@ The chosen target receives a subtle focus mark before confirmation. Important ac
 
 ### Camera presence: Peek Orbit
 
-Peek Orbit is available through the right stick or assigned digital controls in normal safe exploration.
+Peek Orbit is available through captured mouse look, the right stick, or assigned digital controls in normal safe exploration.
 
 - Default range: 24 degrees left/right and 8 degrees upward/downward from the zone's authored composition.
-- The camera follows a damped orbit, never changes collision or route state, and recenters after 1.25 seconds without input.
+- The camera follows a damped orbit, never changes collision or route state, and recenters after 10 seconds without Peek input.
 - Peek can expose visual hints and provide parallax, but essential interactables cannot require holding an exact angle.
 - Indoor rooms may reduce the range through authored camera volumes.
 - A “Reduced Camera Motion” option replaces smooth motion with three stepped offsets and removes automatic overshoot.

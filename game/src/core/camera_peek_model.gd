@@ -3,7 +3,7 @@ extends RefCounted
 
 const DEFAULT_HORIZONTAL_LIMIT_DEGREES: float = 24.0
 const DEFAULT_VERTICAL_LIMIT_DEGREES: float = 8.0
-const RECENTER_DELAY_SECONDS: float = 1.25
+const RECENTER_DELAY_SECONDS: float = 10.0
 const FULL_RESPONSE_SPEED: float = 7.0
 const REDUCED_RESPONSE_SPEED: float = 24.0
 const INPUT_EPSILON: float = 0.08
@@ -40,7 +40,11 @@ func reset() -> void:
 
 
 func advance(peek_input: Vector2, delta: float) -> Vector2:
-	if peek_input.length() >= INPUT_EPSILON:
+	return advance_activity(peek_input, delta, peek_input.length() >= INPUT_EPSILON)
+
+
+func advance_activity(peek_input: Vector2, delta: float, input_active: bool) -> Vector2:
+	if input_active:
 		idle_seconds = 0.0
 		if motion_mode == AccessibilitySettings.CameraMotionMode.FULL:
 			target_degrees = Vector2(

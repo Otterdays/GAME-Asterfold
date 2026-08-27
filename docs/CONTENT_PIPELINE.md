@@ -46,7 +46,7 @@ game/
     ui/                  runtime fonts and textures
   content/               validated definition resources
   scenes/                composed runtime scenes
-  tools/                 exporters and validators
+  tools/                 exporters, validators, and the internal map maker
 ```
 
 Generated files carry a header or adjacent manifest identifying source file, exporter version, and relevant settings. Never hand-edit a generated artifact.
@@ -81,6 +81,7 @@ zone_id/
   zone_id_geometry.tscn        imported and modular visible geometry
   zone_id_gameplay.tscn        collision, navigation, entities, anchors
   zone_id_presentation.tscn    light, camera volumes, ambience, VFX
+  zone_id_placements.tres      map-maker dress pieces on the 0.5 m grid
   encounters/                  local encounter compositions
   dialogue/                    local conversation resources/scripts
 ```
@@ -99,6 +100,28 @@ Large zones may split layers further, but the manifest remains the single entry 
 8. Run zone validation and capture all facets at reference resolution.
 
 Do not art-lock a space before navigation, occlusion, fold-safe positions, and backtracking are playable.
+
+### Internal map maker
+
+The playable shell never launches or mentions the map maker. Contributors run `map_maker.bat` from the repository root, which opens `game/tools/map_maker/map_maker.tscn` against the Godot project. The tool instantiates the same Brindlewick zone scene the walking diorama loads, freezes Mara and the playable camera, and writes `*_placements.tres` plus the dirt-road layout. Grass, spawns, camera volumes, bounds, and presentation stay visible so the builder is connected to the live world even when those layers are not yet writable.
+
+Beginner chrome uses four families: Things, Buildings, Trees, Roads. Status reports a weighted connectivity/control score. Hover tooltips live in a separate catalog (`game/tools/map_maker/map_maker_tooltip_catalog.tres`) and overlay, not Godot `tooltip_text`.
+
+Dress, landmarks, and trees are reusable world components:
+
+```text
+game/content/pieces/piece_catalog.tres
+game/scenes/world/pieces/
+game/scenes/world/placement_layer.tscn
+game/src/world/pieces/
+game/tools/map_maker/
+```
+
+`PlacementLayer` instances catalog scenes from the zone placement list, including footprint occupancy for buildings. Saving from the map maker does not rewrite grass meshes, gameplay collision walls, or the composed zone entry scene. Road strip centers save through `DirtRoadLayout.set_patch_center`.
+
+Weighted leftover work (highest first): spawn markers, grass ground, camera volumes, walk bounds, lights/occluders. Those surfaces are already visible in the builder.
+
+Place on the 0.5 m grid. Left click places or moves the selected road, right click removes a piece, `R` rotates, and Ctrl+S writes both placement and road resources. Cursor follow and idle restore to default vision live in the map maker Settings panel (defaults on, 10 seconds). Validation rejects unknown piece IDs, overlapping footprints, and positions outside the zone bounds.
 
 ### Ground-surface ownership
 
@@ -129,6 +152,8 @@ The material and shader own palette, scale, roughness, and painted variation. Th
 The zone geometry layer owns composition and landmarks by instancing these surface scenes. Do not return to one mesh per road strip: stacked strips reintroduce depth seams, duplicate shading at intersections, and scatter layout across node transforms. Do not move player collision into the decorative road network when the canonical grass ground already owns it.
 
 Code-native procedural surface shaders are project source, not generated binary art, and therefore do not require an asset-provenance entry. Bitmap or model-backed replacements must follow the normal `art_source/`, runtime export, provenance, and validation workflow.
+
+The title shell uses the same rule: `game/assets/materials/ui/title_clearing.gdshader` is a static canvas-item painting (no `TIME`), owned by the title scene rather than any zone.
 
 ### World Turn authoring
 

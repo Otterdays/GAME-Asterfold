@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://src/presentation/tree_grove_3d.gd" id="1_grove"]
+[ext_resource type="PackedScene" path="res://scenes/world/trees/tree_body.tscn" id="2_body"]
+[ext_resource type="Resource" path="res://content/zones/brindlewick_square/brindlewick_tree_grove_layout.tres" id="3_layout"]
+
+[node name="TreeGrove" type="Node3D"]
+script = ExtResource("1_grove")
+layout = ExtResource("3_layout")
+tree_body_scene = ExtResource("2_body")
+sway_enabled = true

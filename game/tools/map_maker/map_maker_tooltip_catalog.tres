@@ -1,0 +1,104 @@
+[gd_resource type="Resource" script_class="MapMakerTooltipCatalog" load_steps=19 format=3]
+
+[ext_resource type="Script" path="res://tools/map_maker/map_maker_tooltip_catalog.gd" id="1_catalog"]
+[ext_resource type="Script" path="res://tools/map_maker/map_maker_tooltip_entry.gd" id="2_entry"]
+
+[sub_resource type="Resource" id="Tip_props"]
+script = ExtResource("2_entry")
+id = &"tooltip.mode.prop"
+title = "Things"
+body = "Small objects on the square. Click the ground to put one down."
+
+[sub_resource type="Resource" id="Tip_buildings"]
+script = ExtResource("2_entry")
+id = &"tooltip.mode.building"
+title = "Buildings"
+body = "Houses, gates, and the bell. They take many grid cells. Click a building to remove or turn it."
+
+[sub_resource type="Resource" id="Tip_trees"]
+script = ExtResource("2_entry")
+id = &"tooltip.mode.tree"
+title = "Trees"
+body = "Shade trees. Same click rules as things."
+
+[sub_resource type="Resource" id="Tip_roads"]
+script = ExtResource("2_entry")
+id = &"tooltip.mode.road"
+title = "Roads"
+body = "Pick a road strip, then click the ground to slide its center. Size stays the same."
+
+[sub_resource type="Resource" id="Tip_save"]
+script = ExtResource("2_entry")
+id = &"tooltip.action.save"
+title = "Save"
+body = "Writes the square back to disk. The walking diorama loads these same files."
+
+[sub_resource type="Resource" id="Tip_crate"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.crate_block"
+title = "Crate"
+body = "A blocking box. Good for testing walk paths."
+
+[sub_resource type="Resource" id="Tip_lamp"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.lamp_post"
+title = "Lamp"
+body = "A thin post. It does not add a new light, only a glow mesh."
+
+[sub_resource type="Resource" id="Tip_planter"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.planter_box"
+title = "Planter"
+body = "A low box you can walk around."
+
+[sub_resource type="Resource" id="Tip_bell"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.bell_tower"
+title = "Bell tower"
+body = "The square landmark. Keep it near the center so the loop still reads."
+
+[sub_resource type="Resource" id="Tip_house"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.civic_house"
+title = "House"
+body = "A north-west home. Door faces the square."
+
+[sub_resource type="Resource" id="Tip_tall"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.tall_house"
+title = "Tall house"
+body = "The taller north-east home."
+
+[sub_resource type="Resource" id="Tip_workshop"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.workshop"
+title = "Workshop"
+body = "The south-west workshop."
+
+[sub_resource type="Resource" id="Tip_inn"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.inn"
+title = "Inn"
+body = "The south-east inn."
+
+[sub_resource type="Resource" id="Tip_west"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.west_gate"
+title = "West gate"
+body = "The west gatehouse. It is long, so give it space."
+
+[sub_resource type="Resource" id="Tip_east"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.east_gate"
+title = "East gate"
+body = "The east gatehouse."
+
+[sub_resource type="Resource" id="Tip_tree"]
+script = ExtResource("2_entry")
+id = &"tooltip.piece.shade_tree"
+title = "Tree"
+body = "A shade tree. Trunk sits on the clicked cell."
+
+[resource]
+script = ExtResource("1_catalog")
+entries = Array[MapMakerTooltipEntry]([SubResource("Tip_props"), SubResource("Tip_buildings"), SubResource("Tip_trees"), SubResource("Tip_roads"), SubResource("Tip_save"), SubResource("Tip_crate"), SubResource("Tip_lamp"), SubResource("Tip_planter"), SubResource("Tip_bell"), SubResource("Tip_house"), SubResource("Tip_tall"), SubResource("Tip_workshop"), SubResource("Tip_inn"), SubResource("Tip_west"), SubResource("Tip_east"), SubResource("Tip_tree")])

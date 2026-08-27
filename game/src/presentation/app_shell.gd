@@ -43,6 +43,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if GameFlow.state != GameFlow.FlowState.FIELD and GameFlow.state != GameFlow.FlowState.DEBUG:
 		return
+	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed:
+		if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+			_set_field_mouse_captured(true)
+			get_viewport().set_input_as_handled()
+			return
 	if event.is_action_pressed(&"menu"):
 		_help_panel.visible = not _help_panel.visible
 		get_viewport().set_input_as_handled()
@@ -122,12 +127,14 @@ func _show_title_screen() -> void:
 
 func _on_flow_state_changed(_previous_state: int, current_state: int) -> void:
 	if current_state == GameFlow.FlowState.TITLE:
+		_set_field_mouse_captured(false)
 		_show_title_screen()
 	elif current_state == GameFlow.FlowState.FIELD or current_state == GameFlow.FlowState.DEBUG:
 		_gameplay_hud.visible = true
 		_help_panel.visible = true
 		_title_screen.call(&"hide_screen")
 		_settings_screen.call(&"hide_screen")
+		_set_field_mouse_captured(true)
 
 
 func _on_active_world_changed(_active_world: Node) -> void:
@@ -160,6 +167,10 @@ func _apply_text_scale(text_scale: float) -> void:
 	_scale_explicit_font_sizes(_ui_root, text_scale)
 
 
+func _set_field_mouse_captured(captured: bool) -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if captured else Input.MOUSE_MODE_VISIBLE
+
+
 func _scale_explicit_font_sizes(node: Node, text_scale: float) -> void:
 	if node is Control:
 		var control: Control = node as Control
@@ -176,7 +187,7 @@ func _update_prompt_text() -> void:
 	_build_label.text = "ASTERFOLD  •  %s\nBRINDLEWICK WALKING DIORAMA" % str(
 		ProjectSettings.get_setting("application/config/version", "unknown")
 	)
-	_instructions.text = "MOVE  —  %s\nPEEK  —  %s / RIGHT STICK\nHELP  —  %s\nRETURN TO TITLE  —  %s" % [
+	_instructions.text = "MOVE  —  %s\nPEEK  —  MOUSE / %s / RIGHT STICK\nHELP  —  %s\nRETURN TO TITLE  —  %s" % [
 		InputRouter.get_prompt(&"move_forward"),
 		InputRouter.get_prompt(&"peek"),
 		InputRouter.get_prompt(&"menu"),
@@ -186,6 +197,7 @@ func _update_prompt_text() -> void:
 
 func _show_error(message: String) -> void:
 	push_warning("[FLOW] %s" % message.replace("\n", " "))
+	_set_field_mouse_captured(false)
 	_hide_frontend()
 	_gameplay_hud.visible = false
 	_error_label.text = "ASTERFOLD COULD NOT CONTINUE\n\n%s\n\nPress %s to return to title." % [

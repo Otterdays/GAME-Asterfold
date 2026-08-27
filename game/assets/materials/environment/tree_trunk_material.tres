@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/materials/environment/tree_trunk.gdshader" id="1_shader"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/bark_shadow = Color(0.16, 0.11, 0.08, 1)
+shader_parameter/bark_base = Color(0.3, 0.2, 0.14, 1)
+shader_parameter/bark_light = Color(0.44, 0.32, 0.21, 1)
+shader_parameter/band_scale = 9.0
+shader_parameter/scuff_scale = 2.4
+shader_parameter/scuff_strength = 0.35

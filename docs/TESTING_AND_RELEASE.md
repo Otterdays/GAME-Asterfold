@@ -31,6 +31,7 @@ Pure or platform-light tests cover:
 - inventory bounds and item effects
 - quest condition/effect evaluation and idempotency
 - stable ID parsing/resolution
+- world piece catalog, footprint occupancy, dirt-road patch centers, and map-maker tooltip catalog
 - save serialization, validation, and each migration step
 - input glyph hysteresis and binding conflicts
 

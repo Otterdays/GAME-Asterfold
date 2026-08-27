@@ -6,7 +6,7 @@ Accessibility is a system constraint and acceptance criterion. It is not a separ
 
 - Complete keyboard and gamepad navigation without a mouse.
 - Full remapping for gameplay and UI actions, including separate left/right World Turn inputs.
-- Mouse support where appropriate, without mouse-only controls.
+- Mouse support where appropriate, without mouse-only controls. Field exploration captures the mouse for Peek; Space+WASD Peek and gamepad right stick remain.
 - Subtitles/text for all spoken or essential audio information.
 - Information is never communicated by color, sound, vibration, or motion alone.
 - Text size, camera motion, screen shake, flashing, battle speed, and hold/toggle behavior are adjustable.

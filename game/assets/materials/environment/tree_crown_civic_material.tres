@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://assets/materials/environment/tree_crown.gdshader" id="1_shader"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_shader")
+shader_parameter/leaf_shadow = Color(0.12, 0.21, 0.14, 1)
+shader_parameter/leaf_base = Color(0.23, 0.4, 0.25, 1)
+shader_parameter/leaf_light = Color(0.47, 0.57, 0.3, 1)
+shader_parameter/accent_color = Color(0.66, 0.47, 0.28, 1)
+shader_parameter/accent_amount = 0.08
+shader_parameter/blotch_scale = 0.85
+shader_parameter/detail_scale = 2.4
+shader_parameter/sway_strength_m = 0.09
+shader_parameter/sway_speed = 0.65
+shader_parameter/opacity = 1.0

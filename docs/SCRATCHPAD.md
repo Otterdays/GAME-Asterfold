@@ -6,6 +6,15 @@ Active tasks, blockers, last actions. Compact older blocks into Prior when this 
 
 ## Active (2026-08-27)
 
+- Map maker loads live Brindlewick zone. Weighted coverage: 100% connected, 81% writable. Next leftover weight: spawns.
+- Beginner families Things/Buildings/Trees/Roads. Tooltips are a separate overlay catalog.
+- Play field captures mouse on start; Peek from mouse look; 10s idle recenter.
+- Map maker Settings panel owns cursor-follow and idle restore.
+- Internal map maker writes Brindlewick `*_placements.tres` and dirt-road layout. Title shell does not mention it.
+- Title clearing shader: large soft shapes + dither; 360p upscale made noise/step look blocky.
+
+## Prior (same day)
+
 - Agent contract: Rule 1 is `/caveman ultra`. Skill vendored at `.cursor/skills/caveman/SKILL.md`. Always-on Cursor rule at `.cursor/rules/caveman.mdc`.
 - Status docs added so the user `docs/` workflow exists beside Asterfold product docs.
 - Handbook current-phase text corrected: M0 and M1 are local; next is M2.
@@ -19,11 +28,11 @@ Active tasks, blockers, last actions. Compact older blocks into Prior when this 
 
 ## Last 5 actions
 
-1. Vendored caveman skill with Asterfold default intensity ultra.
-2. Made `/caveman ultra` `AGENTS.md` Rule 1; changelog/docs rule is now Rule 2.
-3. Added agent status docs (`SUMMARY`, `SCRATCHPAD`, `SBOM`, `STYLE_GUIDE`, `ARCHITECTURE`, `My_Thoughts`, `docs/README`, root `README`, `debugs/`).
-4. Corrected stale M0-only phase language in `AGENTS.md` and validation language in `TECHNICAL_ARCHITECTURE.md`.
-5. Recorded the process change in `CHANGELOG.md`.
+1. Title shell: centered wordmark/actions on static woodland-clearing shader.
+2. Map maker camera auto-locks to cursor, restores default view after 10 idle seconds.
+3. Added internal map maker plus crate/lamp/planter dress components instanced by `PlacementLayer`.
+4. Vendored caveman skill with Asterfold default intensity ultra.
+5. Made `/caveman ultra` `AGENTS.md` Rule 1; changelog/docs rule is now Rule 2.
 
 ## Prior
 

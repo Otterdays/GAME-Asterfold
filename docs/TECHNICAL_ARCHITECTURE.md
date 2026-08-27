@@ -86,7 +86,8 @@ Each zone provides a `ZoneManifest` definition and a composed scene with these r
 ZoneRoot
 |- Geometry                 static visible meshes and composed surface modules
 |  |- GrassSurface          ground render/collision plus its shared material family
-|  `- DirtRoadSurface       one rounded route network; canonical ground retains collision
+|  |- DirtRoadSurface       one rounded route network; canonical ground retains collision
+|  `- PlacementLayer        map-maker dress pieces instanced from the zone placement list
 |- DynamicGeometry          animated/hideable facet pieces
 |- Collision                simplified canonical collision
 |- Navigation               regions and named links
@@ -103,6 +104,8 @@ The manifest declares stable zone ID, scene, allowed facets, default facet, spaw
 Surface modules are presentation composition, not world state. Their shaders may derive stable variation from canonical world position, but they must not alter traversal, navigation, facet state, or saved coordinates. Shared look parameters belong in external material resources so later zones can reuse or override a family without editing Brindlewick's main geometry scene.
 
 Roads use a data/render/style split. A zone-owned `DirtRoadLayout` resource declares bounded rounded patches and join softness on the meter grid. `DirtRoadNetwork3D` is a reusable presentation component that validates the resource, generates one surface containing tightly bounded patch quads, and copies layout uniforms into an instance-local material. The shared shader produces a smooth distance-field union and surface treatment. Keeping the mesh near the road avoids evaluating the detailed shader over the whole zone; batching retains one draw call. This removes visible overlap seams while keeping authoring data out of shader code and shared materials free of zone-specific mutable state.
+
+Map-maker dress uses the same data/instance split. `WorldPieceCatalog` lists reusable piece scenes in `prop`, `building`, and `tree` families. A zone-owned `ZonePlacementList` stores grid cells, piece IDs, footprints, and quarter-turn yaw. `PlacementLayer` instances those components when the zone is ready. The internal map maker loads the composed zone scene, edits placements and dirt-road patch centers, and never joins `GameFlow` or the title. Tooltips are a separate overlay plus `MapMakerTooltipCatalog`, not inline palette strings. Cursor follow and idle restore are `MapMakerSettings` options shown in the Settings panel.
 
 ## Coordinate conventions
 
@@ -146,7 +149,7 @@ Any failure before `COMMITTING` returns to the source facet. A failure during co
 
 ### Peek Orbit
 
-Peek applies a presentation-only offset beneath the committed camera rig. It cannot alter the active facet, cursor target, navigation direction basis, or saved state. Camera-relative movement always uses committed yaw rather than transient peek yaw; this avoids movement wobble while inspecting.
+Peek applies a presentation-only offset beneath the committed camera rig. It cannot alter the active facet, cursor target, navigation direction basis, or saved state. Camera-relative movement always uses committed yaw rather than transient peek yaw; this avoids movement wobble while inspecting. Field play captures the mouse immediately and drives Peek from mouse motion. Keyboard Peek and right stick remain. Peek recenters after 10 seconds without look input.
 
 ### Character sprite direction
 
@@ -272,7 +275,7 @@ Only the owner can finalize or cancel an operation. Avoid fire-and-forget corout
 
 - Expected validation failures return structured results with content ID and source path.
 - Impossible state uses assertions in development and a recoverable error path in release.
-- Logs use categories: `FLOW`, `SAVE`, `CONTENT`, `FACET`, `BATTLE`, `INPUT`, `AUDIO`.
+- Logs use categories: `FLOW`, `SAVE`, `CONTENT`, `FACET`, `BATTLE`, `INPUT`, `AUDIO`, `WORLD`.
 - Development HUD can show FPS/frame times, draw calls, current zone/facet, interaction target, navigation state, content warnings, and last save result.
 - Release telemetry is opt-in and out of scope for the vertical slice. Do not add network reporting casually.
 
